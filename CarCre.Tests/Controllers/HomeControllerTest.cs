@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CarCre;
-using CarCre.Controllers;
+using CarCare;
+using CarCare.Controllers;
 
-namespace CarCre.Tests.Controllers
+namespace CarCare.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
