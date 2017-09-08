@@ -24,23 +24,20 @@ namespace CarCare.Controllers
             if(model.UserName == validUser.UserName && model.Password == validUser.Password)
             {
                 ViewBag.Message = "Valid User";
-                return View("Home/Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 ViewBag.Message = "Invalid User";
-                return View(new User());
+                return RedirectToAction("Index");
             }
         }
 
-        public ActionResult RegisterUser()
+        [HttpPost]
+        public ActionResult SaveNewUser(User newUser)
         {
-            return View(new User());
-        }
-
-        public JsonResult SaveNewUser(User newUser)
-        {
-            return Json("",JsonRequestBehavior.AllowGet);
+            ViewBag.Message = "Valid User";
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
