@@ -6,9 +6,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="@Url.Content("~/GoogleMapsService.js")"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPNTb-l29GyPl5fu4JtavCa0bAtbUdl9I&callback=initGoogleMapsApi"></script>
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -25,8 +22,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>    
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>     
                     <li style="float:right">@Html.ActionLink("LogIn", "Index", "Account")</li>     
                 </ul>
                 <ul>
