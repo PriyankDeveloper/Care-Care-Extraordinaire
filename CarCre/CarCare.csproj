@@ -175,25 +175,26 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="BusinessLogic\CarCareBusinessLogic.cs" />
     <Compile Include="BusinessLogic\IBusinessInterface.cs" />
-    <Compile Include="CarCareDatabase\CarCareDb.Context.cs">
+    <Compile Include="CarCareDatabase\CarCareDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CarCareDb.Context.tt</DependentUpon>
+      <DependentUpon>CarCareDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="CarCareDatabase\CarCareDb.cs">
+    <Compile Include="CarCareDatabase\CarCareDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CarCareDb.tt</DependentUpon>
+      <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="CarCareDatabase\CarCareDb.Designer.cs">
+    <Compile Include="CarCareDatabase\CarCareDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CarCareDb.edmx</DependentUpon>
+      <DependentUpon>CarCareDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="CarCareDatabase\User.cs">
-      <DependentUpon>CarCareDb.tt</DependentUpon>
+      <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,15 +204,15 @@
     <Compile Include="Unity\Bootstraper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CarCareDatabase\CarCareDb.Context.tt">
+    <Content Include="CarCareDatabase\CarCareDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CarCareDb.Context.cs</LastGenOutput>
-      <DependentUpon>CarCareDb.edmx</DependentUpon>
+      <DependentUpon>CarCareDB.edmx</DependentUpon>
+      <LastGenOutput>CarCareDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CarCareDatabase\CarCareDb.tt">
+    <Content Include="CarCareDatabase\CarCareDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CarCareDb.edmx</DependentUpon>
-      <LastGenOutput>CarCareDb.cs</LastGenOutput>
+      <DependentUpon>CarCareDB.edmx</DependentUpon>
+      <LastGenOutput>CarCareDB.cs</LastGenOutput>
     </Content>
     <Content Include="Content\CarRepair.jpg" />
     <Content Include="Content\bootstrap.css" />
@@ -222,17 +223,18 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="GoogleMapsService.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="CarCareDatabase\CarCareDb.edmx">
+    <EntityDeploy Include="CarCareDatabase\CarCareDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CarCareDb.Designer.cs</LastGenOutput>
+      <LastGenOutput>CarCareDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="CarCareDatabase\CarCareDb.edmx.diagram">
-      <DependentUpon>CarCareDb.edmx</DependentUpon>
+    <Content Include="CarCareDatabase\CarCareDB.edmx.diagram">
+      <DependentUpon>CarCareDB.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -261,6 +263,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Shared\_GoogleMapsSearchPartialPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

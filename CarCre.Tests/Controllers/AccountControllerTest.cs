@@ -2,13 +2,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CarCare.Controllers;
 using CarCare.BusinessLogic;
+using CarCare.Unity;
 
 namespace CarCre.Tests.Controllers
 {
     [TestClass]
     public class AccountControllerTest
     {
-        private IBusinessInterface businessInterface;
+       IBusinessInterface businessInterface = new CarCareBusinessLogic();
+
+        [TestInitialize]
+        public void InitTest() {
+
+          //  Bootstrapper.Initialise();
+
+        }
+
         [TestMethod]
         public void SuccessfullLogIn()
         {
@@ -16,24 +25,51 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            ViewResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test", UserPassword = "Test" }) as ViewResult;
+            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test", UserPassword = "TestUser" }) as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual("Valid User", result.ViewBag.Message);
+            Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
         }
 
         [TestMethod]
-        public void UnSuccessfullLogIn()
+        public void CorretPasswordIncorrectUserName()
         {
             // Arrange
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            ViewResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test12", UserPassword = "Test" }) as ViewResult;
+            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test12", UserPassword = "TestUser" }) as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual("Invalid User", result.ViewBag.Message);
+            Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
         }
+
+        [TestMethod]
+        public void CorrectUserNameIncorrectPassword()
+        {
+            // Arrange
+            AccountController controller = new AccountController(businessInterface);
+
+            // Act
+            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test", UserPassword = "TestUser12" }) as RedirectToRouteResult;
+
+            // Assert
+            Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
+        }
+
+        [TestMethod]
+        public void IncorrectUserNameIncorrectPassword()
+        {
+            // Arrange
+            AccountController controller = new AccountController(businessInterface);
+
+            // Act
+            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.User() { UserName = "Test12", UserPassword = "TestUser12" }) as RedirectToRouteResult;
+
+            // Assert
+            Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
+        }
+
 
         [TestMethod]
         public void SuccessfullLogOut()
@@ -42,10 +78,10 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            ViewResult result = controller.LogOut() as ViewResult;
+            RedirectToRouteResult result = controller.LogOut() as RedirectToRouteResult;
 
             // Assert
-            Assert.AreEqual("LogOut", result.ViewBag.Message);
+            Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
         }
 
         [TestMethod]
@@ -55,10 +91,33 @@ namespace CarCre.Tests.Controllers
             CarCareBusinessLogic useTest = new CarCareBusinessLogic();
 
             // Act
-            var newUser = useTest.SaveUser(new CarCare.CarCareDatabase.User());
+            var newUser = useTest.SaveUser(new CarCare.CarCareDatabase.User() {
+                UserName = "NewUser",
+                UserPassword = "NewPassword",
+                UserEmail = "NewEmail@gmail.com"
+            });
 
             // Assert
             Assert.IsNotNull(newUser.UserId);
+        }
+
+        [TestMethod]
+        public void UpdateExistingUser()
+        {
+            // Arrange
+            CarCareBusinessLogic useTest = new CarCareBusinessLogic();
+            CarCare.CarCareDatabase.User user = new CarCare.CarCareDatabase.User()
+            {
+                UserName = "Test",
+                UserPassword = "TestUser",
+                UserEmail = "Test123@gmail.com" 
+            };
+
+            // Act
+            var newUser = useTest.SaveUser(user);
+
+            // Assert
+            Assert.AreEqual(newUser.UserEmail, "Test123@gmail.com");
         }
 
     }
