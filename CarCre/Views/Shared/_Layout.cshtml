@@ -1,4 +1,40 @@
 ﻿<!DOCTYPE html>
+<style>
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        /* Links inside the dropdown */
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            /* Change color of dropdown links on hover */
+            .dropdown-menu a:hover {
+                background-color: #f1f1f1
+            }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+</style>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,7 +42,9 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="@Url.Content("~/GoogleMapsService.js")"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPNTb-l29GyPl5fu4JtavCa0bAtbUdl9I&callback=initGoogleMapsApi"></script>
 </head>
 <body>
@@ -23,14 +61,22 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>    
-                    <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>
-                    <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>     
-                </ul>
-                <ul>
-                    
-                </ul>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>                     
+                    <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>                  
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Oil Change</a></li>                                                   
+                            <li><a href="#">State Inspection</a></li>
+                            <li><a href="#">Tire Replacement</a></li>
+                            <li><a href="#">Tune-Up </a></li>
+                            <li><a href="#">Vehicle Repair</a></li>
+                            <li><a href="#">Winterization</a></li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>  
+                </ul>              
             </div>
         </div>
     </div>
