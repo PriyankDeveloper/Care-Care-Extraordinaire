@@ -10,9 +10,24 @@
     <div id="google-maps-results" style="height:100%"></div>
 </div>
 
+<h3> Search Info </h3>
+<div class="container">
+    <label for="nearbySearchTerm">Search For</label>
+    <input type="text" name="nearbySearchTerm" value="mechanic" />
+    <label for="zipCode">Zip Code</label>
+    <input type="number" name="zipCode" value="" />
+    <button onclick="GoogleService.askForLocation();">Use Current Location</button>
+    <button onclick="searchForPlace();">Search</button>
+</div>
+
 <script>
-    var map = new google.maps.Map(document.getElementById('google-maps-results'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8
-    });
+    //var map = new google.maps.map(document.getelementbyid('google-maps-results'), {
+    //    center: { lat: -34.397, lng: 150.644 },
+    //    zoom: 8
+    //});
+
+    var searchForPlace = function (evt, b) {
+        GoogleService.searchAndDisplay('google-maps-results');
+    };
+    
 </script>
