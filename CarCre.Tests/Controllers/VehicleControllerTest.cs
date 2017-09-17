@@ -37,7 +37,7 @@ namespace CarCre.Tests.Controllers
             });
 
             // Assert
-            Assert.IsNotNull(newVehicle.VehicleId);
+            Assert.IsTrue(newVehicle.VehicleId > 0);
         }
 
         [TestMethod]
