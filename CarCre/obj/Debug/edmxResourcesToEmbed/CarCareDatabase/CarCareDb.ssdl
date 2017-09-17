@@ -9,7 +9,36 @@
     <Property Name="UserPassword" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="UserEmail" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OwnerId" Type="bigint" Nullable="false" />
+    <Property Name="VehicleMark" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VehicleModel" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VechicleYear" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VechicleDealer" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VINNumber" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Vehicle_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="CarCareModelStoreContainer">
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Vehicle_User" Association="Self.FK_Vehicle_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Vehicle" EntitySet="Vehicle" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

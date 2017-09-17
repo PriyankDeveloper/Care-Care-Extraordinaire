@@ -15,5 +15,7 @@ namespace CarCare.BusinessLogic
         IQueryable<CarCareDatabase.User> GetAllUsers();
 
         bool isValidUser(Models.User model);
+
+        CarCareDatabase.Vehicle SaveVehicle(CarCare.CarCareDatabase.Vehicle vehicle);
     }
 }

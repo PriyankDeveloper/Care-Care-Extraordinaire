@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarCare.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,12 @@ namespace CarCare.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult SaveVehicle(Vehicle vehicle)
+        {
+
+            return Json(true,JsonRequestBehavior.AllowGet);
         }
 
     }

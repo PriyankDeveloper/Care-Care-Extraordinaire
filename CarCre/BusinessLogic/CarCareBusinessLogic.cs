@@ -52,5 +52,26 @@ namespace CarCare.BusinessLogic
 
             return existingUser;
         }
+
+        public CarCareDatabase.Vehicle SaveVehicle(CarCareDatabase.Vehicle vehicle)
+        {
+
+            Bootstrapper.Initialise();
+
+            if(vehicle.VehicleId > 0)
+            {
+                var existingVechicle = carCareEntities.Vehicles.FirstOrDefault(i => i.VehicleId == vehicle.VehicleId);
+                carCareEntities.Entry(existingVechicle).CurrentValues.SetValues(vehicle);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.Vehicles.Attach(vehicle);
+                carCareEntities.Entry(vehicle).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+            
+            return vehicle;
+        }
     }
 }
