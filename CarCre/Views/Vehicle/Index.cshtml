@@ -6,43 +6,173 @@
 
 <h2>Manage Vechile</h2>
 
-<script src="~/Scripts/jquery.jqGrid.js"></script>
-<script src="~/Scripts/jquery-ui-1.8.11.js"></script>
 
-<table id="list4"></table>
+<link href="~/Content/Site.css" rel="stylesheet" />
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.jqGrid.min.js"></script>
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/i18n/grid.locale-en.js"></script>
+<script src="~/Scripts/vehicleManagement.js"></script>
+
+<div>
+    <table id="grid"></table>
+    <div id="pager"></div>
+</div>
 
 
-
+@*<table id="jQGridDemo"></table>
+<div id="jQGridDemoPager">
+</div>
 <script type="text/javascript">
 
-    jQuery("#list4").jqGrid({
-        datatype: "local",
-        height: 250,
-        colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+    jQuery("#jQGridDemo").jqGrid({
+        url: '/Vehicle/GetVehicleData',
+        datatype: "json",
+        colNames: ['OwnerId', 'VechicleDealer', 'VechicleYear', 'VehicleId', 'VehicleMark', 'VehicleModel', 'VINNumber'],
         colModel: [
-            { name: 'id', index: 'id', width: 60, sorttype: "int" },
-            { name: 'invdate', index: 'invdate', width: 90, sorttype: "date" },
-            { name: 'name', index: 'name', width: 100 },
-            { name: 'amount', index: 'amount', width: 80, align: "right", sorttype: "float" },
-            { name: 'tax', index: 'tax', width: 80, align: "right", sorttype: "float" },
-            { name: 'total', index: 'total', width: 80, align: "right", sorttype: "float" },
-            { name: 'note', index: 'note', width: 150, sortable: false }
+            { name: 'OwnerId', index: 'OwnerId', width: 20, stype: 'text' },
+            { name: 'VechicleDealer', index: 'VechicleDealer', width: 150, stype: 'text', sortable: true, editable: true },
+            { name: 'VechicleYear', index: 'VechicleYear', width: 150, editable: true },
+            { name: 'VehicleId', index: 'VehicleId', width: 60, editable: true },
+            { name: 'VehicleMark', index: 'VehicleMark', width: 80, align: "right", editable: true },
+            { name: 'VehicleModel', index: 'VehicleModel', width: 40, align: "right", editable: true },
+            { name: 'VINNumber', index: 'VINNumber', width: 150, sortable: false, editable: true }
         ],
-        multiselect: true,
-        caption: "Manipulating Array Data"
+        rowNum: 10,
+        mtype: 'GET',
+        loadonce: true,
+        rowList: [10, 20, 30],
+        pager: '#jQGridDemoPager',
+        sortname: 'OwnerId',
+        viewrecords: true,
+        sortorder: 'desc',
+        caption: "List Employee Details",
+        editurl: '/Vehicle/EditVehicle',
     });
-    var mydata = [
-        { id: "1", invdate: "2007-10-01", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
-        { id: "2", invdate: "2007-10-02", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
-        { id: "3", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
-        { id: "4", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
-        { id: "5", invdate: "2007-10-05", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
-        { id: "6", invdate: "2007-09-06", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
-        { id: "7", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
-        { id: "8", invdate: "2007-10-03", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
-        { id: "9", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" }
-    ];
-    for (var i = 0; i <= mydata.length; i++)
-        jQuery("#list4").jqGrid('addRowData', i + 1, mydata[i]);
 
-</script>
+    $('#jQGridDemo').jqGrid('navGrid', '#jQGridDemoPager',
+        {
+            edit: true,
+            add: true,
+            del: true,
+            search: true,
+            searchtext: "Search",
+            addtext: "Add",
+            edittext: "Edit",
+            deltext: "Delete"
+        },
+        {   //EDIT
+            //                       height: 300,
+            //                       width: 400,
+            //                       top: 50,
+            //                       left: 100,
+            //                       dataheight: 280,
+            closeOnEscape: true,//Closes the popup on pressing escape key
+            reloadAfterSubmit: true,
+            drag: true,
+            afterSubmit: function (response, postdata) {
+                if (response.responseText == "") {
+
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');//Reloads the grid after edit
+                    return [true, '']
+                }
+                else {
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid'); //Reloads the grid after edit
+                    return [false, response.responseText]//Captures and displays the response text on th Edit window
+                }
+            },
+            editData: {
+                EmpId: function () {
+                    var sel_id = $('#jQGridDemo').jqGrid('getGridParam', 'selrow');
+                    var value = $('#jQGridDemo').jqGrid('getCell', sel_id, 'OwnerId');
+                    return value;
+                }
+            }
+        },
+        {
+            closeAfterAdd: true,//Closes the add window after add
+            afterSubmit: function (response, postdata) {
+                if (response.responseText == "") {
+
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')//Reloads the grid after Add
+                    return [true, '']
+                }
+                else {
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')//Reloads the grid after Add
+                    return [false, response.responseText]
+                }
+            }
+        },
+        {   //DELETE
+            closeOnEscape: true,
+            closeAfterDelete: true,
+            reloadAfterSubmit: true,
+            closeOnEscape: true,
+            drag: true,
+            afterSubmit: function (response, postdata) {
+                if (response.responseText == "") {
+
+                    $("#jQGridDemo").trigger("reloadGrid", [{ current: true }]);
+                    return [false, response.responseText]
+                }
+                else {
+                    $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')
+                    return [true, response.responseText]
+                }
+            },
+            delData: {
+                EmpId: function () {
+                    var sel_id = $('#jQGridDemo').jqGrid('getGridParam', 'selrow');
+                    var value = $('#jQGridDemo').jqGrid('getCell', sel_id, 'OwnerId');
+                    return value;
+                }
+            }
+        },
+        {//SEARCH
+            closeOnEscape: true
+
+        }
+    );
+
+</script>*@
+
+
+
+@*<table id="list4"></table>*@
+
+
+@*<script type="text/javascript">
+ 
+    //jQuery("#list4").jqGrid({
+    //    datatype: "local",
+    //    height: 250,
+    //    colNames: ['Inv No', 'Date', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+    //    colModel: [
+    //        { name: 'id', index: 'id', width: 60, sorttype: "int" },
+    //        { name: 'invdate', index: 'invdate', width: 90, sorttype: "date" },
+    //        { name: 'name', index: 'name', width: 100 },
+    //        { name: 'amount', index: 'amount', width: 80, align: "right", sorttype: "float" },
+    //        { name: 'tax', index: 'tax', width: 80, align: "right", sorttype: "float" },
+    //        { name: 'total', index: 'total', width: 80, align: "right", sorttype: "float" },
+    //        { name: 'note', index: 'note', width: 150, sortable: false }
+    //    ],
+    //    multiselect: true,
+    //    caption: "Manipulating Array Data"
+    //});
+    //var mydata = [
+    //    { id: "1", invdate: "2007-10-01", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+    //    { id: "2", invdate: "2007-10-02", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+    //    { id: "3", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
+    //    { id: "4", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+    //    { id: "5", invdate: "2007-10-05", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+    //    { id: "6", invdate: "2007-09-06", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
+    //    { id: "7", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+    //    { id: "8", invdate: "2007-10-03", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+    //    { id: "9", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" }
+    //];
+    //for (var i = 0; i <= mydata.length; i++)
+    //    jQuery("#list4").jqGrid('addRowData', i + 1, mydata[i]);
+
+</script>*@
