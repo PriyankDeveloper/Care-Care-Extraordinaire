@@ -302,7 +302,6 @@ C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.D
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.Web.xml
-C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.csprojResolveAssemblyReference.cache
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.csproj.CoreCompileInputs.cache
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.dll
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.pdb

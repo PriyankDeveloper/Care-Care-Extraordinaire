@@ -31,6 +31,7 @@ namespace CarCre.Tests.Controllers
                VehicleMark = "Honda",
                VehicleModel = "Accord",
                VechicleYear = "2017",
+               VechicleDealer = "Dealer",
                OwnerId = 1,
                VehicleId = 0,
                VINNumber = "ASDF-1236-ASTD"

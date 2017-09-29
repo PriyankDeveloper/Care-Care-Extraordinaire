@@ -25,6 +25,7 @@ namespace CarCare.CarCareDatabase
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TuneUp> TuneUps { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
     }

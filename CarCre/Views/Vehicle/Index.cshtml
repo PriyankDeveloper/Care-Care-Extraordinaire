@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<CarCare.Models.VehicleViewModel>
+
 @{
     ViewBag.Title = "Manage Vechile";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,21 +7,70 @@
 
 <h2>Manage Vechile</h2>
 
-
-<link href="~/Content/Site.css" rel="stylesheet" />
-<script src="~/Scripts/modernizr-2.6.2.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-<script src="~/Scripts/jquery.jqGrid.min.js"></script>
-<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-<script src="~/Scripts/i18n/grid.locale-en.js"></script>
-<script src="~/Scripts/vehicleManagement.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-<div>
-    <table id="grid"></table>
-    <div id="pager"></div>
+<div class="container">
+    <div class="row">
+        <table class="table table-inverse">
+            <thead>
+                <tr>
+                    <th>
+                        Action
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                    <th>
+                        VechicleDealer
+                    </th>
+                    <th>
+                        VechicleYear
+                    </th>
+                    <th>
+                        VehicleMark
+                    </th>
+                    <th>
+                        VehicleModel
+                    </th>
+                    <th>
+                        VINNumber
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var vehicle in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="button" value="Edit" data-id="@vehicle.VehicleId" onclick="location.href='@Url.Action("EditVehicle", "Vehicle", new { vehicleId = vehicle.VehicleId})'" />
+                        </td>
+                        <td>
+                            <input type="button" value="Delete" data-id="@vehicle.VehicleId" onclick="location.href='@Url.Action("DeleteVehicle", "Vehicle", new { vehicleId = vehicle.VehicleId})'" />
+                        </td>
+                        <td>
+                            @vehicle.VechicleDealer
+                        </td>
+                        <td>
+                            @vehicle.VechicleYear
+                        </td>
+                        <td>
+                            @vehicle.VehicleMark
+                        </td>
+                        <td>
+                            @vehicle.VehicleModel
+                        </td>
+                        <td>
+                            @vehicle.VINNumber
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>        
+    </div>
+
 </div>
-
 
 @*<table id="jQGridDemo"></table>
 <div id="jQGridDemoPager">

@@ -199,6 +199,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarCareDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CarCareDatabase\TuneUp.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarCareDatabase\User.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
@@ -308,6 +311,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Vehicle\EditVehicle.cshtml" />
+    <EntityDeploy Include="CarCareDatabase\CarCareDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CarCareDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="CarCareDatabase\CarCareDB.edmx.diagram">
+      <DependentUpon>CarCareDB.edmx</DependentUpon>
+    </Content>
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -324,13 +335,6 @@
     <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
-    <EntityDeploy Include="CarCareDatabase\CarCareDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CarCareDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="CarCareDatabase\CarCareDB.edmx.diagram">
-      <DependentUpon>CarCareDB.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />

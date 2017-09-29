@@ -12,11 +12,14 @@ namespace CarCare.CarCareDatabase
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class TuneUp
     {
-        public long UserId { get; set; }
-        public string UserName { get; set; }
-        public string UserPassword { get; set; }
-        public string UserEmail { get; set; }
+        public long TuneUpId { get; set; }
+        public long VehicleId { get; set; }
+        public long OwnerId { get; set; }
+        public string ServiceProvider { get; set; }
+        public System.DateTime TuneupDate { get; set; }
+        public System.DateTime NextTuneup { get; set; }
+        public decimal Cost { get; set; }
     }
 }

@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CarCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="TuneUp">
+    <Key>
+      <PropertyRef Name="TuneUpId" />
+    </Key>
+    <Property Name="TuneUpId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="VehicleId" Type="Int64" Nullable="false" />
+    <Property Name="OwnerId" Type="Int64" Nullable="false" />
+    <Property Name="ServiceProvider" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TuneupDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="NextTuneup" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Cost" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="UserId" />
@@ -8,39 +20,22 @@
     <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Vehicles" Relationship="CarCareModel.FK_Vehicle_User" FromRole="User" ToRole="Vehicle" />
   </EntityType>
-  <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Users" EntityType="Self.User" />
-    <EntitySet Name="Vehicles" EntityType="CarCareModel.Vehicle" />
-    <AssociationSet Name="FK_Vehicle_User" Association="CarCareModel.FK_Vehicle_User">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Vehicle" EntitySet="Vehicles" />
-    </AssociationSet>
-  </EntityContainer>
   <EntityType Name="Vehicle">
     <Key>
       <PropertyRef Name="VehicleId" />
     </Key>
     <Property Name="VehicleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="OwnerId" Type="Int64" Nullable="false" />
-    <Property Name="VehicleMark" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="VehicleModel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="VechicleYear" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="VechicleDealer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="VINNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="User" Relationship="CarCareModel.FK_Vehicle_User" FromRole="Vehicle" ToRole="User" />
+    <Property Name="VehicleMark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VehicleModel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VechicleYear" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VechicleDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="VINNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
-  <Association Name="FK_Vehicle_User">
-    <End Type="CarCareModel.User" Role="User" Multiplicity="1" />
-    <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="Vehicle">
-        <PropertyRef Name="OwnerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+  </EntityContainer>
 </Schema>

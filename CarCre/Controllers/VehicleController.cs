@@ -1,4 +1,6 @@
-﻿using CarCare.Models;
+﻿using AutoMapper;
+using CarCare.BusinessLogic;
+using CarCare.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,101 +11,49 @@ namespace CarCare.Controllers
 {
     public class VehicleController : Controller
     {
+        private IBusinessInterface BusinessInterface;
+
+        public VehicleController(IBusinessInterface businessInterface)
+        {
+            BusinessInterface = businessInterface;
+        }
+
         // GET: Vehicle
         public ActionResult Index()
         {
-            return View();
+            var vehicleList = BusinessInterface.GetAllVehicles();
+            return View(vehicleList);
         }
 
-        public JsonResult SaveVehicle(Vehicle vehicle)
+        //Edit vehicle
+        public ActionResult EditVehicle(int vehicleId)
         {
+            VehicleViewModel vehicle = BusinessInterface.GetAllVehicles().FirstOrDefault(i=>i.VehicleId == vehicleId);
 
-            return Json(true,JsonRequestBehavior.AllowGet);
+            return PartialView("EditVehicle", vehicle);
         }
 
-        public JsonResult GetTodoLists(string sidx, string sord, int page, int rows)  //Gets the todo Lists.
-        {
-            int pageIndex = Convert.ToInt32(page) - 1;
-            int pageSize = rows;
-
-            Vehicle vh = new Vehicle()
-            {
-                OwnerId = 1,
-                VechicleDealer = "Test",
-                VechicleYear = "2017",
-                VehicleId = 12,
-                VehicleMark = "Honda",
-                VehicleModel = "Accord",
-                VINNumber = "ASDF-WER-ERWER"
-            };
-
-            int totalRecords = 1;
-            var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-
-            var jsonData = new
-            {
-                total = 1,
-                page = 1,
-                records = totalRecords,
-                rows = vh
-            };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
-        }
-
-        // TODO:insert a new row to the grid logic here
+        //Save Vehicle
         [HttpPost]
-        public string Create([Bind(Exclude = "Id")] Vehicle objTodo)
+        public ActionResult SaveVehicle(VehicleViewModel model)
         {
-            string msg;
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    //db.TodoLists.Add(objTodo);
-                    //db.SaveChanges();
-                    msg = "Saved Successfully";
-                }
-                else
-                {
-                    msg = "Validation data not successfull";
-                }
-            }
-            catch (Exception ex)
-            {
-                msg = "Error occured:" + ex.Message;
-            }
-            return msg;
-        }
-        public string Edit(Vehicle objTodo)
-        {
-            string msg;
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    //db.Entry(objTodo).State = EntityState.Modified;
-                    //db.SaveChanges();
-                    msg = "Saved Successfully";
-                }
-                else
-                {
-                    msg = "Validation data not successfull";
-                }
-            }
-            catch (Exception ex)
-            {
-                msg = "Error occured:" + ex.Message;
-            }
-            return msg;
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<VehicleViewModel, CarCareDatabase.Vehicle>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new VehicleViewModel();
+            var dest = mapper.Map<VehicleViewModel, CarCareDatabase.Vehicle>(model);
+
+           var modelData = BusinessInterface.SaveVehicle(dest);
+            return Redirect("Index");
         }
 
-        public string Delete(int Id)
+        //Delete Vehicle
+        public ActionResult DeleteVehicle(int vehicleId)
         {
-            //TodoList todolist = db.TodoLists.Find(Id);
-            //db.TodoLists.Remove(todolist);
-            //db.SaveChanges();
-            return "Deleted successfully";
+            BusinessInterface.DeleteVehicle(vehicleId);
+            return Redirect("Index");
         }
-
     }
 }

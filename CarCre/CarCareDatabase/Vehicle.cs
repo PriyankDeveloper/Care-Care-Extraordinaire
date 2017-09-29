@@ -21,7 +21,5 @@ namespace CarCare.CarCareDatabase
         public string VechicleYear { get; set; }
         public string VechicleDealer { get; set; }
         public string VINNumber { get; set; }
-    
-        public virtual User User { get; set; }
     }
 }

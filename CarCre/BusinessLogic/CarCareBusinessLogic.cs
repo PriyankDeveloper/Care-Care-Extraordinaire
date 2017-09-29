@@ -6,6 +6,7 @@ using System.Web;
 using CarCare.Models;
 using System.Data.Entity;
 using CarCare.Unity;
+using AutoMapper;
 
 namespace CarCare.BusinessLogic
 {
@@ -24,7 +25,7 @@ namespace CarCare.BusinessLogic
             return carCareEntities.Users.AsQueryable();
         }
 
-        public bool isValidUser(Models.User model)
+        public bool isValidUser(Models.UserViewModel model)
         {
             bool isExistingUser = carCareEntities.Users.Any(i=>i.UserName == model.UserName && i.UserPassword == model.UserPassword);
 
@@ -53,14 +54,43 @@ namespace CarCare.BusinessLogic
             return existingUser;
         }
 
+       public void DeleteVehicle(int vehicleId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingVechicle = carCareEntities.Vehicles.FirstOrDefault(i => i.VehicleId == vehicleId);
+
+            if(existingVechicle != null)
+            {
+                carCareEntities.Entry(existingVechicle).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+        }
+
+        public List<Models.VehicleViewModel> GetAllVehicles()
+        {
+            var vehicles = carCareEntities.Vehicles.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.Vehicle, Models.VehicleViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.Vehicle>();
+            var dest = mapper.Map<List<CarCareDatabase.Vehicle>, List<Models.VehicleViewModel>>(vehicles);
+
+            return dest;
+        }
+
         public CarCareDatabase.Vehicle SaveVehicle(CarCareDatabase.Vehicle vehicle)
         {
 
             Bootstrapper.Initialise();
+            
+            var existingVechicle = carCareEntities.Vehicles.FirstOrDefault(i => i.VehicleId == vehicle.VehicleId);
 
-            if(vehicle.VehicleId > 0)
+            if (existingVechicle != null)
             {
-                var existingVechicle = carCareEntities.Vehicles.FirstOrDefault(i => i.VehicleId == vehicle.VehicleId);
                 carCareEntities.Entry(existingVechicle).CurrentValues.SetValues(vehicle);
                 carCareEntities.SaveChanges();
             }

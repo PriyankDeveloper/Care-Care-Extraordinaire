@@ -4,7 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TuneUp">
+          <Key>
+            <PropertyRef Name="TuneUpId" />
+          </Key>
+          <Property Name="TuneUpId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" Nullable="false" />
+          <Property Name="OwnerId" Type="bigint" Nullable="false" />
+          <Property Name="ServiceProvider" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TuneupDate" Type="date" Nullable="false" />
+          <Property Name="NextTuneup" Type="date" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -22,34 +34,32 @@
           <Property Name="OwnerId" Type="bigint" Nullable="false" />
           <Property Name="VehicleMark" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="VehicleModel" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="VechicleYear" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VechicleYear" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="VechicleDealer" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="VINNumber" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Vehicle_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Vehicle">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CarCareModelStoreContainer">
+          <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Vehicle_User" Association="Self.FK_Vehicle_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Vehicle" EntitySet="Vehicle" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CarCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TuneUp">
+          <Key>
+            <PropertyRef Name="TuneUpId" />
+          </Key>
+          <Property Name="TuneUpId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleId" Type="Int64" Nullable="false" />
+          <Property Name="OwnerId" Type="Int64" Nullable="false" />
+          <Property Name="ServiceProvider" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TuneupDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NextTuneup" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Cost" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -58,47 +68,43 @@
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Vehicles" Relationship="CarCareModel.FK_Vehicle_User" FromRole="User" ToRole="Vehicle" />
         </EntityType>
-        <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="Vehicles" EntityType="CarCareModel.Vehicle" />
-          <AssociationSet Name="FK_Vehicle_User" Association="CarCareModel.FK_Vehicle_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Vehicle" EntitySet="Vehicles" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="Vehicle">
           <Key>
             <PropertyRef Name="VehicleId" />
           </Key>
           <Property Name="VehicleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OwnerId" Type="Int64" Nullable="false" />
-          <Property Name="VehicleMark" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VehicleModel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VechicleYear" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VechicleDealer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VINNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="CarCareModel.FK_Vehicle_User" FromRole="Vehicle" ToRole="User" />
+          <Property Name="VehicleMark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VehicleModel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VechicleYear" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VechicleDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VINNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Vehicle_User">
-          <End Type="CarCareModel.User" Role="User" Multiplicity="1" />
-          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Vehicle">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CarCareModelStoreContainer" CdmEntityContainer="CarCareEntity">
+          <EntitySetMapping Name="TuneUps">
+            <EntityTypeMapping TypeName="CarCareModel.TuneUp">
+              <MappingFragment StoreEntitySet="TuneUp">
+                <ScalarProperty Name="TuneUpId" ColumnName="TuneUpId" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="ServiceProvider" ColumnName="ServiceProvider" />
+                <ScalarProperty Name="TuneupDate" ColumnName="TuneupDate" />
+                <ScalarProperty Name="NextTuneup" ColumnName="NextTuneup" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CarCareModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -112,13 +118,13 @@
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="CarCareModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
-                <ScalarProperty Name="VINNumber" ColumnName="VINNumber" />
-                <ScalarProperty Name="VechicleDealer" ColumnName="VechicleDealer" />
-                <ScalarProperty Name="VechicleYear" ColumnName="VechicleYear" />
-                <ScalarProperty Name="VehicleModel" ColumnName="VehicleModel" />
-                <ScalarProperty Name="VehicleMark" ColumnName="VehicleMark" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="VehicleMark" ColumnName="VehicleMark" />
+                <ScalarProperty Name="VehicleModel" ColumnName="VehicleModel" />
+                <ScalarProperty Name="VechicleYear" ColumnName="VechicleYear" />
+                <ScalarProperty Name="VechicleDealer" ColumnName="VechicleDealer" />
+                <ScalarProperty Name="VINNumber" ColumnName="VINNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

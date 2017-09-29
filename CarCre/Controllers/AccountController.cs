@@ -23,10 +23,10 @@ namespace CarCare.Controllers
 
         public ActionResult Index()
         {
-            return View(new Models.User());
+            return View(new Models.UserViewModel());
         }
 
-        public ActionResult LogIn(Models.User model)
+        public ActionResult LogIn(Models.UserViewModel model)
         {
             var isExistingUser = BusinessInterface.GetAllUsers().Any(i=>i.UserName == model.UserName
                                  && i.UserPassword == model.UserPassword);
@@ -47,14 +47,14 @@ namespace CarCare.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveNewUser(Models.User newUser)
+        public ActionResult SaveNewUser(Models.UserViewModel newUser)
         {
             ViewBag.Message = "Valid User";
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpPost]
-        public ActionResult UpdateExistingUser(Models.User newUser)
+        public ActionResult UpdateExistingUser(Models.UserViewModel newUser)
         {
             ViewBag.Message = "Valid User";
             return RedirectToAction("Index", "Home", new { area = "" });

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CarCare.Models
 {
-    public class Vehicle
+    public class VehicleViewModel
     {
         public long VehicleId { get; set; }
         public long OwnerId { get; set; }

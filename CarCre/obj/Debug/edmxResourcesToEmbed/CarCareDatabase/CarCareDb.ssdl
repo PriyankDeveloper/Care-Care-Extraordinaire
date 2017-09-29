@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TuneUp">
+    <Key>
+      <PropertyRef Name="TuneUpId" />
+    </Key>
+    <Property Name="TuneUpId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
+    <Property Name="OwnerId" Type="bigint" Nullable="false" />
+    <Property Name="ServiceProvider" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="TuneupDate" Type="date" Nullable="false" />
+    <Property Name="NextTuneup" Type="date" Nullable="false" />
+    <Property Name="Cost" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="UserId" />
@@ -17,28 +29,13 @@
     <Property Name="OwnerId" Type="bigint" Nullable="false" />
     <Property Name="VehicleMark" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="VehicleModel" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="VechicleYear" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VechicleYear" Type="varchar" MaxLength="4" Nullable="false" />
     <Property Name="VechicleDealer" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="VINNumber" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
-  <Association Name="FK_Vehicle_User">
-    <End Role="User" Type="Self.User" Multiplicity="1" />
-    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserId" />
-      </Principal>
-      <Dependent Role="Vehicle">
-        <PropertyRef Name="OwnerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="CarCareModelStoreContainer">
+    <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Vehicle_User" Association="Self.FK_Vehicle_User">
-      <End Role="User" EntitySet="User" />
-      <End Role="Vehicle" EntitySet="Vehicle" />
-    </AssociationSet>
   </EntityContainer>
 </Schema>
