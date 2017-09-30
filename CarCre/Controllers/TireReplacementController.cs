@@ -16,5 +16,11 @@ namespace CarCare.Controllers
             return View("TireReplacement");
         }
 
-    }
+        public ActionResult Save(Models.ServiceRecordViewModel model) {
+            
+            return null;
+        }
+
+
+	}
 }
