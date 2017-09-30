@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CarCare.Controllers;
 using CarCare.BusinessLogic;
 using CarCare.Unity;
-
+using System.Linq;
 
 namespace CarCre.Tests.Controllers
 {
@@ -54,14 +54,31 @@ namespace CarCre.Tests.Controllers
                 VehicleModel = "camry",
                 VechicleYear = "2017",
                 OwnerId = 1,
-                VehicleId = 1,
+                VechicleDealer = "Test",
+                VehicleId = 2,
                 VINNumber = "ASDF-1236-ASTD"
             });
 
             // Assert
-            Assert.Equals(vehicle.VehicleId, 1);
+            Assert.AreEqual(vehicle.VehicleId, 2);
             Assert.AreEqual(vehicle.VehicleMark,"Toyota");
             Assert.AreEqual(vehicle.VehicleModel,"camry");
+
+        }
+
+        [TestMethod]
+        public void DeleteExistingVehicle()
+        {
+            // Arrange
+            CarCareBusinessLogic useTest = new CarCareBusinessLogic();
+
+            // Act
+             useTest.DeleteVehicle(2);
+
+            var checkForVehicle = useTest.GetAllVehicles().FirstOrDefault(i=>i.VehicleId == 2);
+
+            // Assert
+            Assert.IsTrue(checkForVehicle == null);
 
         }
 

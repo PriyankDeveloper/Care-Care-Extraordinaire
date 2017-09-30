@@ -19,6 +19,7 @@ namespace CarCare.BusinessLogic
             throw new NotImplementedException();
         }
 
+        #region Users
         public IQueryable<CarCareDatabase.User> GetAllUsers()
         {
             Bootstrapper.Initialise();
@@ -54,7 +55,11 @@ namespace CarCare.BusinessLogic
             return existingUser;
         }
 
-       public void DeleteVehicle(int vehicleId)
+        #endregion
+
+        #region Vehicle
+
+        public void DeleteVehicle(int vehicleId)
         {
             Bootstrapper.Initialise();
 
@@ -103,5 +108,106 @@ namespace CarCare.BusinessLogic
             
             return vehicle;
         }
+
+        #endregion
+
+        #region ServiceType
+
+        public List<CarCareDatabase.ServiceType> GetAllServiceTypes()
+        {
+            return carCareEntities.ServiceTypes.ToList();
+        }
+
+        #endregion
+
+        #region ServiceRecord
+
+        public List<CarCareDatabase.ServiceRecord> GetAllServiceRecords()
+        {
+            return carCareEntities.ServiceRecords.ToList();
+        }
+
+        public CarCareDatabase.ServiceRecord SaveServiceRecord(CarCareDatabase.ServiceRecord serviceRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingServiceRecord = carCareEntities.ServiceRecords.FirstOrDefault(i => i.ServiceId == serviceRecord.ServiceId);
+
+            if (existingServiceRecord != null)
+            {
+                carCareEntities.Entry(existingServiceRecord).CurrentValues.SetValues(serviceRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.ServiceRecords.Attach(serviceRecord);
+                carCareEntities.Entry(serviceRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return serviceRecord;
+        }
+
+        public void DeleteServiceRecord(int serviceId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingServiceRecord = carCareEntities.ServiceRecords.FirstOrDefault(i => i.ServiceId == serviceId);
+
+            if (existingServiceRecord != null)
+            {
+                carCareEntities.Entry(existingServiceRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+        }
+
+        #endregion
+
+        #region ServiceStations
+
+        public List<CarCareDatabase.ServiceStation> GetAllServiceStations()
+        {
+            return carCareEntities.ServiceStations.ToList();
+        }
+
+       
+        public CarCareDatabase.ServiceStation SaveServiceStation(CarCareDatabase.ServiceStation serviceStation)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingServiceStation = carCareEntities.ServiceStations.FirstOrDefault(i => i.ServiceStationId == serviceStation.ServiceStationId);
+
+            if (existingServiceStation != null)
+            {
+                carCareEntities.Entry(existingServiceStation).CurrentValues.SetValues(serviceStation);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.ServiceStations.Attach(serviceStation);
+                carCareEntities.Entry(serviceStation).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return serviceStation;
+        }
+
+        public void DeleteServiceStation(int serviceStationId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingServiceStation = carCareEntities.ServiceStations.FirstOrDefault(i => i.ServiceStationId == serviceStationId);
+
+            if (existingServiceStation != null)
+            {
+                carCareEntities.Entry(existingServiceStation).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+        }
+
+#endregion
+
     }
 }

@@ -8,6 +8,12 @@
         <EntityTypeShape EntityType="CarCareModel.TuneUp" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarCareModel.User" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarCareModel.Vehicle" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarCareModel.ServiceRecord" Width="1.5" PointX="5" PointY="3.625" />
+        <EntityTypeShape EntityType="CarCareModel.ServiceStation" Width="1.5" PointX="2.75" PointY="10.25" />
+        <EntityTypeShape EntityType="CarCareModel.ServiceType" Width="1.5" PointX="2.75" PointY="7.75" />
+        <AssociationConnector Association="CarCareModel.FK__ServiceRe__Servi__31EC6D26" />
+        <AssociationConnector Association="CarCareModel.FK__ServiceRe__Servi__32E0915F" />
+        <AssociationConnector Association="CarCareModel.FK__ServiceRe__Vehic__30F848ED" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

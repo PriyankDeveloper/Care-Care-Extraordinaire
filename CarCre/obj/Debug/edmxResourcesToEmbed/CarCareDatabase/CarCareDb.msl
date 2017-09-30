@@ -27,6 +27,8 @@
     <EntitySetMapping Name="Vehicles">
       <EntityTypeMapping TypeName="CarCareModel.Vehicle">
         <MappingFragment StoreEntitySet="Vehicle">
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
           <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
           <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
           <ScalarProperty Name="VehicleMark" ColumnName="VehicleMark" />
@@ -34,6 +36,41 @@
           <ScalarProperty Name="VechicleYear" ColumnName="VechicleYear" />
           <ScalarProperty Name="VechicleDealer" ColumnName="VechicleDealer" />
           <ScalarProperty Name="VINNumber" ColumnName="VINNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceRecords">
+      <EntityTypeMapping TypeName="CarCareModel.ServiceRecord">
+        <MappingFragment StoreEntitySet="ServiceRecord">
+          <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
+          <ScalarProperty Name="ServiceStationId" ColumnName="ServiceStationId" />
+          <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceStations">
+      <EntityTypeMapping TypeName="CarCareModel.ServiceStation">
+        <MappingFragment StoreEntitySet="ServiceStation">
+          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="OwnedBy" ColumnName="OwnedBy" />
+          <ScalarProperty Name="ServiceStationId" ColumnName="ServiceStationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceTypes">
+      <EntityTypeMapping TypeName="CarCareModel.ServiceType">
+        <MappingFragment StoreEntitySet="ServiceType">
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

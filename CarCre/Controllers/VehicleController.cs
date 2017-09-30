@@ -37,7 +37,7 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult SaveVehicle(VehicleViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg => { 
                 cfg.CreateMap<VehicleViewModel, CarCareDatabase.Vehicle>();
             });
 

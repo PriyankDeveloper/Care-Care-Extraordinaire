@@ -28,5 +28,8 @@ namespace CarCare.CarCareDatabase
         public virtual DbSet<TuneUp> TuneUps { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
+        public virtual DbSet<ServiceRecord> ServiceRecords { get; set; }
+        public virtual DbSet<ServiceStation> ServiceStations { get; set; }
+        public virtual DbSet<ServiceType> ServiceTypes { get; set; }
     }
 }

@@ -12,23 +12,20 @@ namespace CarCare.CarCareDatabase
     using System;
     using System.Collections.Generic;
     
-    public partial class Vehicle
+    public partial class ServiceStation
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vehicle()
+        public ServiceStation()
         {
             this.ServiceRecords = new HashSet<ServiceRecord>();
         }
     
-        public long VehicleId { get; set; }
-        public long OwnerId { get; set; }
-        public string VehicleMark { get; set; }
-        public string VehicleModel { get; set; }
-        public string VechicleYear { get; set; }
-        public string VechicleDealer { get; set; }
-        public string VINNumber { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
-        public Nullable<System.DateTime> LastModifiedDate { get; set; }
+        public long ServiceStationId { get; set; }
+        public string OwnedBy { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public Nullable<int> ZipCode { get; set; }
+        public string StreetAddress { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceRecord> ServiceRecords { get; set; }

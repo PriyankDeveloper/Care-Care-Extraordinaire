@@ -32,10 +32,101 @@
     <Property Name="VechicleYear" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="VechicleDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="VINNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="Vehicle" ToRole="ServiceRecord" />
   </EntityType>
   <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
     <EntitySet Name="Users" EntityType="Self.User" />
     <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+    <EntitySet Name="ServiceRecords" EntityType="CarCareModel.ServiceRecord" />
+    <EntitySet Name="ServiceStations" EntityType="CarCareModel.ServiceStation" />
+    <EntitySet Name="ServiceTypes" EntityType="CarCareModel.ServiceType" />
+    <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="CarCareModel.FK__ServiceRe__Servi__31EC6D26">
+      <End Role="ServiceType" EntitySet="ServiceTypes" />
+      <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ServiceRe__Servi__32E0915F" Association="CarCareModel.FK__ServiceRe__Servi__32E0915F">
+      <End Role="ServiceStation" EntitySet="ServiceStations" />
+      <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="CarCareModel.FK__ServiceRe__Vehic__30F848ED">
+      <End Role="Vehicle" EntitySet="Vehicles" />
+      <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="ServiceRecord">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="VehicleId" Type="Int64" Nullable="false" />
+    <Property Name="ServiceTypeId" Type="Int64" Nullable="false" />
+    <Property Name="ServiceDate" Type="DateTime" Precision="3" />
+    <Property Name="ServiceStationId" Type="Int64" />
+    <Property Name="CompletedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="ServiceCost" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="ServiceType" Relationship="CarCareModel.FK__ServiceRe__Servi__31EC6D26" FromRole="ServiceRecord" ToRole="ServiceType" />
+    <NavigationProperty Name="ServiceStation" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceRecord" ToRole="ServiceStation" />
+    <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="ServiceRecord" ToRole="Vehicle" />
+  </EntityType>
+  <EntityType Name="ServiceStation">
+    <Key>
+      <PropertyRef Name="ServiceStationId" />
+    </Key>
+    <Property Name="ServiceStationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OwnedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="ZipCode" Type="Int32" />
+    <Property Name="StreetAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceStation" ToRole="ServiceRecord" />
+  </EntityType>
+  <EntityType Name="ServiceType">
+    <Key>
+      <PropertyRef Name="ServiceTypeId" />
+    </Key>
+    <Property Name="ServiceTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Servi__31EC6D26" FromRole="ServiceType" ToRole="ServiceRecord" />
+  </EntityType>
+  <Association Name="FK__ServiceRe__Servi__31EC6D26">
+    <End Type="CarCareModel.ServiceType" Role="ServiceType" Multiplicity="1" />
+    <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceType">
+        <PropertyRef Name="ServiceTypeId" />
+      </Principal>
+      <Dependent Role="ServiceRecord">
+        <PropertyRef Name="ServiceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ServiceRe__Servi__32E0915F">
+    <End Type="CarCareModel.ServiceStation" Role="ServiceStation" Multiplicity="0..1" />
+    <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceStation">
+        <PropertyRef Name="ServiceStationId" />
+      </Principal>
+      <Dependent Role="ServiceRecord">
+        <PropertyRef Name="ServiceStationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ServiceRe__Vehic__30F848ED">
+    <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="1" />
+    <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicle">
+        <PropertyRef Name="VehicleId" />
+      </Principal>
+      <Dependent Role="ServiceRecord">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

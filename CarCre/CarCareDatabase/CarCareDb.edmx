@@ -4,7 +4,39 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ServiceRecord">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="ServiceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="bigint" Nullable="false" />
+          <Property Name="ServiceDate" Type="datetime" />
+          <Property Name="ServiceStationId" Type="bigint" />
+          <Property Name="CompletedDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="ServiceStation">
+          <Key>
+            <PropertyRef Name="ServiceStationId" />
+          </Key>
+          <Property Name="ServiceStationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="2" />
+          <Property Name="ZipCode" Type="int" />
+          <Property Name="StreetAddress" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="TuneUp">
           <Key>
             <PropertyRef Name="TuneUpId" />
@@ -37,14 +69,66 @@
           <Property Name="VechicleYear" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="VechicleDealer" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="VINNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK__ServiceRe__Servi__31EC6D26">
+          <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="1" />
+          <End Role="ServiceRecord" Type="Self.ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceType">
+              <PropertyRef Name="ServiceTypeId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ServiceRe__Servi__32E0915F">
+          <End Role="ServiceStation" Type="Self.ServiceStation" Multiplicity="0..1" />
+          <End Role="ServiceRecord" Type="Self.ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStation">
+              <PropertyRef Name="ServiceStationId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="ServiceStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ServiceRe__Vehic__30F848ED">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="ServiceRecord" Type="Self.ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CarCareModelStoreContainer">
+          <EntitySet Name="ServiceRecord" EntityType="Self.ServiceRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceStation" EntityType="Self.ServiceStation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="Self.FK__ServiceRe__Servi__31EC6D26">
+            <End Role="ServiceType" EntitySet="ServiceType" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ServiceRe__Servi__32E0915F" Association="Self.FK__ServiceRe__Servi__32E0915F">
+            <End Role="ServiceStation" EntitySet="ServiceStation" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="Self.FK__ServiceRe__Vehic__30F848ED">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecord" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CarCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -80,12 +164,103 @@
           <Property Name="VechicleYear" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="VechicleDealer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="VINNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="Vehicle" ToRole="ServiceRecord" />
         </EntityType>
         <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+          <EntitySet Name="ServiceRecords" EntityType="CarCareModel.ServiceRecord" />
+          <EntitySet Name="ServiceStations" EntityType="CarCareModel.ServiceStation" />
+          <EntitySet Name="ServiceTypes" EntityType="CarCareModel.ServiceType" />
+          <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="CarCareModel.FK__ServiceRe__Servi__31EC6D26">
+            <End Role="ServiceType" EntitySet="ServiceTypes" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ServiceRe__Servi__32E0915F" Association="CarCareModel.FK__ServiceRe__Servi__32E0915F">
+            <End Role="ServiceStation" EntitySet="ServiceStations" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="CarCareModel.FK__ServiceRe__Vehic__30F848ED">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ServiceRecord">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+          </Key>
+          <Property Name="ServiceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleId" Type="Int64" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="Int64" Nullable="false" />
+          <Property Name="ServiceDate" Type="DateTime" Precision="3" />
+          <Property Name="ServiceStationId" Type="Int64" />
+          <Property Name="CompletedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ServiceCost" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="ServiceType" Relationship="CarCareModel.FK__ServiceRe__Servi__31EC6D26" FromRole="ServiceRecord" ToRole="ServiceType" />
+          <NavigationProperty Name="ServiceStation" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceRecord" ToRole="ServiceStation" />
+          <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="ServiceRecord" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="ServiceStation">
+          <Key>
+            <PropertyRef Name="ServiceStationId" />
+          </Key>
+          <Property Name="ServiceStationId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="Int32" />
+          <Property Name="StreetAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceStation" ToRole="ServiceRecord" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Servi__31EC6D26" FromRole="ServiceType" ToRole="ServiceRecord" />
+        </EntityType>
+        <Association Name="FK__ServiceRe__Servi__31EC6D26">
+          <End Type="CarCareModel.ServiceType" Role="ServiceType" Multiplicity="1" />
+          <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceType">
+              <PropertyRef Name="ServiceTypeId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ServiceRe__Servi__32E0915F">
+          <End Type="CarCareModel.ServiceStation" Role="ServiceStation" Multiplicity="0..1" />
+          <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStation">
+              <PropertyRef Name="ServiceStationId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="ServiceStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ServiceRe__Vehic__30F848ED">
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="1" />
+          <End Type="CarCareModel.ServiceRecord" Role="ServiceRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="ServiceRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -118,6 +293,8 @@
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="CarCareModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="VehicleMark" ColumnName="VehicleMark" />
@@ -125,6 +302,41 @@
                 <ScalarProperty Name="VechicleYear" ColumnName="VechicleYear" />
                 <ScalarProperty Name="VechicleDealer" ColumnName="VechicleDealer" />
                 <ScalarProperty Name="VINNumber" ColumnName="VINNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceRecords">
+            <EntityTypeMapping TypeName="CarCareModel.ServiceRecord">
+              <MappingFragment StoreEntitySet="ServiceRecord">
+                <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
+                <ScalarProperty Name="ServiceStationId" ColumnName="ServiceStationId" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceStations">
+            <EntityTypeMapping TypeName="CarCareModel.ServiceStation">
+              <MappingFragment StoreEntitySet="ServiceStation">
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="OwnedBy" ColumnName="OwnedBy" />
+                <ScalarProperty Name="ServiceStationId" ColumnName="ServiceStationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="CarCareModel.ServiceType">
+              <MappingFragment StoreEntitySet="ServiceType">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
