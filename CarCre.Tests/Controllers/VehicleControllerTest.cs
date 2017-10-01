@@ -4,6 +4,7 @@ using CarCare.Controllers;
 using CarCare.BusinessLogic;
 using CarCare.Unity;
 using System.Linq;
+using System;
 
 namespace CarCre.Tests.Controllers
 {
@@ -46,12 +47,23 @@ namespace CarCre.Tests.Controllers
         {
             // Arrange
             CarCareBusinessLogic useTest = new CarCareBusinessLogic();
+            var newVehicle = useTest.SaveVehicle(new CarCare.CarCareDatabase.Vehicle()
+            {
+                VehicleMark = "Honda",
+                VehicleModel = "Civic",
+                VechicleYear = "2017",
+                VechicleDealer = "Dealer",
+                OwnerId = 1,
+                VehicleId = 0,
+                VINNumber = "ASDF-1236-ASTD"
+            });
 
             // Act
+
             var vehicle = useTest.SaveVehicle(new CarCare.CarCareDatabase.Vehicle()
             {
                 VehicleMark = "Toyota",
-                VehicleModel = "camry",
+                VehicleModel = "Camry",
                 VechicleYear = "2017",
                 OwnerId = 1,
                 VechicleDealer = "Test",
@@ -60,9 +72,9 @@ namespace CarCre.Tests.Controllers
             });
 
             // Assert
-            Assert.AreEqual(vehicle.VehicleId, 2);
+            Assert.AreEqual(vehicle.VehicleId, newVehicle.VehicleId);
             Assert.AreEqual(vehicle.VehicleMark,"Toyota");
-            Assert.AreEqual(vehicle.VehicleModel,"camry");
+            Assert.AreEqual(vehicle.VehicleModel,"Camry");
 
         }
 
@@ -71,13 +83,22 @@ namespace CarCre.Tests.Controllers
         {
             // Arrange
             CarCareBusinessLogic useTest = new CarCareBusinessLogic();
+            var newVehicle = useTest.SaveVehicle(new CarCare.CarCareDatabase.Vehicle()
+            {
+                VehicleMark = "Mazda",
+                VehicleModel = "Mazda3",
+                VechicleYear = "2017",
+                VechicleDealer = "Dealer",
+                OwnerId = 1,
+                VehicleId = 0,
+                VINNumber = "ASDF-1236-ASTD"
+            });
 
             // Act
-             useTest.DeleteVehicle(2);
-
-            var checkForVehicle = useTest.GetAllVehicles().FirstOrDefault(i=>i.VehicleId == 2);
+            useTest.DeleteVehicle(Convert.ToInt32(newVehicle.VehicleId));
 
             // Assert
+            var checkForVehicle = useTest.GetAllVehicles().FirstOrDefault(i => i.VehicleId == newVehicle.VehicleId);
             Assert.IsTrue(checkForVehicle == null);
 
         }

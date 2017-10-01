@@ -118,6 +118,28 @@ namespace CarCare.BusinessLogic
             return carCareEntities.ServiceTypes.ToList();
         }
 
+        public CarCareDatabase.ServiceType SaveServiceTypecord(CarCareDatabase.ServiceType serviceType)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingServiceType = carCareEntities.ServiceTypes.FirstOrDefault(i => i.ServiceTypeId == serviceType.ServiceTypeId);
+
+            if (existingServiceType != null)
+            {
+                carCareEntities.Entry(existingServiceType).CurrentValues.SetValues(serviceType);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.ServiceTypes.Attach(serviceType);
+                carCareEntities.Entry(serviceType).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return serviceType;
+        }
+
         #endregion
 
         #region ServiceRecord

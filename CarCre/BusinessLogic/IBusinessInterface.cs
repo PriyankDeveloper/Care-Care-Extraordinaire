@@ -50,6 +50,7 @@ namespace CarCare.BusinessLogic
         #region ServiceType
         List<CarCareDatabase.ServiceType> GetAllServiceTypes();
 
+        CarCareDatabase.ServiceType SaveServiceTypecord(CarCareDatabase.ServiceType serviceType);
 #endregion
     }
 }
