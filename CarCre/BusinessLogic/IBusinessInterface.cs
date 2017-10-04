@@ -33,7 +33,7 @@ namespace CarCare.BusinessLogic
 
         List<CarCareDatabase.ServiceRecord> GetAllServiceRecords();
 
-        void DeleteServiceRecord(int serviceRecordId);
+        void DeleteServiceRecord(long serviceRecordId);
 
         #endregion
 

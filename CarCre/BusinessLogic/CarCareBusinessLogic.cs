@@ -171,7 +171,7 @@ namespace CarCare.BusinessLogic
             return serviceRecord;
         }
 
-        public void DeleteServiceRecord(int serviceId)
+        public void DeleteServiceRecord(long serviceId)
         {
             Bootstrapper.Initialise();
 

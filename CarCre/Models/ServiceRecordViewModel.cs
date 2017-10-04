@@ -15,5 +15,16 @@ namespace CarCare.Models
         public Nullable<System.DateTime> CompletedDate { get; set; }
         public Nullable<System.DateTime> LastModifiedDate { get; set; }
         public Nullable<decimal> ServiceCost { get; set; }
+        public long OwnerId { get; set; }
+        public string VehicleMark { get; set; }
+        public string VehicleModel { get; set; }
+        public string VechicleYear { get; set; }
+        public string VechicleDealer { get; set; }
+        public string VINNumber { get; set; }
+        public string StationOwnedBy { get; set; }
+        public string StationCity { get; set; }
+        public string StationState { get; set; }
+        public Nullable<int> StationZipCode { get; set; }
+        public string StationStreetAddress { get; set; }
     }
 }

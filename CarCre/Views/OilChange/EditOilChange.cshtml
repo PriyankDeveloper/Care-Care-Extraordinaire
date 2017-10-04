@@ -1,0 +1,73 @@
+﻿@model CarCare.Models.ServiceRecordViewModel
+
+@{
+    ViewBag.Title = "Manage Vechile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage Vechile</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveOilChange", "OilChange", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table table-inverse">
+                <thead>
+                    <tr>
+                        <th>
+                            Action
+                        </th>
+                        <th>
+                            @Html.LabelFor(m => m.VINNumber)
+                        </th>
+                        <th>
+                            @Html.LabelFor(m => m.ServiceCost)
+                        </th>
+                        <th>
+                            @Html.LabelFor(m => m.ServiceDate)
+                        </th>
+                        <th>
+                            @Html.LabelFor(m => m.LastModifiedDate)
+                        </th>
+                        <th>
+                            @Html.LabelFor(m => m.StationZipCode)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button type="submit">Save</button>
+                            @Html.HiddenFor(m => m.VehicleId)
+                            @Html.HiddenFor(m => m.ServiceId)
+                            @Html.HiddenFor(m => m.ServiceStationId)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.VINNumber)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ServiceCost)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ServiceCost)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ServiceDate)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.LastModifiedDate)                      
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.StationZipCode)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+}

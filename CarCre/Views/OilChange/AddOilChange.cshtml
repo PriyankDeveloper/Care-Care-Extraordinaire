@@ -1,0 +1,67 @@
+﻿@model CarCare.Models.ServiceRecordViewModel
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveOilChange", "OilChange", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table table-inverse">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.VINNumber)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.VINNumber)
+                        </td>
+                        </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ServiceCost)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ServiceCost)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ServiceDate)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ServiceDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.LastModifiedDate)
+                    </td>
+                    <td>
+                       @Html.TextBoxFor(m => m.LastModifiedDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.StationZipCode)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.StationZipCode)                     
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">Save</button>
+                        @Html.HiddenFor(m => m.VehicleId)
+                        @Html.HiddenFor(m => m.ServiceId)
+                        @Html.HiddenFor(m => m.ServiceStationId)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </td>
+                </tr>                                               
+            </table>
+
+        </div>
+
+    </div>
+}
