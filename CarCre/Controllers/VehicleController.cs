@@ -33,6 +33,12 @@ namespace CarCare.Controllers
             return PartialView("EditVehicle", vehicle);
         }
 
+        //Add New Vehicle
+        public ActionResult AddNewVehicle()
+        {
+            return PartialView("AddNewVehicle", new VehicleViewModel());
+        }
+
         //Save Vehicle
         [HttpPost]
         public ActionResult SaveVehicle(VehicleViewModel model)
