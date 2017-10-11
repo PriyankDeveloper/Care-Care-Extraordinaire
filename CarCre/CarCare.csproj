@@ -220,6 +220,7 @@
     <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OilChangeController.cs" />
+    <Compile Include="Controllers\TuneUpController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -335,6 +336,9 @@
     <Content Include="Views\OilChange\EditOilChange.cshtml" />
     <Content Include="Views\OilChange\AddOilChange.cshtml" />
     <Content Include="Views\Vehicle\AddNewVehicle.cshtml" />
+    <Content Include="Views\TuneUp\AddTuneUp.cshtml" />
+    <Content Include="Views\TuneUp\EditTuneUp.cshtml" />
+    <Content Include="Views\TuneUp\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
