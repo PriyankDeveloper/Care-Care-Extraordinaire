@@ -24,11 +24,65 @@ namespace CarCare.Controllers
         {
            var oilChange = BusinessInterface.GetAllServiceRecords().Where(i => i.ServiceTypeId == 1).ToList();
            var viewModel = MapViewModel(oilChange);
-           return View(viewModel);
+           var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+           var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
+
+            return View(viewModel);
         }
 
+        //Add new Record
         public ActionResult AddNewRecord()
         {
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
             return PartialView("AddOilChange",new ServiceRecordViewModel());
         }
 
@@ -39,7 +93,34 @@ namespace CarCare.Controllers
         
             var viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord});
 
-            return PartialView("EditOilChange", viewModel.FirstOrDefault());
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
+
+            return PartialView("AddOilChange", viewModel.FirstOrDefault());
         }
 
         //Save OilChangeRecord
@@ -54,6 +135,9 @@ namespace CarCare.Controllers
             var source = new ServiceRecordViewModel();
             var dest = mapper.Map<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>(model);
 
+            dest.LastModifiedDate = DateTime.Now;
+            dest.ServiceTypeId = 1;
+            dest.ServiceDate = DateTime.Now;
             var modelData = BusinessInterface.SaveServiceRecord(dest);
             return Redirect("Index");
         }

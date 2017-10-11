@@ -10,12 +10,20 @@
             <table class="table">
                     <tr>
                         <td>
-                            @Html.LabelFor(m => m.VINNumber)
+                            Vehicle
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.VINNumber)
+                            @Html.DropDownListFor(m=>m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
                         </td>
                         </tr>
+                <tr>
+                    <td>
+                        Service Station
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m=>m.ServiceStationId, ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         @Html.LabelFor(m => m.ServiceCost)
@@ -29,17 +37,9 @@
                         @Html.LabelFor(m => m.ServiceDate)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => m.ServiceDate)
+                        <input type="date" />
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.LastModifiedDate)
-                    </td>
-                    <td>
-                       @Html.TextBoxFor(m => m.LastModifiedDate)
-                    </td>
-                </tr>
+                </tr>              
                 <tr>
                     <td>
                         @Html.LabelFor(m => m.StationZipCode)

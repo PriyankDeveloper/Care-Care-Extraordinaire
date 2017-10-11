@@ -124,7 +124,6 @@ C:\Users\rmipmp\Desktop\Care-Care-Extraordinaire-master\Care-Care-Extraordinaire
 C:\Users\rmipmp\Desktop\Care-Care-Extraordinaire-master\Care-Care-Extraordinaire-master\CarCre.Tests\obj\Debug\CarCare.Tests.csproj.CoreCompileInputs.cache
 C:\Users\rmipmp\Desktop\Care-Care-Extraordinaire-master\Care-Care-Extraordinaire-master\CarCre.Tests\obj\Debug\CarCre.Tests.dll
 C:\Users\rmipmp\Desktop\Care-Care-Extraordinaire-master\Care-Care-Extraordinaire-master\CarCre.Tests\obj\Debug\CarCre.Tests.pdb
-C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCare.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\ApplicationInsights.config
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\roslyn\csc.exe
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\roslyn\csc.exe.config
@@ -223,5 +222,6 @@ C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\Au
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\System.Web.Optimization.xml
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\Microsoft.Practices.Unity.Mvc.xml
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCare.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCare.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCre.Tests.dll
 C:\Users\Priyank\source\repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCre.Tests.pdb

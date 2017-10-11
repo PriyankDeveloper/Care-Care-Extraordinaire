@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<CarCare.Models.ServiceRecordViewModel>
 
 @{
-    ViewBag.Title = "Manage Vechile";
+    ViewBag.Title = "Oil Change";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage Vechile</h2>
+<h2>Oil Change</h2>
+
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 <div class="container">
     <div class="row">
         <button type="button" id="AddOilChange" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
-
-        @*<input type="button" value="Add" onclick="location.href='@Url.Action("AddNewRecord", "OilChange")'" />*@
         <table class="table table-inverse">
             <thead>
                 <tr>
@@ -24,6 +24,12 @@
                     <th>
                         Action
                     </th>                  
+                    <th>
+                        Vehicle
+                    </th>
+                    <th>
+                        Service Station
+                    </th>
                     <th>
                         Service Cost
                     </th>
@@ -47,11 +53,17 @@
                 {
                     <tr>
                         <td>
-                            <input type="button" value="Edit" data-id="@record.ServiceId" onclick="location.href='@Url.Action("EditOilChange", "OilChange", new { serviceId = record.ServiceId})'" />
+                            <input type="button"  id="EditBtn" value="Edit" data-id="@record.ServiceId"/>
                         </td>
                         <td>
                             <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@Url.Action("DeleteOilChange", "OilChange", new { serviceId = record.ServiceId})'" />
-                        </td>                      
+                        </td>       
+                        <td>
+                            @Html.DropDownList(record.VehicleId.ToString(), ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                        </td>
+                        <td>
+                            @Html.DropDownList(record.ServiceStationId.ToString(), ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                        </td>
                         <td>
                             @record.ServiceCost
                         </td>
@@ -77,8 +89,7 @@
 
 
 <!-- Trigger the modal with a button -->
-
-<!-- Modal -->
+<!-- Add New Recod Modal -->
 <div id="myModal" class="modal fade" role="dialog" data-url='@Url.Action("AddNewRecord","OilChange")'>
     <div class="modal-dialog">
 
@@ -101,10 +112,10 @@
     $(document).ready(function () {
         $('#AddOilChange').click(function () {
             var url = $('#myModal').data('url');
-
+            debugger;
             $.get(url, function (data) {
                 $('#AddOilChangeRecord').html(data);
-
+                debugger;
                 $('#myModal').modal('show');
             });
         });

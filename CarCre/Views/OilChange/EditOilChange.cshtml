@@ -21,7 +21,10 @@
                             Action
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.VINNumber)
+                           Vehicle
+                        </th>
+                        <th>
+                           Service Station
                         </th>
                         <th>
                             @Html.LabelFor(m => m.ServiceCost)
@@ -46,10 +49,10 @@
                             @Html.HiddenFor(m => m.ServiceStationId)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.VINNumber)
+                            @Html.DropDownList("Vehhicles", ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.ServiceCost)
+                            @Html.DropDownList("ServiceStation", ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.ServiceCost)

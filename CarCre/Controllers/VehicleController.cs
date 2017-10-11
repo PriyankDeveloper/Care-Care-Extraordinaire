@@ -51,6 +51,9 @@ namespace CarCare.Controllers
             var source = new VehicleViewModel();
             var dest = mapper.Map<VehicleViewModel, CarCareDatabase.Vehicle>(model);
 
+            dest.CreateDate = DateTime.Now;
+            dest.LastModifiedDate = DateTime.Now;
+            dest.OwnerId = 1;
            var modelData = BusinessInterface.SaveVehicle(dest);
             return Redirect("Index");
         }
