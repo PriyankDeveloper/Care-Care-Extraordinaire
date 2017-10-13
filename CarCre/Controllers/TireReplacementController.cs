@@ -1,4 +1,5 @@
-﻿using CarCare.Models;
+﻿using CarCare.BusinessLogic;
+using CarCare.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,15 @@ using System.Web.Mvc;
 
 namespace CarCare.Controllers
 {
-    public class TireReplacementController : Controller
+    public class TireReplacementController : BaseCareCareController
     {
+
+        public TireReplacementController(IBusinessInterface businessInterface)
+            :base(businessInterface)
+        {
+            
+        }
+
         public ActionResult TireReplacement()
         {
             return View("TireReplacement");
@@ -21,6 +29,12 @@ namespace CarCare.Controllers
             return null;
         }
 
+        public ActionResult AddTireReplacement()
+        {
+            return base.AddNewRecord();
+        }
 
-	}
+
+
+    }
 }

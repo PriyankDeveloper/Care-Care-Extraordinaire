@@ -326,3 +326,4 @@ C:\Users\JR037622\Source\Repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\S
 C:\Users\JR037622\Source\Repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\Microsoft.Practices.Unity.Mvc.xml
 C:\Users\JR037622\Source\Repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCre.Tests.dll
 C:\Users\JR037622\Source\Repos\Care-Care-Extraordinaire\CarCre.Tests\obj\Debug\CarCre.Tests.pdb
+C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre.Tests\obj\Debug\CarCare.Tests.csproj.CoreCompileInputs.cache
