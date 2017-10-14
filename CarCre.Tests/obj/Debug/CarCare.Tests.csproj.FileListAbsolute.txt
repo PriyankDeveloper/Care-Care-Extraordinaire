@@ -429,3 +429,4 @@ C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre.Tests\obj\Debug\
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre.Tests\obj\Debug\CarCare.Tests.csproj.CoreCompileInputs.cache
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre.Tests\obj\Debug\CarCre.Tests.dll
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre.Tests\obj\Debug\CarCre.Tests.pdb
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre.Tests\bin\Debug\DotNet.Highcharts.dll

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace CarCare.Controllers
 {
     public class TuneUpController : Controller
@@ -18,30 +19,111 @@ namespace CarCare.Controllers
             BusinessInterface = businessInterface;
         }
 
-        // GET: OilChange
+        // GET: TuneUp
         public ActionResult Index()
         {
             var TuneUp = BusinessInterface.GetAllServiceRecords().Where(i => i.ServiceTypeId == 3).ToList();
             var viewModel = MapViewModel(TuneUp);
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
+
             return View(viewModel);
         }
 
+        //Add new Record
         public ActionResult AddNewRecord()
         {
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
             return PartialView("AddTuneUp", new ServiceRecordViewModel());
         }
 
-        //Edit OilChange ServiceRecord
+        //Edit TuneUp ServiceRecord
         public ActionResult EditTuneUp(long serviceId)
         {
             var serviceRecord = BusinessInterface.GetAllServiceRecords().FirstOrDefault(i => i.ServiceId == serviceId);
 
             var viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord });
 
-            return PartialView("EditTuneUp", viewModel.FirstOrDefault());
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+            ViewBag.Vehicles = vList;
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
+
+            ViewBag.ServiceStations = sList;
+
+            return PartialView("AddTuneUp", viewModel.FirstOrDefault());
         }
 
-        //Save OilChangeRecord
+        //Save TuneUpRecord
         [HttpPost]
         public ActionResult SaveTuneUp(ServiceRecordViewModel model)
         {
@@ -53,6 +135,9 @@ namespace CarCare.Controllers
             var source = new ServiceRecordViewModel();
             var dest = mapper.Map<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>(model);
 
+            dest.LastModifiedDate = DateTime.Now;
+            dest.ServiceTypeId = 3;
+            dest.ServiceDate = DateTime.Now;
             var modelData = BusinessInterface.SaveServiceRecord(dest);
             return Redirect("Index");
         }

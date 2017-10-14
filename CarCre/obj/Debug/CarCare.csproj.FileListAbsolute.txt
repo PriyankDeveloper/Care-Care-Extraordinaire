@@ -578,3 +578,10 @@ C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre\obj\Debug\CarCar
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre\obj\Debug\CarCare.csproj.CoreCompileInputs.cache
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre\obj\Debug\CarCare.dll
 C:\Users\Thomas\Source\Repos\Care-Care-Extraordinaire2-P\CarCre\obj\Debug\CarCare.pdb
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\DotNet.Highcharts.dll
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Net.Http.Formatting.dll
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Web.Http.dll
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Web.Http.WebHost.dll
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Net.Http.Formatting.xml
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Web.Http.xml
+C:\Users\JR037622\source\repos\Care-Care-Extraordinaire\CarCre\bin\System.Web.Http.WebHost.xml
