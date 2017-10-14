@@ -26,5 +26,6 @@ namespace CarCare.Models
         public string StationState { get; set; }
         public Nullable<int> StationZipCode { get; set; }
         public string StationStreetAddress { get; set; }
+        public string ControllerName { get; set; }
     }
 }

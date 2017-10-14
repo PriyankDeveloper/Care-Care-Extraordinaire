@@ -1,0 +1,136 @@
+﻿
+// Using's are needed to ensure helpers function correctly.
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+@using System.Web.Mvc.Routing;
+@using System.Web.Mvc.Razor;
+@functions {
+    private static WebViewPage page { get { return PageContext.Page as WebViewPage; } }
+    private static System.Web.Mvc.HtmlHelper<dynamic> html { get { return page.Html; } }
+    private static UrlHelper url { get { return page.Url; } }
+    private static dynamic viewBag { get { return page.ViewBag; } }
+}
+
+
+
+
+@helper DisplayServiceRecords(string typeOfService, IEnumerable<CarCare.Models.ServiceRecordViewModel> passedModel)
+{
+
+    <div>
+        <h2>@typeOfService</h2>
+
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+        <div class="container">
+            <div class="row">
+                <button type="button" id="Add" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
+                <table class="table table-inverse">
+                    <thead>
+                        <tr>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Vehicle
+                            </th>
+                            <th>
+                                Service Station
+                            </th>
+                            <th>
+                                Service Cost
+                            </th>
+                            <th>
+                                Service Date
+                            </th>
+                            <th>
+                                Last Modified Date
+                            </th>
+                            <th>
+                                Completed Date
+                            </th>
+                            <th>
+                                Station ZipCode
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var record in passedModel)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="button" id="EditBtn" value="Edit" data-id="@record.ServiceId" />
+                                </td>
+                                <td>
+                                    <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@url.Action("Delete", typeOfService, new { serviceId = record.ServiceId})'" />
+                                </td>
+                                <td>
+                                    @html.DropDownList(record.VehicleId.ToString(), ((List<System.Web.Mvc.SelectListItem>)viewBag.Vehicles).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
+                                </td>
+                                <td>
+                                    @html.DropDownList(record.ServiceStationId.ToString(), ((List<System.Web.Mvc.SelectListItem>)viewBag.ServiceStations).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
+                                </td>
+                                <td>
+                                    @record.ServiceCost
+                                </td>
+                                <td>
+                                    @record.ServiceDate
+                                </td>
+                                <td>
+                                    @record.LastModifiedDate
+                                </td>
+                                <td>
+                                    @record.CompletedDate
+                                </td>
+                                <td>
+                                    @record.StationZipCode
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Trigger the modal with a button -->
+        <!-- Add New Recod Modal -->
+        <div id="myModal" class="modal fade" role="dialog" data-url='@url.Action("Add", typeOfService)'>
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Tire Replacement Record</h4>
+                    </div>
+                    <div class="modal-body" id="AddRecord">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#Add').click(function () {
+                    var url = $('#myModal').data('url');
+                    //debugger;
+                    $.get(url, function (data) {
+                        $('#AddRecord').html(data);
+                        //debugger;
+                        $('#myModal').modal('show');
+                    });
+                });
+            });
+        </script>
+    </div >
+}

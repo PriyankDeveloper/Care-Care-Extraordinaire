@@ -14,25 +14,31 @@ namespace CarCare.Controllers
     {
 
         public TireReplacementController(IBusinessInterface businessInterface)
-            :base(businessInterface)
+            :base(businessInterface, 5)
         {
-            
+
         }
 
-        public ActionResult TireReplacement()
+        new public ActionResult Index()
         {
-            return View("TireReplacement");
+            return base.BaseIndex();
+            //return View("TireReplacement");
         }
 
-        public ActionResult Save(Models.ServiceRecordViewModel model) {
-            
-            return null;
+        public ActionResult Add()
+        {
+            var serviceRecordViewModel = new ServiceRecordViewModel();
+            serviceRecordViewModel.ControllerName = "TireReplacement";
+            return base.AddNewRecord(serviceRecordViewModel);
         }
 
-        public ActionResult AddTireReplacement()
+        new public ActionResult Save(ServiceRecordViewModel model)
         {
-            return base.AddNewRecord();
+            base.Save(model);
+            return Redirect("Index");
+
         }
+
 
 
 
