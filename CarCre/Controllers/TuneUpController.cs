@@ -120,7 +120,7 @@ namespace CarCare.Controllers
 
             ViewBag.ServiceStations = sList;
 
-            return PartialView("AddTuneUp", viewModel.FirstOrDefault());
+            return PartialView("EditTuneUp", viewModel.FirstOrDefault());
         }
 
         //Save TuneUpRecord

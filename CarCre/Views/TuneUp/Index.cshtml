@@ -53,7 +53,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="button" id="EditBtn" value="Edit" data-id="@record.ServiceId" />
+                            <input type="button" id="EditBtn" value="Edit" data-id="@record.ServiceId" onclick="location.href='@Url.Action("EditTuneUp", "TuneUp", new { serviceId = record.ServiceId})'"/>
                         </td>
                         <td>
                             <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@Url.Action("DeleteTuneUp", "TuneUp", new { serviceId = record.ServiceId})'" />
