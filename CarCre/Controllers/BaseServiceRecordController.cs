@@ -126,7 +126,7 @@ namespace CarCare.Controllers
 
             ViewBag.ServiceStations = sList;
 
-            return PartialView("AddOilChange", viewModel.FirstOrDefault());
+            return PartialView("AddServiceRecord", viewModel.FirstOrDefault());
         }
 
         [HttpPost]
@@ -142,7 +142,6 @@ namespace CarCare.Controllers
 
             dest.LastModifiedDate = DateTime.Now;
             dest.ServiceTypeId = serviceTypeId;
-            dest.ServiceDate = DateTime.Now;
             var modelData = BusinessInterface.SaveServiceRecord(dest);
             return Redirect("Index");
         }

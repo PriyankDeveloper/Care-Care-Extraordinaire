@@ -19,10 +19,9 @@ namespace CarCare.Controllers
 
         }
 
-        new public ActionResult Index()
+        public ActionResult Index()
         {
             return base.BaseIndex();
-            //return View("TireReplacement");
         }
 
         public ActionResult Add()
@@ -32,12 +31,6 @@ namespace CarCare.Controllers
             return base.AddNewRecord(serviceRecordViewModel);
         }
 
-        new public ActionResult Save(ServiceRecordViewModel model)
-        {
-            base.Save(model);
-            return Redirect("Index");
-
-        }
 
 
 

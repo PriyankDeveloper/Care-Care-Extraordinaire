@@ -229,7 +229,7 @@
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BaseCareCareController.cs" />
+    <Compile Include="Controllers\BaseServiceRecordController.cs" />
     <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OilChangeController.cs" />
