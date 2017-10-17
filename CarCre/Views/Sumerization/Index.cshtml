@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CarCare.Models.ServiceRecordViewModel>
+
+@{
+    ViewBag.Title = "Sumerization";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @MyHelpers.DisplayServiceRecords("Sumerization", (IEnumerable<CarCare.Models.ServiceRecordViewModel>)Model)
+</div>
