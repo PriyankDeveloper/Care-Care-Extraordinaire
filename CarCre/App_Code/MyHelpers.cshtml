@@ -27,7 +27,7 @@
 
         <div class="container">
             <div class="row">
-                <button type="button" id="Add" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
+                <button type="button" id="Add" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myAddModal">Add</button>
                 <table class="table table-inverse">
                     <thead>
                         <tr>
@@ -66,7 +66,7 @@
                         {
                             <tr>
                                 <td>
-                                    <input onclick="location.href='@url.Action("Edit", typeOfService, new { serviceId = record.ServiceId})'" type="button" id="EditBtn" value="Edit" data-id="@record.ServiceId" />
+                                    <input type="button" id="Edit"  data-toggle="modal" data-target="#myEditModal" value="Edit" data-id="@record.ServiceId" />
                                 </td>
                                 <td>
                                     <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@url.Action("Delete", typeOfService, new { serviceId = record.ServiceId})'" />
@@ -102,16 +102,33 @@
 
         <!-- Trigger the modal with a button -->
         <!-- Add New Recod Modal -->
-        <div id="myModal" class="modal fade" role="dialog" data-url='@url.Action("Add", typeOfService)'>
+        <div id="myAddModal" class="modal fade" role="dialog" data-url='@url.Action("Add", typeOfService)'>
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Tire Replacement Record</h4>
+                        <h4 class="modal-title">Add @typeOfService Record</h4>
                     </div>
                     <div class="modal-body" id="AddRecord">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="myEditModal" class="modal fade" role="dialog" data-url='@url.Action("Edit", typeOfService)'>
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit @typeOfService Record</h4>
+                    </div>
+                    <div class="modal-body" id="EditRecord">
 
                     </div>
                 </div>
@@ -122,12 +139,18 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#Add').click(function () {
-                    var url = $('#myModal').data('url');
-                    //debugger;
+                    var url = $('#myAddModal').data('url');
                     $.get(url, function (data) {
                         $('#AddRecord').html(data);
-                        //debugger;
-                        $('#myModal').modal('show');
+                        $('#myAddModal').modal('show');
+                    });
+                });
+                $('#Edit').click(function () {
+                    var url = $('#myEditModal').data('url');
+                    url += "?id=" + $('#Edit').data('id')
+                    $.get(url, function (data) {
+                        $('#EditRecord').html(data);
+                        $('#myEditModal').modal('show');
                     });
                 });
             });

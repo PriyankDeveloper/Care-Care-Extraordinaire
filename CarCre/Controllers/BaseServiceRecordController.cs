@@ -10,12 +10,12 @@ using System.Web.Mvc;
 
 namespace CarCare.Controllers
 {
-    public class BaseCareCareController : Controller
+    public class BaseServiceRecordController : Controller
     {
         protected IBusinessInterface BusinessInterface;
         protected int serviceTypeId = -1;
 
-        public BaseCareCareController(IBusinessInterface businessInterface, int id)
+        public BaseServiceRecordController(IBusinessInterface businessInterface, int id)
         {
             BusinessInterface = businessInterface;
             serviceTypeId = id;
@@ -93,11 +93,15 @@ namespace CarCare.Controllers
         }
 
         //Edit OilChange ServiceRecord
-        public ActionResult Edit(long serviceId)
+        public ActionResult EditRecord(long serviceId)
         {
             var serviceRecord = BusinessInterface.GetAllServiceRecords().FirstOrDefault(i => i.ServiceId == serviceId);
 
-            var viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord });
+            var viewModel = new ServiceRecordViewModel();
+            if (serviceRecord != null)
+            {
+                viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord }).FirstOrDefault();
+            }
 
             var allVehicle = BusinessInterface.GetAllVehicles().ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
@@ -126,7 +130,7 @@ namespace CarCare.Controllers
 
             ViewBag.ServiceStations = sList;
 
-            return PartialView("AddServiceRecord", viewModel.FirstOrDefault());
+            return PartialView("AddServiceRecord", viewModel);
         }
 
         [HttpPost]

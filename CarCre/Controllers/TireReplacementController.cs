@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace CarCare.Controllers
 {
-    public class TireReplacementController : BaseCareCareController
+    public class TireReplacementController : BaseServiceRecordController
     {
 
         public TireReplacementController(IBusinessInterface businessInterface)
@@ -31,9 +31,9 @@ namespace CarCare.Controllers
             return base.AddNewRecord(serviceRecordViewModel);
         }
 
-
-
-
-
+        public ActionResult Edit(long id)
+        {
+            return base.EditRecord(id);
+        }
     }
 }
