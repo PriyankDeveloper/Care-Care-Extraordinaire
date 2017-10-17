@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CarCre",
-    "\\CarCre\\Views"
+    "\\CarCre"
   ],
-  "SelectedNode": "\\CarCre\\Views\\Winterization",
+  "SelectedNode": "\\CarCre\\BusinessLogic",
   "PreviewInSolutionExplorer": false
 }

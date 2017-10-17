@@ -233,6 +233,7 @@
     <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OilChangeController.cs" />
+    <Compile Include="Controllers\StateInspectionController.cs" />
     <Compile Include="Controllers\SumerizationController.cs" />
     <Compile Include="Controllers\TuneUpController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
@@ -392,6 +393,9 @@
     <Content Include="Views\TireReplacement\Index.cshtml" />
     <Content Include="Views\Winterization\Index.cshtml" />
     <Content Include="Views\Sumerization\Index.cshtml" />
+    <Content Include="Views\StateInspection\AddStateInspection.cshtml" />
+    <Content Include="Views\StateInspection\EditStateInspection.cshtml" />
+    <Content Include="Views\StateInspection\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
