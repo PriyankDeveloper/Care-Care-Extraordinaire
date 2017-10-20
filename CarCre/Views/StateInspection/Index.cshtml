@@ -59,10 +59,10 @@
                             <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@Url.Action("DeleteStateInspection", "StateInspection", new { serviceId = record.ServiceId})'" />
                         </td>
                         <td>
-                            @Html.DropDownList(record.VehicleId.ToString(), ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                            @Html.DropDownList("VehhicleDropdown", new SelectList(record.Vehicles, "Value", "Text", record.VehicleId))
                         </td>
                         <td>
-                            @Html.DropDownList(record.ServiceStationId.ToString(), ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                            @Html.DropDownList("ServiceStationDropdown", new SelectList(record.ServiceStations, "Value", "Text", record.ServiceStationId))
                         </td>
                         <td>
                             @record.ServiceCost

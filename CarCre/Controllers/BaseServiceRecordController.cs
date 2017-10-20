@@ -146,6 +146,7 @@ namespace CarCare.Controllers
 
             dest.LastModifiedDate = DateTime.Now;
             dest.ServiceTypeId = serviceTypeId;
+            dest.ServiceDate = dest.ServiceDate.HasValue ? dest.ServiceDate : DateTime.Now;
             var modelData = BusinessInterface.SaveServiceRecord(dest);
             return Redirect("Index");
         }

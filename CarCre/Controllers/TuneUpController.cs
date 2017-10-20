@@ -153,6 +153,29 @@ namespace CarCare.Controllers
         private List<ServiceRecordViewModel> MapViewModel(List<CarCareDatabase.ServiceRecord> dbModel)
         {
             List<ServiceRecordViewModel> ListofViewModel = new List<ServiceRecordViewModel>();
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
+                });
+            }
+
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
 
             foreach (var item in dbModel)
             {
@@ -161,6 +184,8 @@ namespace CarCare.Controllers
                     CompletedDate = item.CompletedDate,
                     LastModifiedDate = item.LastModifiedDate,
                     OwnerId = item.Vehicle.OwnerId,
+                    Vehicles = vList,
+                    ServiceStations = sList,
                     ServiceCost = item.ServiceCost,
                     ServiceDate = item.ServiceDate,
                     ServiceId = item.ServiceId,

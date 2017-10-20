@@ -717,6 +717,7 @@ C:\GitCarCare\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.DependencyCollect
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.WindowsServer.xml
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\bin\Microsoft.AI.Web.xml
+C:\GitCarCare\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.csprojResolveAssemblyReference.cache
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.csproj.CoreCompileInputs.cache
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.dll
 C:\GitCarCare\Care-Care-Extraordinaire\CarCre\obj\Debug\CarCare.pdb
