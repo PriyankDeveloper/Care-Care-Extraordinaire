@@ -5,6 +5,33 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Insurance">
+          <Key>
+            <PropertyRef Name="InsuranceId" />
+          </Key>
+          <Property Name="InsuranceId" Type="bigint" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" />
+          <Property Name="OwnerId" Type="bigint" />
+          <Property Name="InsuranceStartDate" Type="datetime" />
+          <Property Name="InsuranceExpirationDate" Type="datetime" />
+          <Property Name="InsuranceProvider" Type="nchar" MaxLength="50" />
+          <Property Name="InsuranceCost" Type="decimal" Precision="36" Scale="2" />
+          <Property Name="InsuranceCoverage" Type="nchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="RepairRecord">
+          <Key>
+            <PropertyRef Name="RepairId" />
+          </Key>
+          <Property Name="RepairId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" Nullable="false" />
+          <Property Name="RepairShortDesc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RepairDate" Type="datetime" Nullable="false" />
+          <Property Name="RepairStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="RepairStationId" Type="bigint" />
+          <Property Name="RepairCompleteDate" Type="datetime" />
+          <Property Name="RepairCost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="RepairDetails" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="ServiceRecord">
           <Key>
             <PropertyRef Name="ServiceId" />
@@ -28,6 +55,9 @@
           <Property Name="State" Type="nvarchar" MaxLength="2" />
           <Property Name="ZipCode" Type="int" />
           <Property Name="StreetAddress" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="12" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
         </EntityType>
         <EntityType Name="ServiceType">
           <Key>
@@ -72,6 +102,18 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="LastModifiedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="Warranty">
+          <Key>
+            <PropertyRef Name="WarrantyId" />
+          </Key>
+          <Property Name="WarrantyId" Type="bigint" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" />
+          <Property Name="WarrantyProvider" Type="nchar" MaxLength="10" />
+          <Property Name="WarrantyStartDate" Type="date" />
+          <Property Name="WarrantyExpirationDate" Type="date" />
+          <Property Name="WarrantyCoverage" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cost" Type="decimal" Precision="36" Scale="2" />
+        </EntityType>
         <Association Name="FK__ServiceRe__Servi__31EC6D26">
           <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="1" />
           <End Role="ServiceRecord" Type="Self.ServiceRecord" Multiplicity="*" />
@@ -108,13 +150,76 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Insurance_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+          <End Role="Insurance" Type="Self.Insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="Insurance">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairRecord_ServiceStation">
+          <End Role="ServiceStation" Type="Self.ServiceStation" Multiplicity="0..1" />
+          <End Role="RepairRecord" Type="Self.RepairRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStation">
+              <PropertyRef Name="ServiceStationId" />
+            </Principal>
+            <Dependent Role="RepairRecord">
+              <PropertyRef Name="RepairStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairRecord_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="RepairRecord" Type="Self.RepairRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="RepairRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_vehicle_user">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warrant_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+          <End Role="Warranty" Type="Self.Warranty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="Warranty">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CarCareModelStoreContainer">
+          <EntitySet Name="Insurance" EntityType="Self.Insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepairRecord" EntityType="Self.RepairRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceRecord" EntityType="Self.ServiceRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceStation" EntityType="Self.ServiceStation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warranty" EntityType="Self.Warranty" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="Self.FK__ServiceRe__Servi__31EC6D26">
             <End Role="ServiceType" EntitySet="ServiceType" />
             <End Role="ServiceRecord" EntitySet="ServiceRecord" />
@@ -126,6 +231,26 @@
           <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="Self.FK__ServiceRe__Vehic__30F848ED">
             <End Role="Vehicle" EntitySet="Vehicle" />
             <End Role="ServiceRecord" EntitySet="ServiceRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Insurance_Vehicle" Association="Self.FK_Insurance_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Insurance" EntitySet="Insurance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairRecord_ServiceStation" Association="Self.FK_RepairRecord_ServiceStation">
+            <End Role="ServiceStation" EntitySet="ServiceStation" />
+            <End Role="RepairRecord" EntitySet="RepairRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairRecord_Vehicle" Association="Self.FK_RepairRecord_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="RepairRecord" EntitySet="RepairRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_vehicle_user" Association="Self.FK_vehicle_user">
+            <End Role="User" EntitySet="User" />
+            <End Role="Vehicle" EntitySet="Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warrant_Vehicle" Association="Self.FK_Warrant_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Warranty" EntitySet="Warranty" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -152,6 +277,7 @@
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Vehicles" Relationship="CarCareModel.FK_vehicle_user" FromRole="User" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="Vehicle">
           <Key>
@@ -167,6 +293,10 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="Vehicle" ToRole="ServiceRecord" />
+          <NavigationProperty Name="Insurances" Relationship="CarCareModel.FK_Insurance_Vehicle" FromRole="Vehicle" ToRole="Insurance" />
+          <NavigationProperty Name="RepairRecords" Relationship="CarCareModel.FK_RepairRecord_Vehicle" FromRole="Vehicle" ToRole="RepairRecord" />
+          <NavigationProperty Name="User" Relationship="CarCareModel.FK_vehicle_user" FromRole="Vehicle" ToRole="User" />
+          <NavigationProperty Name="Warranties" Relationship="CarCareModel.FK_Warrant_Vehicle" FromRole="Vehicle" ToRole="Warranty" />
         </EntityType>
         <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
@@ -186,6 +316,29 @@
           <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="CarCareModel.FK__ServiceRe__Vehic__30F848ED">
             <End Role="Vehicle" EntitySet="Vehicles" />
             <End Role="ServiceRecord" EntitySet="ServiceRecords" />
+          </AssociationSet>
+          <EntitySet Name="Insurances" EntityType="CarCareModel.Insurance" />
+          <EntitySet Name="RepairRecords" EntityType="CarCareModel.RepairRecord" />
+          <EntitySet Name="Warranties" EntityType="CarCareModel.Warranty" />
+          <AssociationSet Name="FK_Insurance_Vehicle" Association="CarCareModel.FK_Insurance_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Insurance" EntitySet="Insurances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairRecord_ServiceStation" Association="CarCareModel.FK_RepairRecord_ServiceStation">
+            <End Role="ServiceStation" EntitySet="ServiceStations" />
+            <End Role="RepairRecord" EntitySet="RepairRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepairRecord_Vehicle" Association="CarCareModel.FK_RepairRecord_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="RepairRecord" EntitySet="RepairRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_vehicle_user" Association="CarCareModel.FK_vehicle_user">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warrant_Vehicle" Association="CarCareModel.FK_Warrant_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Warranty" EntitySet="Warranties" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ServiceRecord">
@@ -215,6 +368,10 @@
           <Property Name="ZipCode" Type="Int32" />
           <Property Name="StreetAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ServiceRecords" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceStation" ToRole="ServiceRecord" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
+          <NavigationProperty Name="RepairRecords" Relationship="CarCareModel.FK_RepairRecord_ServiceStation" FromRole="ServiceStation" ToRole="RepairRecord" />
         </EntityType>
         <EntityType Name="ServiceType">
           <Key>
@@ -257,6 +414,109 @@
               <PropertyRef Name="VehicleId" />
             </Principal>
             <Dependent Role="ServiceRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Insurance">
+          <Key>
+            <PropertyRef Name="InsuranceId" />
+          </Key>
+          <Property Name="InsuranceId" Type="Int64" Nullable="false" />
+          <Property Name="VehicleId" Type="Int64" />
+          <Property Name="OwnerId" Type="Int64" />
+          <Property Name="InsuranceStartDate" Type="DateTime" Precision="3" />
+          <Property Name="InsuranceExpirationDate" Type="DateTime" Precision="3" />
+          <Property Name="InsuranceProvider" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="InsuranceCost" Type="Decimal" Precision="36" Scale="2" />
+          <Property Name="InsuranceCoverage" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_Insurance_Vehicle" FromRole="Insurance" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="RepairRecord">
+          <Key>
+            <PropertyRef Name="RepairId" />
+          </Key>
+          <Property Name="RepairId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleId" Type="Int64" Nullable="false" />
+          <Property Name="RepairShortDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RepairDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RepairStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RepairStationId" Type="Int64" />
+          <Property Name="RepairCompleteDate" Type="DateTime" Precision="3" />
+          <Property Name="RepairCost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RepairDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceStation" Relationship="CarCareModel.FK_RepairRecord_ServiceStation" FromRole="RepairRecord" ToRole="ServiceStation" />
+          <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_RepairRecord_Vehicle" FromRole="RepairRecord" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="Warranty">
+          <Key>
+            <PropertyRef Name="WarrantyId" />
+          </Key>
+          <Property Name="WarrantyId" Type="Int64" Nullable="false" />
+          <Property Name="VehicleId" Type="Int64" />
+          <Property Name="WarrantyProvider" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="WarrantyStartDate" Type="DateTime" Precision="0" />
+          <Property Name="WarrantyExpirationDate" Type="DateTime" Precision="0" />
+          <Property Name="WarrantyCoverage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="36" Scale="2" />
+          <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_Warrant_Vehicle" FromRole="Warranty" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK_Insurance_Vehicle">
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="0..1" />
+          <End Type="CarCareModel.Insurance" Role="Insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="Insurance">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairRecord_ServiceStation">
+          <End Type="CarCareModel.ServiceStation" Role="ServiceStation" Multiplicity="0..1" />
+          <End Type="CarCareModel.RepairRecord" Role="RepairRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStation">
+              <PropertyRef Name="ServiceStationId" />
+            </Principal>
+            <Dependent Role="RepairRecord">
+              <PropertyRef Name="RepairStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepairRecord_Vehicle">
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="1" />
+          <End Type="CarCareModel.RepairRecord" Role="RepairRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="RepairRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_vehicle_user">
+          <End Type="CarCareModel.User" Role="User" Multiplicity="1" />
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warrant_Vehicle">
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="0..1" />
+          <End Type="CarCareModel.Warranty" Role="Warranty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="Warranty">
               <PropertyRef Name="VehicleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -322,6 +582,9 @@
           <EntitySetMapping Name="ServiceStations">
             <EntityTypeMapping TypeName="CarCareModel.ServiceStation">
               <MappingFragment StoreEntitySet="ServiceStation">
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
                 <ScalarProperty Name="State" ColumnName="State" />
@@ -337,6 +600,48 @@
                 <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
                 <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
                 <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Insurances">
+            <EntityTypeMapping TypeName="CarCareModel.Insurance">
+              <MappingFragment StoreEntitySet="Insurance">
+                <ScalarProperty Name="InsuranceCoverage" ColumnName="InsuranceCoverage" />
+                <ScalarProperty Name="InsuranceCost" ColumnName="InsuranceCost" />
+                <ScalarProperty Name="InsuranceProvider" ColumnName="InsuranceProvider" />
+                <ScalarProperty Name="InsuranceExpirationDate" ColumnName="InsuranceExpirationDate" />
+                <ScalarProperty Name="InsuranceStartDate" ColumnName="InsuranceStartDate" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="InsuranceId" ColumnName="InsuranceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepairRecords">
+            <EntityTypeMapping TypeName="CarCareModel.RepairRecord">
+              <MappingFragment StoreEntitySet="RepairRecord">
+                <ScalarProperty Name="RepairDetails" ColumnName="RepairDetails" />
+                <ScalarProperty Name="RepairCost" ColumnName="RepairCost" />
+                <ScalarProperty Name="RepairCompleteDate" ColumnName="RepairCompleteDate" />
+                <ScalarProperty Name="RepairStationId" ColumnName="RepairStationId" />
+                <ScalarProperty Name="RepairStatus" ColumnName="RepairStatus" />
+                <ScalarProperty Name="RepairDate" ColumnName="RepairDate" />
+                <ScalarProperty Name="RepairShortDesc" ColumnName="RepairShortDesc" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="RepairId" ColumnName="RepairId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warranties">
+            <EntityTypeMapping TypeName="CarCareModel.Warranty">
+              <MappingFragment StoreEntitySet="Warranty">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="WarrantyCoverage" ColumnName="WarrantyCoverage" />
+                <ScalarProperty Name="WarrantyExpirationDate" ColumnName="WarrantyExpirationDate" />
+                <ScalarProperty Name="WarrantyStartDate" ColumnName="WarrantyStartDate" />
+                <ScalarProperty Name="WarrantyProvider" ColumnName="WarrantyProvider" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="WarrantyId" ColumnName="WarrantyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

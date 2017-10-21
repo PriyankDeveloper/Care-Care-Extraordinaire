@@ -56,6 +56,9 @@
     <EntitySetMapping Name="ServiceStations">
       <EntityTypeMapping TypeName="CarCareModel.ServiceStation">
         <MappingFragment StoreEntitySet="ServiceStation">
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
           <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
           <ScalarProperty Name="State" ColumnName="State" />
@@ -71,6 +74,48 @@
           <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
           <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
           <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Insurances">
+      <EntityTypeMapping TypeName="CarCareModel.Insurance">
+        <MappingFragment StoreEntitySet="Insurance">
+          <ScalarProperty Name="InsuranceCoverage" ColumnName="InsuranceCoverage" />
+          <ScalarProperty Name="InsuranceCost" ColumnName="InsuranceCost" />
+          <ScalarProperty Name="InsuranceProvider" ColumnName="InsuranceProvider" />
+          <ScalarProperty Name="InsuranceExpirationDate" ColumnName="InsuranceExpirationDate" />
+          <ScalarProperty Name="InsuranceStartDate" ColumnName="InsuranceStartDate" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="InsuranceId" ColumnName="InsuranceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairRecords">
+      <EntityTypeMapping TypeName="CarCareModel.RepairRecord">
+        <MappingFragment StoreEntitySet="RepairRecord">
+          <ScalarProperty Name="RepairDetails" ColumnName="RepairDetails" />
+          <ScalarProperty Name="RepairCost" ColumnName="RepairCost" />
+          <ScalarProperty Name="RepairCompleteDate" ColumnName="RepairCompleteDate" />
+          <ScalarProperty Name="RepairStationId" ColumnName="RepairStationId" />
+          <ScalarProperty Name="RepairStatus" ColumnName="RepairStatus" />
+          <ScalarProperty Name="RepairDate" ColumnName="RepairDate" />
+          <ScalarProperty Name="RepairShortDesc" ColumnName="RepairShortDesc" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="RepairId" ColumnName="RepairId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Warranties">
+      <EntityTypeMapping TypeName="CarCareModel.Warranty">
+        <MappingFragment StoreEntitySet="Warranty">
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="WarrantyCoverage" ColumnName="WarrantyCoverage" />
+          <ScalarProperty Name="WarrantyExpirationDate" ColumnName="WarrantyExpirationDate" />
+          <ScalarProperty Name="WarrantyStartDate" ColumnName="WarrantyStartDate" />
+          <ScalarProperty Name="WarrantyProvider" ColumnName="WarrantyProvider" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="WarrantyId" ColumnName="WarrantyId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -18,6 +18,7 @@ namespace CarCare.CarCareDatabase
         public ServiceStation()
         {
             this.ServiceRecords = new HashSet<ServiceRecord>();
+            this.RepairRecords = new HashSet<RepairRecord>();
         }
     
         public long ServiceStationId { get; set; }
@@ -26,8 +27,13 @@ namespace CarCare.CarCareDatabase
         public string State { get; set; }
         public Nullable<int> ZipCode { get; set; }
         public string StreetAddress { get; set; }
+        public string Phone { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceRecord> ServiceRecords { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRecord> RepairRecords { get; set; }
     }
 }

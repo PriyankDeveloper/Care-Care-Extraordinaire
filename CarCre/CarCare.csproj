@@ -210,6 +210,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarCareDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CarCareDatabase\Insurance.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CarCareDatabase\RepairRecord.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarCareDatabase\ServiceRecord.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
@@ -228,6 +234,9 @@
     <Compile Include="CarCareDatabase\Vehicle.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CarCareDatabase\Warranty.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseServiceRecordController.cs" />
     <Compile Include="Controllers\GoogleMapsController.cs" />
@@ -242,6 +251,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Charts.cs" />
+    <Compile Include="Models\RepairRecordViewModel.cs" />
     <Compile Include="Models\ServiceRecordViewModel.cs" />
     <Compile Include="Models\ServiceStationViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
