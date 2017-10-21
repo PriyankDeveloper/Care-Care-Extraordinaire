@@ -51,6 +51,15 @@ namespace CarCare.BusinessLogic
         List<CarCareDatabase.ServiceType> GetAllServiceTypes();
 
         CarCareDatabase.ServiceType SaveServiceTypecord(CarCareDatabase.ServiceType serviceType);
-#endregion
+        #endregion
+
+        #region RepairRecord
+        CarCareDatabase.RepairRecord SaveRepairRecord(CarCare.CarCareDatabase.RepairRecord repairRecord);
+
+        List<Models.RepairRecordViewModel> GetAllRepairRecords();
+
+        void DeleteRepairRecord(long repairRecordId);
+
+        #endregion
     }
 }

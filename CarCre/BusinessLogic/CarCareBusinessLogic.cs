@@ -229,7 +229,64 @@ namespace CarCare.BusinessLogic
             }
         }
 
-#endregion
+        #endregion
+
+        #region RepairRecord
+
+        public List<Models.RepairRecordViewModel> GetAllRepairRecords()
+        {
+            // return carCareEntities.RepairRecords.ToList();
+
+            var repairs = carCareEntities.RepairRecords.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.RepairRecord, Models.RepairRecordViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.RepairRecord>();
+            var dest = mapper.Map<List<CarCareDatabase.RepairRecord>, List<Models.RepairRecordViewModel>>(repairs);
+
+            return dest;
+        }
+
+        public CarCareDatabase.RepairRecord SaveRepairRecord(CarCareDatabase.RepairRecord repairRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingRepairRecord = carCareEntities.RepairRecords.FirstOrDefault(i => i.RepairId == repairRecord.RepairId);
+
+            if (existingRepairRecord != null)
+            {
+                carCareEntities.Entry(existingRepairRecord).CurrentValues.SetValues(repairRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.RepairRecords.Attach(repairRecord);
+                carCareEntities.Entry(repairRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return repairRecord;
+        }
+
+        public void DeleteRepairRecord(long repairId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingRepairRecord = carCareEntities.RepairRecords.FirstOrDefault(i => i.RepairId == repairId);
+
+            if (existingRepairRecord != null)
+            {
+                carCareEntities.Entry(existingRepairRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+            
+        }
+
+        #endregion
 
     }
 }
