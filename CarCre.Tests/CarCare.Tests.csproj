@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\RepairControllerTests.cs" />
     <Compile Include="Controllers\ServiceRecordsControllerTest.cs" />
     <Compile Include="Controllers\VehicleControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,6 +125,9 @@
       <Project>{8A729250-280E-461B-9CC3-CC2DA945D3BE}</Project>
       <Name>CarCare</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BusinessLogic\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

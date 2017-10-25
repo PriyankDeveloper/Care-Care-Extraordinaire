@@ -8,20 +8,20 @@
         <EntityTypeShape EntityType="CarCareModel.TuneUp" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarCareModel.User" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarCareModel.Vehicle" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CarCareModel.ServiceRecord" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="CarCareModel.ServiceRecord" Width="1.5" PointX="5.25" PointY="6.75" />
         <EntityTypeShape EntityType="CarCareModel.ServiceStation" Width="1.5" PointX="3.125" PointY="8" />
         <EntityTypeShape EntityType="CarCareModel.ServiceType" Width="1.5" PointX="8" PointY="7" />
         <AssociationConnector Association="CarCareModel.FK__ServiceRe__Servi__31EC6D26" />
         <AssociationConnector Association="CarCareModel.FK__ServiceRe__Servi__32E0915F" />
         <AssociationConnector Association="CarCareModel.FK__ServiceRe__Vehic__30F848ED" />
-        <EntityTypeShape EntityType="CarCareModel.Insurance" Width="1.5" PointX="5.75" PointY="3.5" />
-        <EntityTypeShape EntityType="CarCareModel.RepairRecord" Width="1.5" PointX="0.5" PointY="7.125" />
-        <EntityTypeShape EntityType="CarCareModel.Warranty" Width="1.5" PointX="0.75" PointY="3.5" />
-        <AssociationConnector Association="CarCareModel.FK_Insurance_Vehicle" />
+        <EntityTypeShape EntityType="CarCareModel.RepairRecord" Width="1.5" PointX="0.75" PointY="6.875" />
         <AssociationConnector Association="CarCareModel.FK_RepairRecord_ServiceStation" />
         <AssociationConnector Association="CarCareModel.FK_RepairRecord_Vehicle" />
         <AssociationConnector Association="CarCareModel.FK_vehicle_user" />
-        <AssociationConnector Association="CarCareModel.FK_Warrant_Vehicle" />
+        <EntityTypeShape EntityType="CarCareModel.Insurance" Width="1.5" PointX="5" PointY="3.625" />
+        <EntityTypeShape EntityType="CarCareModel.Warranty" Width="1.5" PointX="0.625" PointY="3.75" />
+        <AssociationConnector Association="CarCareModel.FK_Insurance_Vehicle" />
+        <AssociationConnector Association="CarCareModel.FK_Warranty_Vehicle" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

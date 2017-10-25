@@ -241,22 +241,26 @@
     <Compile Include="Controllers\BaseServiceRecordController.cs" />
     <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InsuranceController.cs" />
     <Compile Include="Controllers\OilChangeController.cs" />
     <Compile Include="Controllers\RepairController.cs" />
     <Compile Include="Controllers\StateInspectionController.cs" />
     <Compile Include="Controllers\SumerizationController.cs" />
     <Compile Include="Controllers\TuneUpController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
+    <Compile Include="Controllers\WarrantyController.cs" />
     <Compile Include="Controllers\WinterizationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Charts.cs" />
+    <Compile Include="Models\InsuranceViewModel.cs" />
     <Compile Include="Models\RepairRecordViewModel.cs" />
     <Compile Include="Models\ServiceRecordViewModel.cs" />
     <Compile Include="Models\ServiceStationViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\VehicleViewModel.cs" />
+    <Compile Include="Models\WarrantyViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unity\Bootstraper.cs" />
     <Compile Include="Controllers\TireReplacementController.cs" />
@@ -410,6 +414,12 @@
     <Content Include="Views\Repair\Index.cshtml" />
     <Content Include="Views\Repair\AddRepair.cshtml" />
     <Content Include="Views\Repair\EditRepair.cshtml" />
+    <Content Include="Views\Insurance\Index.cshtml" />
+    <Content Include="Views\Warranty\Index.cshtml" />
+    <Content Include="Views\Insurance\AddInsurance.cshtml" />
+    <Content Include="Views\Warranty\AddWarranty.cshtml" />
+    <Content Include="Views\Insurance\EditInsurance.cshtml" />
+    <Content Include="Views\Warranty\EditWarranty.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

@@ -1,0 +1,74 @@
+﻿@model CarCare.Models.WarrantyViewModel
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveWarranty", "Warranty", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        Vehicle
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.WarrantyId)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.WarrantyId)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.WarrantyCost)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.WarrantyCost)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.WarrantyStartDate)
+                    </td>
+                    <td>
+                        <input type="date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.WarrantyExpirationDate)
+                    </td>
+                    <td>
+                        <input type="date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.WarrantyCoverage)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.WarrantyCoverage)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        @Html.HiddenFor(m => m.VehicleId)
+                        @Html.HiddenFor(m => m.WarrantyId)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+}

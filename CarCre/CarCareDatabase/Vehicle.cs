@@ -18,8 +18,8 @@ namespace CarCare.CarCareDatabase
         public Vehicle()
         {
             this.ServiceRecords = new HashSet<ServiceRecord>();
-            this.Insurances = new HashSet<Insurance>();
             this.RepairRecords = new HashSet<RepairRecord>();
+            this.Insurances = new HashSet<Insurance>();
             this.Warranties = new HashSet<Warranty>();
         }
     
@@ -36,10 +36,10 @@ namespace CarCare.CarCareDatabase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceRecord> ServiceRecords { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Insurance> Insurances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRecord> RepairRecords { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Insurance> Insurances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Warranty> Warranties { get; set; }
     }

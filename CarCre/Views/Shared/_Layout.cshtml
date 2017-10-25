@@ -39,7 +39,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <!--<title>@ViewBag.Title - My ASP.NET Application</title>-->
+    <title>@ViewBag.Title - SMART CarCare</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="~/Scripts/jquery-1.10.2.js"></script>
@@ -62,23 +63,39 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>                     
                     <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>                  
+                    <li>@Html.ActionLink("Vehicles", "Index", "Vehicle")</li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maintainenance<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Oil Change", "Index", "OilChange")</li>                                               
                             <li>@Html.ActionLink("State Inspection", "Index", "StateInspection")</li> 
+                            <li>@Html.ActionLink("Oil Change", "Index", "OilChange")</li>
                             <li>@Html.ActionLink("Tire Replacement", "Index", "TireReplacement")</li>
-                            <li>@Html.ActionLink("Tune Up", "Index", "TuneUp")</li> 
-                            <li>@Html.ActionLink("Repair", "Index", "Repair")</li> 
+                            <li>@Html.ActionLink("Tune Up", "Index", "TuneUp")</li>  
                             <li>@Html.ActionLink("Winterization", "Index", "Winterization")</li>
                             <li>@Html.ActionLink("Sumerization", "Index", "Sumerization")</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("Manage Vehicle", "Index", "Vehicle")</li>
-                    <li>@Html.ActionLink("Repairs", "Index", "Repair")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Repair<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Repair", "Index", "Repair")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Insurance & Warranty<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Insurance", "Index", "Insurance")</li>
+                            <li>@Html.ActionLink("Warranty", "Index", "Warranty")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>  
                 </ul>              
             </div>
@@ -88,7 +105,8 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <!--<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>-->
+            <p>&copy; @DateTime.Now.Year - Presented by Group 4</p>
         </footer>
     </div>
    @*@RenderSection("scripts", required: false)*@

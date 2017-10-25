@@ -1,0 +1,74 @@
+﻿@model CarCare.Models.InsuranceViewModel
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveInsurance", "Insurance", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        Vehicle
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.InsuranceProvider)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.InsuranceProvider)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.InsuranceCost)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.InsuranceCost)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.InsuranceStartDate)
+                    </td>
+                    <td>
+                        <input type="date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.InsuranceExpirationDate)
+                    </td>
+                    <td>
+                        <input type="date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.InsuranceCoverage)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.InsuranceCoverage)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        @Html.HiddenFor(m => m.VehicleId)
+                        @Html.HiddenFor(m => m.InsuranceId)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+}

@@ -15,12 +15,13 @@ namespace CarCare.CarCareDatabase
     public partial class Warranty
     {
         public long WarrantyId { get; set; }
-        public Nullable<long> VehicleId { get; set; }
-        public string WarrantyProvider { get; set; }
+        public long VehicleId { get; set; }
+        public Nullable<long> OwnerId { get; set; }
         public Nullable<System.DateTime> WarrantyStartDate { get; set; }
         public Nullable<System.DateTime> WarrantyExpirationDate { get; set; }
+        public string WarrantyProvider { get; set; }
+        public Nullable<decimal> WarrantyCost { get; set; }
         public string WarrantyCoverage { get; set; }
-        public Nullable<decimal> Cost { get; set; }
     
         public virtual Vehicle Vehicle { get; set; }
     }

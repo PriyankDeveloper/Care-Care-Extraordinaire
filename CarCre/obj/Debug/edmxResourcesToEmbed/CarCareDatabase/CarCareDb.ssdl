@@ -5,11 +5,11 @@
       <PropertyRef Name="InsuranceId" />
     </Key>
     <Property Name="InsuranceId" Type="bigint" Nullable="false" />
-    <Property Name="VehicleId" Type="bigint" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
     <Property Name="OwnerId" Type="bigint" />
     <Property Name="InsuranceStartDate" Type="datetime" />
     <Property Name="InsuranceExpirationDate" Type="datetime" />
-    <Property Name="InsuranceProvider" Type="nchar" MaxLength="50" />
+    <Property Name="InsuranceProvider" Type="nvarchar" MaxLength="50" />
     <Property Name="InsuranceCost" Type="decimal" Precision="36" Scale="2" />
     <Property Name="InsuranceCoverage" Type="nchar" MaxLength="500" />
   </EntityType>
@@ -102,12 +102,13 @@
       <PropertyRef Name="WarrantyId" />
     </Key>
     <Property Name="WarrantyId" Type="bigint" Nullable="false" />
-    <Property Name="VehicleId" Type="bigint" />
-    <Property Name="WarrantyProvider" Type="nchar" MaxLength="10" />
-    <Property Name="WarrantyStartDate" Type="date" />
-    <Property Name="WarrantyExpirationDate" Type="date" />
-    <Property Name="WarrantyCoverage" Type="nvarchar" MaxLength="50" />
-    <Property Name="Cost" Type="decimal" Precision="36" Scale="2" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
+    <Property Name="OwnerId" Type="bigint" />
+    <Property Name="WarrantyStartDate" Type="datetime" />
+    <Property Name="WarrantyExpirationDate" Type="datetime" />
+    <Property Name="WarrantyProvider" Type="nvarchar" MaxLength="50" />
+    <Property Name="WarrantyCost" Type="decimal" Precision="36" Scale="2" />
+    <Property Name="WarrantyCoverage" Type="nchar" MaxLength="500" />
   </EntityType>
   <Association Name="FK__ServiceRe__Servi__31EC6D26">
     <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="1" />
@@ -146,7 +147,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Insurance_Vehicle">
-    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
     <End Role="Insurance" Type="Self.Insurance" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Vehicle">
@@ -193,8 +194,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Warrant_Vehicle">
-    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1" />
+  <Association Name="FK_Warranty_Vehicle">
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
     <End Role="Warranty" Type="Self.Warranty" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Vehicle">
@@ -243,7 +244,7 @@
       <End Role="User" EntitySet="User" />
       <End Role="Vehicle" EntitySet="Vehicle" />
     </AssociationSet>
-    <AssociationSet Name="FK_Warrant_Vehicle" Association="Self.FK_Warrant_Vehicle">
+    <AssociationSet Name="FK_Warranty_Vehicle" Association="Self.FK_Warranty_Vehicle">
       <End Role="Vehicle" EntitySet="Vehicle" />
       <End Role="Warranty" EntitySet="Warranty" />
     </AssociationSet>

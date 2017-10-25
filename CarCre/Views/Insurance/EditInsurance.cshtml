@@ -1,16 +1,16 @@
-﻿@model CarCare.Models.RepairRecordViewModel
+﻿@model CarCare.Models.InsuranceViewModel
 
 @{
-    ViewBag.Title = "Edit Repair";
+    ViewBag.Title = "Edit Insurance";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit Repair Record</h2>
+<h2>Edit Insurance Information</h2>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-@using (@Html.BeginForm("SaveRepair", "Repair", FormMethod.Post))
+@using (@Html.BeginForm("SaveInsurance", "Insurance", FormMethod.Post))
 {
     <div class="container">
         <div class="row">
@@ -24,25 +24,19 @@
                             Vehicle
                         </th>
                         <th>
-                            Repair Station
+                            Insurance Provider
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.RepairCost)
+                            @Html.LabelFor(m => m.InsuranceCost)
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.RepairShortDesc)
+                            @Html.LabelFor(m => m.InsuranceStartDate)
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.RepairStatus)
+                            @Html.LabelFor(m => m.InsuranceExpirationDate)
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.RepairDate)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => m.RepairCompleteDate)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => m.RepairDetails)
+                            @Html.LabelFor(m => m.InsuranceCoverage)
                         </th>
                     </tr>
                 </thead>
@@ -51,32 +45,25 @@
                         <td>
                             <button type="submit">Save</button>
                             @Html.HiddenFor(m => m.VehicleId)
-                            @Html.HiddenFor(m => m.RepairId)
-                            @Html.HiddenFor(m => m.RepairStationId)
+                            @Html.HiddenFor(m => m.InsuranceId)
                         </td>
                         <td>
                             @Html.DropDownList("Vehhicles", ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
                         </td>
                         <td>
-                            @Html.DropDownList("ServiceStation", ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                            @Html.TextBoxFor(m => m.InsuranceProvider)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.RepairCost)
+                            @Html.TextBoxFor(m => m.InsuranceCost)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.RepairShortDesc)
+                            <input type="date" />
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.RepairStatus)
+                            <input type="date" />
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.RepairDate)
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(m => m.RepairCompleteDate)
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(m => m.RepairDetails)
+                            @Html.TextBoxFor(m => m.InsuranceCoverage)
                         </td>
                     </tr>
                 </tbody>

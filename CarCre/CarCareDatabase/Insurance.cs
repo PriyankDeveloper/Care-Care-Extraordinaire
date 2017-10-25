@@ -15,7 +15,7 @@ namespace CarCare.CarCareDatabase
     public partial class Insurance
     {
         public long InsuranceId { get; set; }
-        public Nullable<long> VehicleId { get; set; }
+        public long VehicleId { get; set; }
         public Nullable<long> OwnerId { get; set; }
         public Nullable<System.DateTime> InsuranceStartDate { get; set; }
         public Nullable<System.DateTime> InsuranceExpirationDate { get; set; }
