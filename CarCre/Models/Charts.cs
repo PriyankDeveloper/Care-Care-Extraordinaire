@@ -8,6 +8,8 @@ namespace CarCare.Models
 {
     public class Charts
     {
-        public Highcharts highCharts { get; set; }
+        public Highcharts highChartsPie { get; set; }
+
+        public Highcharts highCharts3D { get; set; }
     }
 }
