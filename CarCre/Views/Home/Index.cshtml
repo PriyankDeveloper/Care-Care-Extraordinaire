@@ -4,75 +4,38 @@
     ViewBag.Title = "Home Page";
 }
 
-<!DOCTYPE html>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
    
 </head>
+
 <body>
 
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-    <div id="container1" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-    @*@(Model.highCharts)*@
-
-    @*<div id="container"></div>*@
-       
+    <div class="row">
+        <div>
+            <div id="columnchart" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+                @(Model.highCharts)
+            </div>
+        </div>
+    </div>  
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>     
 </body>
 </html>
 
 <script type="text/javascript">
-    //$(document).ready(function () {
-    //    debugger;
-    //    var processed_json = new Array();
-    //    $.getJSON('/Home/GetChartData', function (data) {
-    //        // Populate series
-    //        debugger;
-    //        for (i = 0; i < data.length; i++) {
-    //            processed_json.push([data[i].key, data[i].value]);
-    //        }
-
-    //        // draw chart
-    //        $('#container').highcharts({
-    //            chart: {
-    //                type: "column"
-    //            },
-    //            title: {
-    //                text: "Student data"
-    //            },
-    //            xAxis: {
-    //                type: 'category',
-    //                allowDecimals: false,
-    //                title: {
-    //                    text: ""
-    //                }
-    //            },
-    //            yAxis: {
-    //                title: {
-    //                    text: "Scores"
-    //                }
-    //            },
-    //            series: [{
-    //                name: 'Subjects',
-    //                data: processed_json
-    //            }]
-    //        });
-    //    });
-    //});
-
-
     Highcharts.chart('container', {
         chart: {
             type: 'column'
@@ -136,59 +99,6 @@
             name: 'Berlin',
             data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
 
-        }]
-    });
-
-    Highcharts.chart('container1', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-        },
-        title: {
-            text: 'Browser market shares January, 2015 to May, 2015'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Microsoft Internet Explorer',
-                y: 56.33
-            }, {
-                name: 'Chrome',
-                y: 24.03,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Firefox',
-                y: 10.38
-            }, {
-                name: 'Safari',
-                y: 4.77
-            }, {
-                name: 'Opera',
-                y: 0.91
-            }, {
-                name: 'Proprietary or Undetectable',
-                y: 0.2
-            }]
         }]
     });
 </script>

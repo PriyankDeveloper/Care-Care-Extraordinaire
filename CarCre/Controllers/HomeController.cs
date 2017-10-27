@@ -3,11 +3,10 @@ using CarCare.Models;
 using DotNet.Highcharts;
 using DotNet.Highcharts.Helpers;
 using DotNet.Highcharts.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using DotNet.Highcharts.Enums;
 
 namespace CarCare.Controllers
 {
@@ -24,32 +23,58 @@ namespace CarCare.Controllers
         {
             Charts ct = new Charts();
 
-            var allVehicles = BusinessInterface.GetAllVehicles().ToList();         
+            Highcharts columnChart = new Highcharts("columnchart");
 
-            Highcharts chart = new Highcharts("Chart")
-                .SetXAxis(new XAxis
-                {
-                    Categories = allVehicles.Select(i => i.VINNumber).ToArray()
+            List<Summary> sm = new List<Summary>();
+            var allReppots = BusinessInterface.GetAllServiceRecords().ToList();
 
-                })
-                .SetSeries(new Series
-                {
-                    Data = new Data(allVehicles.Select(i=>i.VechicleYear).Distinct().ToArray())
-                });
-            ct.highCharts = chart;
+
+            foreach (var type in allReppots.GroupBy(i => i.ServiceTypeId))
+            {
+                var serviceType = type.First().ServiceType.ServiceName;
+                var serviceTypeCount = type.Count();
+
+                sm.Add(new Summary() { y = serviceTypeCount, name = serviceType });
+            }
+
+            columnChart.InitChart(new Chart()
+            {
+                Type = DotNet.Highcharts.Enums.ChartTypes.Pie,
+                PlotBackgroundColor = null,
+                PlotBorderWidth = 1,
+                PlotShadow = false
+            });
+
+            columnChart.SetTitle(new Title()
+            {
+                Text = "Service Reports"
+            });
+
+            columnChart.SetPlotOptions(new PlotOptions() {
+                Pie = new PlotOptionsPie() {
+                    AllowPointSelect = true,
+                    Cursor = Cursors.Pointer,
+                    DataLabels = new PlotOptionsPieDataLabels() {               
+                        Enabled = false,
+                        Formatter = @"function() { return ''+ this.name +': '+ this.y }"
+                    },
+                    ShowInLegend = true,
+                 
+                }
+            });
+            columnChart.SetSeries(new Series
+             {
+                 Type = ChartTypes.Pie,
+                 Name = "Service Report",
+                 Data = new Data(sm.ToArray())
+             });
+           
+            ct.highCharts = columnChart;
+
             return View(ct);
         }
 
-        [HttpGet]
-        public JsonResult GetChartData()
-        {
-
-            var a = BusinessInterface.GetAllVehicles().GroupBy(item => item.VechicleYear)
-        .Select(group => new { Customer = group.Key, Items = group.ToList() })
-        .ToList();
-
-        return Json(a, JsonRequestBehavior.AllowGet);
-        }
+       
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -64,4 +89,10 @@ namespace CarCare.Controllers
             return View();
         }
     }
+}
+
+public class Summary
+{
+    public double y { get; set; }
+    public string name { get; set; }
 }
