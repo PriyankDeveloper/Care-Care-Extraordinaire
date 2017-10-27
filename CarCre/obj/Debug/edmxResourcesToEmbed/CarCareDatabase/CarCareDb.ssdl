@@ -1,5 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CarCareModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Insurance">
+    <Key>
+      <PropertyRef Name="InsuranceId" />
+    </Key>
+    <Property Name="InsuranceId" Type="bigint" Nullable="false" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
+    <Property Name="OwnerId" Type="bigint" />
+    <Property Name="InsuranceStartDate" Type="datetime" />
+    <Property Name="InsuranceExpirationDate" Type="datetime" />
+    <Property Name="InsuranceProvider" Type="nvarchar" MaxLength="50" />
+    <Property Name="InsuranceCost" Type="decimal" Precision="36" Scale="2" />
+    <Property Name="InsuranceCoverage" Type="nchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="RepairRecord">
+    <Key>
+      <PropertyRef Name="RepairId" />
+    </Key>
+    <Property Name="RepairId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
+    <Property Name="RepairShortDesc" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="RepairDate" Type="datetime" Nullable="false" />
+    <Property Name="RepairStatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="RepairStationId" Type="bigint" />
+    <Property Name="RepairCompleteDate" Type="datetime" />
+    <Property Name="RepairCost" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="RepairDetails" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="ServiceRecord">
     <Key>
       <PropertyRef Name="ServiceId" />
@@ -23,6 +50,9 @@
     <Property Name="State" Type="nvarchar" MaxLength="2" />
     <Property Name="ZipCode" Type="int" />
     <Property Name="StreetAddress" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="12" />
+    <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+    <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
   </EntityType>
   <EntityType Name="ServiceType">
     <Key>
@@ -67,6 +97,19 @@
     <Property Name="CreateDate" Type="datetime" />
     <Property Name="LastModifiedDate" Type="datetime" />
   </EntityType>
+  <EntityType Name="Warranty">
+    <Key>
+      <PropertyRef Name="WarrantyId" />
+    </Key>
+    <Property Name="WarrantyId" Type="bigint" Nullable="false" />
+    <Property Name="VehicleId" Type="bigint" Nullable="false" />
+    <Property Name="OwnerId" Type="bigint" />
+    <Property Name="WarrantyStartDate" Type="datetime" />
+    <Property Name="WarrantyExpirationDate" Type="datetime" />
+    <Property Name="WarrantyProvider" Type="nvarchar" MaxLength="50" />
+    <Property Name="WarrantyCost" Type="decimal" Precision="36" Scale="2" />
+    <Property Name="WarrantyCoverage" Type="nchar" MaxLength="500" />
+  </EntityType>
   <Association Name="FK__ServiceRe__Servi__31EC6D26">
     <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="1" />
     <End Role="ServiceRecord" Type="Self.ServiceRecord" Multiplicity="*" />
@@ -103,13 +146,76 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Insurance_Vehicle">
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+    <End Role="Insurance" Type="Self.Insurance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicle">
+        <PropertyRef Name="VehicleId" />
+      </Principal>
+      <Dependent Role="Insurance">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairRecord_ServiceStation">
+    <End Role="ServiceStation" Type="Self.ServiceStation" Multiplicity="0..1" />
+    <End Role="RepairRecord" Type="Self.RepairRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceStation">
+        <PropertyRef Name="ServiceStationId" />
+      </Principal>
+      <Dependent Role="RepairRecord">
+        <PropertyRef Name="RepairStationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairRecord_Vehicle">
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+    <End Role="RepairRecord" Type="Self.RepairRecord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicle">
+        <PropertyRef Name="VehicleId" />
+      </Principal>
+      <Dependent Role="RepairRecord">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_vehicle_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="OwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warranty_Vehicle">
+    <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+    <End Role="Warranty" Type="Self.Warranty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicle">
+        <PropertyRef Name="VehicleId" />
+      </Principal>
+      <Dependent Role="Warranty">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="CarCareModelStoreContainer">
+    <EntitySet Name="Insurance" EntityType="Self.Insurance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RepairRecord" EntityType="Self.RepairRecord" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceRecord" EntityType="Self.ServiceRecord" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceStation" EntityType="Self.ServiceStation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Warranty" EntityType="Self.Warranty" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="Self.FK__ServiceRe__Servi__31EC6D26">
       <End Role="ServiceType" EntitySet="ServiceType" />
       <End Role="ServiceRecord" EntitySet="ServiceRecord" />
@@ -121,6 +227,26 @@
     <AssociationSet Name="FK__ServiceRe__Vehic__30F848ED" Association="Self.FK__ServiceRe__Vehic__30F848ED">
       <End Role="Vehicle" EntitySet="Vehicle" />
       <End Role="ServiceRecord" EntitySet="ServiceRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Insurance_Vehicle" Association="Self.FK_Insurance_Vehicle">
+      <End Role="Vehicle" EntitySet="Vehicle" />
+      <End Role="Insurance" EntitySet="Insurance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairRecord_ServiceStation" Association="Self.FK_RepairRecord_ServiceStation">
+      <End Role="ServiceStation" EntitySet="ServiceStation" />
+      <End Role="RepairRecord" EntitySet="RepairRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairRecord_Vehicle" Association="Self.FK_RepairRecord_Vehicle">
+      <End Role="Vehicle" EntitySet="Vehicle" />
+      <End Role="RepairRecord" EntitySet="RepairRecord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_vehicle_user" Association="Self.FK_vehicle_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Vehicle" EntitySet="Vehicle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warranty_Vehicle" Association="Self.FK_Warranty_Vehicle">
+      <End Role="Vehicle" EntitySet="Vehicle" />
+      <End Role="Warranty" EntitySet="Warranty" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -229,7 +229,178 @@ namespace CarCare.BusinessLogic
             }
         }
 
-#endregion
+        #endregion
+
+        #region RepairRecord
+
+        public List<Models.RepairRecordViewModel> GetAllRepairRecords()
+        {
+            // return carCareEntities.RepairRecords.ToList();
+
+            var repairs = carCareEntities.RepairRecords.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.RepairRecord, Models.RepairRecordViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.RepairRecord>();
+            var dest = mapper.Map<List<CarCareDatabase.RepairRecord>, List<Models.RepairRecordViewModel>>(repairs);
+
+            return dest;
+        }
+
+        public CarCareDatabase.RepairRecord SaveRepairRecord(CarCareDatabase.RepairRecord repairRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingRepairRecord = carCareEntities.RepairRecords.FirstOrDefault(i => i.RepairId == repairRecord.RepairId);
+
+            if (existingRepairRecord != null)
+            {
+                carCareEntities.Entry(existingRepairRecord).CurrentValues.SetValues(repairRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.RepairRecords.Attach(repairRecord);
+                carCareEntities.Entry(repairRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return repairRecord;
+        }
+
+        public void DeleteRepairRecord(long repairId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingRepairRecord = carCareEntities.RepairRecords.FirstOrDefault(i => i.RepairId == repairId);
+
+            if (existingRepairRecord != null)
+            {
+                carCareEntities.Entry(existingRepairRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+
+        }
+
+        #endregion
+
+        #region Insurance
+
+        public List<Models.InsuranceViewModel> GetAllInsuranceRecords()
+        {
+            // return carCareEntities.Insurances.ToList();
+
+            var insurances = carCareEntities.Insurances.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.Insurance, Models.InsuranceViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.Insurance>();
+            var dest = mapper.Map<List<CarCareDatabase.Insurance>, List<Models.InsuranceViewModel>>(insurances);
+
+            return dest;
+        }
+
+        public CarCareDatabase.Insurance SaveInsuranceRecord(CarCareDatabase.Insurance insuranceRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingInsuranceRecord = carCareEntities.Insurances.FirstOrDefault(i => i.InsuranceId == insuranceRecord.InsuranceId);
+
+            if (existingInsuranceRecord != null)
+            {
+                carCareEntities.Entry(existingInsuranceRecord).CurrentValues.SetValues(insuranceRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.Insurances.Attach(insuranceRecord);
+                carCareEntities.Entry(insuranceRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return insuranceRecord;
+        }
+
+        public void DeleteInsuranceRecord(long insuranceId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingInsuranceRecord = carCareEntities.Insurances.FirstOrDefault(i => i.InsuranceId == insuranceId);
+
+            if (existingInsuranceRecord != null)
+            {
+                carCareEntities.Entry(existingInsuranceRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+            
+        }
+
+        #endregion
+
+        #region Warranty
+
+        public List<Models.WarrantyViewModel> GetAllWarrantyRecords()
+        {
+            // return carCareEntities.Warranties.ToList();
+
+            var warranties = carCareEntities.Warranties.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.Warranty, Models.WarrantyViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.Warranty>();
+            var dest = mapper.Map<List<CarCareDatabase.Warranty>, List<Models.WarrantyViewModel>>(warranties);
+
+            return dest;
+        }
+
+        public CarCareDatabase.Warranty SaveWarrantyRecord(CarCareDatabase.Warranty warrantyRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingWarrantyRecord = carCareEntities.Warranties.FirstOrDefault(i => i.WarrantyId == warrantyRecord.WarrantyId);
+
+            if (existingWarrantyRecord != null)
+            {
+                carCareEntities.Entry(existingWarrantyRecord).CurrentValues.SetValues(warrantyRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.Warranties.Attach(warrantyRecord);
+                carCareEntities.Entry(warrantyRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return warrantyRecord;
+        }
+
+        public void DeleteWarrantyRecord(long warrantyId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingWarrantyRecord = carCareEntities.Warranties.FirstOrDefault(i => i.WarrantyId == warrantyId);
+
+            if (existingWarrantyRecord != null)
+            {
+                carCareEntities.Entry(existingWarrantyRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+
+        }
+
+        #endregion
 
     }
 }
