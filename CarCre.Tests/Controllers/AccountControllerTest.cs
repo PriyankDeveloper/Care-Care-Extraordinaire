@@ -25,7 +25,7 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.UserViewModel() { UserName = "Test", UserPassword = "TestUser" }) as RedirectToRouteResult;
+            RedirectToRouteResult result = controller.LogOn(new CarCare.Models.UserViewModel() { UserName = "Test", UserPassword = "TestUser" }) as RedirectToRouteResult;
 
             // Assert
             Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
@@ -38,7 +38,7 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.UserViewModel() { UserName = "Test12", UserPassword = "TestUser" }) as RedirectToRouteResult;
+            RedirectToRouteResult result = controller.LogOn(new CarCare.Models.UserViewModel() { UserName = "Test12", UserPassword = "TestUser" }) as RedirectToRouteResult;
 
             // Assert
             Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
@@ -51,7 +51,7 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.UserViewModel() { UserName = "Test", UserPassword = "TestUser12" }) as RedirectToRouteResult;
+            RedirectToRouteResult result = controller.LogOn(new CarCare.Models.UserViewModel() { UserName = "Test", UserPassword = "TestUser12" }) as RedirectToRouteResult;
 
             // Assert
             Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");
@@ -64,7 +64,7 @@ namespace CarCre.Tests.Controllers
             AccountController controller = new AccountController(businessInterface);
 
             // Act
-            RedirectToRouteResult result = controller.LogIn(new CarCare.Models.UserViewModel() { UserName = "Test12", UserPassword = "TestUser12" }) as RedirectToRouteResult;
+            RedirectToRouteResult result = controller.LogOn(new CarCare.Models.UserViewModel() { UserName = "Test12", UserPassword = "TestUser12" }) as RedirectToRouteResult;
 
             // Assert
             Assert.IsTrue(result.RouteValues["action"].ToString() == "Index");

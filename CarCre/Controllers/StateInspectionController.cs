@@ -22,7 +22,9 @@ namespace CarCare.Controllers
         // GET: StateInspection
         public ActionResult Index()
         {
-            var TuneUp = BusinessInterface.GetAllServiceRecords().Where(i => i.ServiceTypeId == 6).ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var TuneUp = serviceRecords.Where(i => i.ServiceTypeId == 6).ToList();
             var viewModel = MapViewModel(TuneUp);
 
             return View(viewModel);
@@ -31,7 +33,8 @@ namespace CarCare.Controllers
         //Add new Record
         public ActionResult AddNewRecord()
         {
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -63,11 +66,13 @@ namespace CarCare.Controllers
         //Edit StateInspection ServiceRecord
         public ActionResult EditStateInspection(long serviceId)
         {
-            var serviceRecord = BusinessInterface.GetAllServiceRecords().FirstOrDefault(i => i.ServiceId == serviceId);
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var serviceRecord = serviceRecords.FirstOrDefault(i => i.ServiceId == serviceId);
 
             var viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord });
 
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -127,7 +132,8 @@ namespace CarCare.Controllers
         private List<ServiceRecordViewModel> MapViewModel(List<CarCareDatabase.ServiceRecord> dbModel)
         {
             List<ServiceRecordViewModel> ListofViewModel = new List<ServiceRecordViewModel>();
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();

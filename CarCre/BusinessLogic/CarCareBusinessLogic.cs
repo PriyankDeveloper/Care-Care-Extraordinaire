@@ -7,6 +7,7 @@ using CarCare.Models;
 using System.Data.Entity;
 using CarCare.Unity;
 using AutoMapper;
+using System.Web.Security;
 
 namespace CarCare.BusinessLogic
 {
@@ -72,9 +73,9 @@ namespace CarCare.BusinessLogic
             }
         }
 
-        public List<Models.VehicleViewModel> GetAllVehicles()
+        public List<Models.VehicleViewModel> GetAllVehicles(long userId)
         {
-            var vehicles = carCareEntities.Vehicles.ToList();
+            var vehicles = carCareEntities.Vehicles.Where(v => v.OwnerId == userId).ToList();
 
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<CarCareDatabase.Vehicle, Models.VehicleViewModel>();
@@ -144,9 +145,26 @@ namespace CarCare.BusinessLogic
 
         #region ServiceRecord
 
-        public List<CarCareDatabase.ServiceRecord> GetAllServiceRecords()
+        public List<CarCareDatabase.ServiceRecord> GetAllServiceRecords(long userId)
         {
-            return carCareEntities.ServiceRecords.ToList();
+            List<ServiceRecord> listRecords = carCareEntities.ServiceRecords.ToList();
+            List<VehicleViewModel> carList = GetAllVehicles(userId);
+            
+            carList = carList.Where(i => i.OwnerId == userId).ToList();
+            List<long> carIdList = new List<long>();
+            carList.ForEach(car => carIdList.Add(car.VehicleId));
+            listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
+            return listRecords;
+        }
+
+        public long getUserIdFromCookie(HttpCookieCollection cookies)
+        {
+            string cookieName = FormsAuthentication.FormsCookieName; //Find cookie name
+            HttpCookie authCookie = cookies[cookieName]; //Get the cookie by it's name
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value); //Decrypt it
+            string userIdStr = ticket.Name;
+            long userId = (long)Convert.ToDouble(userIdStr);
+            return userId;
         }
 
         public CarCareDatabase.ServiceRecord SaveServiceRecord(CarCareDatabase.ServiceRecord serviceRecord)

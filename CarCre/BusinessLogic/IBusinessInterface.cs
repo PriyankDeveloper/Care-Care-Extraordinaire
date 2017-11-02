@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CarCare.Models;
+using System.Web;
 
 namespace CarCare.BusinessLogic
 {
@@ -16,13 +17,15 @@ namespace CarCare.BusinessLogic
         IQueryable<CarCareDatabase.User> GetAllUsers();
 
         bool isValidUser(Models.UserViewModel model);
+        long getUserIdFromCookie(HttpCookieCollection cookies);
+
         #endregion
 
         #region Vehicle
 
         CarCareDatabase.Vehicle SaveVehicle(CarCare.CarCareDatabase.Vehicle vehicle);
 
-        List<Models.VehicleViewModel> GetAllVehicles();
+        List<Models.VehicleViewModel> GetAllVehicles(long userId);
 
         void DeleteVehicle(int vehicleId);
 
@@ -31,7 +34,7 @@ namespace CarCare.BusinessLogic
         #region ServiceRecord
         CarCareDatabase.ServiceRecord SaveServiceRecord(CarCare.CarCareDatabase.ServiceRecord serviceRecord);
 
-        List<CarCareDatabase.ServiceRecord> GetAllServiceRecords();
+        List<CarCareDatabase.ServiceRecord> GetAllServiceRecords(long userId);
 
         void DeleteServiceRecord(long serviceRecordId);
 

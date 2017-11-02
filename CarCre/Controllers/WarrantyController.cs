@@ -30,7 +30,8 @@ namespace CarCare.Controllers
         //Add new Warranty Record
         public ActionResult AddNewRecord()
         {
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -65,7 +66,8 @@ namespace CarCare.Controllers
         public ActionResult EditWarranty(long insuranceId)
         {
             WarrantyViewModel insuranceRecord = BusinessInterface.GetAllWarrantyRecords().FirstOrDefault(i => i.WarrantyId == insuranceId);
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
