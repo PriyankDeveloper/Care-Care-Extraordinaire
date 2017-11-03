@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using CarCare.CarCareDatabase;
 using System.Configuration;
+using System.Web.Security;
 
 namespace CarCare.Controllers
 {
@@ -28,21 +29,27 @@ namespace CarCare.Controllers
 
         public ActionResult LogIn(Models.UserViewModel model)
         {
-            var isExistingUser = BusinessInterface.GetAllUsers().Any(i=>i.UserName == model.UserName
+            IQueryable<User> allUsers = BusinessInterface.GetAllUsers();
+            var existingUsers = allUsers.Where(i=>i.UserName == model.UserName
                                  && i.UserPassword == model.UserPassword);
-
+            Boolean isExistingUser = existingUsers.Count() > 0;
             if(isExistingUser)
             {
+                long userId = existingUsers.ToList().ElementAt(0).UserId;
+                FormsAuthentication.SetAuthCookie(userId.ToString(), true);
                 return RedirectToAction("Index", "Home");
             }
             else
             {
+                FormsAuthentication.SignOut();
                 return RedirectToAction("Index");
             }
+            
         }
 
         public ActionResult LogOut()
         {
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
 

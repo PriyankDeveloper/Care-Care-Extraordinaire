@@ -21,14 +21,16 @@ namespace CarCare.Controllers
         // GET: Vehicle
         public ActionResult Index()
         {
-            var vehicleList = BusinessInterface.GetAllVehicles();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var vehicleList = BusinessInterface.GetAllVehicles(userId);
             return View(vehicleList);
         }
 
         //Edit vehicle
         public ActionResult EditVehicle(int vehicleId)
         {
-            VehicleViewModel vehicle = BusinessInterface.GetAllVehicles().FirstOrDefault(i=>i.VehicleId == vehicleId);
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            VehicleViewModel vehicle = BusinessInterface.GetAllVehicles(userId).FirstOrDefault(i=>i.VehicleId == vehicleId);
 
             return PartialView("EditVehicle", vehicle);
         }
@@ -53,8 +55,9 @@ namespace CarCare.Controllers
 
             dest.CreateDate = DateTime.Now;
             dest.LastModifiedDate = DateTime.Now;
-            dest.OwnerId = 1;
-           var modelData = BusinessInterface.SaveVehicle(dest);
+            long ownerId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            dest.OwnerId = ownerId;
+            var modelData = BusinessInterface.SaveVehicle(dest);
             return Redirect("Index");
         }
 

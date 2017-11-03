@@ -30,7 +30,8 @@ namespace CarCare.Controllers
         //Add new Repair Record
         public ActionResult AddNewRecord()
         {
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -63,7 +64,8 @@ namespace CarCare.Controllers
         public ActionResult EditRepair(long repairId)
         {
             RepairRecordViewModel repairRecord = BusinessInterface.GetAllRepairRecords().FirstOrDefault(i => i.RepairId == repairId);
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();

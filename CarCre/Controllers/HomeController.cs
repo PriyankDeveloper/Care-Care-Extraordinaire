@@ -36,7 +36,9 @@ namespace CarCare.Controllers
             Highcharts barChart = new Highcharts("barChart");
 
             List<Summary> sm = new List<Summary>();
-            var allReppots = BusinessInterface.GetAllServiceRecords().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var allReppots = serviceRecords.ToList();
 
             List<Point> count = new List<Point>();
             DateTime dt = DateTime.Now;
@@ -142,7 +144,9 @@ namespace CarCare.Controllers
             Highcharts pieChart = new Highcharts("pieChart");
 
             List<Summary> sm = new List<Summary>();
-            var allReppots = BusinessInterface.GetAllServiceRecords().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var allReppots = serviceRecords.ToList();
 
 
             foreach (var type in allReppots.GroupBy(i => i.ServiceTypeId))

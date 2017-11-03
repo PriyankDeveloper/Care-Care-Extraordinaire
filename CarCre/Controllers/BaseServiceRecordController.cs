@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CarCare.Controllers
 {
@@ -23,14 +24,15 @@ namespace CarCare.Controllers
 
         public ActionResult BaseIndex()
         {
-            var serviceRecords = BusinessInterface.GetAllServiceRecords();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
             if (serviceTypeId != -1) {
                 serviceRecords = serviceRecords.Where(i => i.ServiceTypeId == serviceTypeId).ToList();
             } else { 
                 serviceRecords = serviceRecords.ToList();
             }
             var viewModel = MapViewModel(serviceRecords);
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -63,7 +65,8 @@ namespace CarCare.Controllers
         //Add new Record
         public ActionResult AddNewRecord(ServiceRecordViewModel serviceRecordViewModel)
         {
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -95,7 +98,9 @@ namespace CarCare.Controllers
         //Edit OilChange ServiceRecord
         public ActionResult EditRecord(long serviceId)
         {
-            var serviceRecord = BusinessInterface.GetAllServiceRecords().FirstOrDefault(i => i.ServiceId == serviceId);
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var serviceRecord = serviceRecords.FirstOrDefault(i => i.ServiceId == serviceId);
 
             var viewModel = new ServiceRecordViewModel();
             if (serviceRecord != null)
@@ -103,7 +108,7 @@ namespace CarCare.Controllers
                 viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord }).FirstOrDefault();
             }
 
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -163,28 +168,34 @@ namespace CarCare.Controllers
 
             foreach (var item in dbModel)
             {
-                ListofViewModel.Add(new ServiceRecordViewModel()
+                ServiceRecordViewModel vm = new ServiceRecordViewModel();
+                vm.CompletedDate = item.CompletedDate;
+                vm.LastModifiedDate = item.LastModifiedDate;
+                vm.OwnerId = item.Vehicle.OwnerId;
+                vm.ServiceCost = item.ServiceCost;
+                vm.ServiceDate = item.ServiceDate;
+                vm.ServiceId = item.ServiceId;
+                vm.ServiceStationId = item.ServiceStationId;
+                vm.ServiceTypeId = item.ServiceTypeId;
+                if (item.Vehicle != null)
                 {
-                    CompletedDate = item.CompletedDate,
-                    LastModifiedDate = item.LastModifiedDate,
-                    OwnerId = item.Vehicle.OwnerId,
-                    ServiceCost = item.ServiceCost,
-                    ServiceDate = item.ServiceDate,
-                    ServiceId = item.ServiceId,
-                    ServiceStationId = item.ServiceStationId,
-                    ServiceTypeId = item.ServiceTypeId,
-                    VechicleDealer = item.Vehicle.VechicleDealer,
-                    VechicleYear = item.Vehicle.VechicleYear,
-                    VehicleId = item.VehicleId,
-                    VehicleMark = item.Vehicle.VehicleMark,
-                    VehicleModel = item.Vehicle.VehicleModel,
-                    VINNumber = item.Vehicle.VINNumber,
-                    StationCity = item.ServiceStation.City,
-                    StationOwnedBy = item.ServiceStation.OwnedBy,
-                    StationState = item.ServiceStation.State,
-                    StationStreetAddress = item.ServiceStation.StreetAddress,
-                    StationZipCode = item.ServiceStation.ZipCode
-                });
+                    vm.VechicleDealer = item.Vehicle.VechicleDealer;
+                    vm.VechicleYear = item.Vehicle.VechicleYear;
+                    vm.VehicleMark = item.Vehicle.VehicleMark;
+                    vm.VehicleModel = item.Vehicle.VehicleModel;
+                    vm.VINNumber = item.Vehicle.VINNumber;
+                }
+                if (item.ServiceStation != null)
+                {
+                    vm.VehicleId = item.VehicleId;
+                    vm.StationCity = item.ServiceStation.City;
+                    vm.StationOwnedBy = item.ServiceStation.OwnedBy;
+                    vm.StationState = item.ServiceStation.State;
+                    vm.StationStreetAddress = item.ServiceStation.StreetAddress;
+                    vm.StationZipCode = item.ServiceStation.ZipCode;
+                }
+
+                ListofViewModel.Add(vm);
             }
 
             return ListofViewModel;
