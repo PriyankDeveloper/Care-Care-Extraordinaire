@@ -98,10 +98,9 @@ namespace CarCre.Tests.Controllers
             useTest.DeleteVehicle(Convert.ToInt32(newVehicle.VehicleId));
 
             // Assert
-            var checkForVehicle = useTest.GetAllVehicles().FirstOrDefault(i => i.VehicleId == newVehicle.VehicleId);
+            var checkForVehicle = useTest.GetAllVehicles(newVehicle.VehicleId);
             Assert.IsTrue(checkForVehicle == null);
 
         }
-
     }
 }

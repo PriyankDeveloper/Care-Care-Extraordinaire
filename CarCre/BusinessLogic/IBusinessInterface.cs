@@ -14,6 +14,8 @@ namespace CarCare.BusinessLogic
         #region Users
         CarCareDatabase.User SaveUser(CarCare.CarCareDatabase.User user);
 
+        void DeleteUser(long userId);
+
         IQueryable<CarCareDatabase.User> GetAllUsers();
 
         bool isValidUser(Models.UserViewModel model);

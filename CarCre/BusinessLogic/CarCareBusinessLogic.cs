@@ -27,6 +27,19 @@ namespace CarCare.BusinessLogic
             return carCareEntities.Users.AsQueryable();
         }
 
+        public void DeleteUser(long userId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingUser = carCareEntities.Users.FirstOrDefault(i => i.UserId == userId);
+
+            if (existingUser != null)
+            {
+                carCareEntities.Entry(existingUser).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+        }
+
         public bool isValidUser(Models.UserViewModel model)
         {
             bool isExistingUser = carCareEntities.Users.Any(i=>i.UserName == model.UserName && i.UserPassword == model.UserPassword);
@@ -53,7 +66,7 @@ namespace CarCare.BusinessLogic
                 carCareEntities.SaveChanges();
             }
 
-            return existingUser;
+            return user;
         }
 
         #endregion

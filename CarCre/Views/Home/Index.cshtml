@@ -34,3 +34,14 @@
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>     
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.UserName' != "")
+        {
+            var name = 'Welcome' + ' ' + '@ViewBag.UserName';
+            $("#UserName").text(name);
+        }
+
+    });
+</script>

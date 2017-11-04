@@ -27,6 +27,11 @@ namespace CarCare.Controllers
             ct.highChartsPie = SetPieChart();
             ct.highCharts3D = Set3DChart();
 
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var existingUser = BusinessInterface.GetAllUsers().FirstOrDefault(i=>i.UserId == userId);
+
+            ViewBag.UserName = existingUser.UserName;
+
             return View(ct);
         }
 

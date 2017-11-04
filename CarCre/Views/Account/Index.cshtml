@@ -55,21 +55,21 @@
                                     <div class="form-group">
                                         @Html.TextBoxFor(m => m.UserName, new { @style = "tabindex : 1", @class = "form-control", placeholder = "UserName" })
                                     </div>
-                                    <div class="form-group">
-                                        @Html.TextBoxFor(m => m.UserPassword, new { @style = "tabindex : 2", @class = "form-control", placeholder = "Password" })
+                                    <div class="form-group">                            
+                                        @Html.PasswordFor(m => m.UserPassword, new { @style = "tabindex : 2", @class = "form-control", placeholder = "Password" })
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <input type="submit" name="login-submit" id="login-submit" tabindex="3" class="btn btn-primary" value="Log In">
                                             </div>
-                                            <div class="col-sm-4">
+                                            @*<div class="col-sm-4">
                                                 <input type="checkbox" tabindex="4" class="" name="remember" id="remember">
                                                 <label for="remember"> Remember Me</label>
-                                            </div>
+                                            </div>*@
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="text-center">
@@ -77,17 +77,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </form>
                                 <form id="register-form" action="@Url.Action("SaveNewUser", "Account")" method="post" role="form" style="display: none;">
                                     <div class="form-group">
-                                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                        @Html.TextBoxFor(m => m.UserName, new { @style = "tabindex : 1", @class = "form-control", placeholder = "UserName" })
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                        @Html.TextBoxFor(m => m.Email, new { @style = "tabindex : 1", @class = "form-control", placeholder = "Email" })
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                        @Html.TextBoxFor(m => m.UserPassword, new { @style = "tabindex : 1", @class = "form-control", placeholder = "UserPassword" })
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
