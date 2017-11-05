@@ -22,9 +22,12 @@ namespace CarCare.Controllers
         // GET: Warranty
         public ActionResult Index()
         {
-            var insuranceList = BusinessInterface.GetAllWarrantyRecords();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var warrantyRecords = BusinessInterface.GetAllWarrantyRecords(userId);
+            var warranty = warrantyRecords.ToList();
+            var viewModel = MapViewModel(warranty);
 
-            return View(insuranceList);
+            return View(viewModel);
         }
 
         //Add new Warranty Record
@@ -32,10 +35,8 @@ namespace CarCare.Controllers
         {
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -46,32 +47,22 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-            ViewBag.ServiceStations = sList;
-            */
-
+            
             return PartialView("AddWarranty", new WarrantyViewModel());
         }
 
         //Edit Warranty Record
-        public ActionResult EditWarranty(long insuranceId)
+        public ActionResult EditWarranty(long warrantyId)
         {
-            WarrantyViewModel insuranceRecord = BusinessInterface.GetAllWarrantyRecords().FirstOrDefault(i => i.WarrantyId == insuranceId);
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var warrantyRecords = BusinessInterface.GetAllWarrantyRecords(userId);
+            var warrantyRecord = warrantyRecords.FirstOrDefault(i => i.WarrantyId == warrantyId);
+
+            var viewModel = MapViewModel(new List<CarCareDatabase.Warranty> { warrantyRecord });
+
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -82,20 +73,8 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-            ViewBag.ServiceStations = sList;
-            */
-
-            return PartialView("EditWarranty", insuranceRecord);
+            
+            return PartialView("EditWarranty", viewModel.FirstOrDefault());
 
         }
 
@@ -111,15 +90,17 @@ namespace CarCare.Controllers
             var source = new WarrantyViewModel();
             var dest = mapper.Map<WarrantyViewModel, CarCareDatabase.Warranty>(model);
 
-            dest.WarrantyStartDate = DateTime.Now;
+            if ( dest.WarrantyStartDate == null )
+                dest.WarrantyStartDate = DateTime.Now;
             var modelData = BusinessInterface.SaveWarrantyRecord(dest);
+            BusinessInterface.SaveWarrantyRecord(dest);
             return Redirect("Index");
         }
 
         //Delete Warranty Record
-        public ActionResult DeleteWarranty(long insuranceId)
+        public ActionResult DeleteWarranty(long warrantyId)
         {
-            BusinessInterface.DeleteWarrantyRecord(insuranceId);
+            BusinessInterface.DeleteWarrantyRecord(warrantyId);
             return Redirect("Index");
         }
 
@@ -128,31 +109,37 @@ namespace CarCare.Controllers
         {
             List<WarrantyViewModel> ListofViewModel = new List<WarrantyViewModel>();
 
-            foreach (var item in dbModel)
-            {
-                ListofViewModel.Add(new WarrantyViewModel()
-                {
-                    WarrantyId = item.WarrantyId,
-                    WarrantyStartDate = item.WarrantyStartDate,
-                    WarrantyExpirationDate = item.WarrantyExpirationDate,
-                    WarrantyCost = item.WarrantyCost,
-                    WarrantyCoverage = item.WarrantyCoverage,
-                    //OwnerId = item.Vehicle.OwnerId,
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
 
-                    //VechicleDealer = item.Vehicle.VechicleDealer,
-                    //VechicleYear = item.Vehicle.VechicleYear,
-                    //VehicleId = item.VehicleId,
-                    //VehicleMark = item.Vehicle.VehicleMark,
-                    //VehicleModel = item.Vehicle.VehicleModel,
-                    //VINNumber = item.Vehicle.VINNumber,
-                    //StationCity = item.ServiceStation.City,
-                    //StationOwnedBy = item.ServiceStation.OwnedBy,
-                    //StationState = item.ServiceStation.State,
-                    //StationStreetAddress = item.ServiceStation.StreetAddress,
-                    //StationZipCode = item.ServiceStation.ZipCode
+            List<SelectListItem> vList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
+            {
+                vList.Add(new SelectListItem
+                {
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
                 });
             }
 
+
+            foreach (var item in dbModel)
+            {
+                WarrantyViewModel vm = new WarrantyViewModel();
+
+                vm.WarrantyId = item.WarrantyId;
+                vm.WarrantyStartDate = item.WarrantyStartDate;
+                vm.WarrantyExpirationDate = item.WarrantyExpirationDate;
+                vm.WarrantyCost = item.WarrantyCost;
+                vm.WarrantyCoverage = item.WarrantyCoverage;
+                vm.VehicleId = item.VehicleId;
+                vm.Vehicles = vList;
+                vm.OwnerId = item.Vehicle.OwnerId;
+                vm.WarrantyProvider = item.WarrantyProvider;
+                
+                ListofViewModel.Add(vm);
+            }
             return ListofViewModel;
         }
     }

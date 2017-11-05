@@ -46,9 +46,10 @@ namespace CarCare.BusinessLogic
 
         CarCareDatabase.ServiceStation SaveServiceStation(CarCare.CarCareDatabase.ServiceStation serviceStation);
 
-        List<CarCareDatabase.ServiceStation> GetAllServiceStations();
+        List<Models.ServiceStationViewModel> GetAllServiceStations();
 
         void DeleteServiceStation(int serviceStationId);
+
 
         #endregion
 
@@ -61,7 +62,7 @@ namespace CarCare.BusinessLogic
         #region RepairRecord
         CarCareDatabase.RepairRecord SaveRepairRecord(CarCare.CarCareDatabase.RepairRecord repairRecord);
 
-        List<Models.RepairRecordViewModel> GetAllRepairRecords();
+        List<CarCareDatabase.RepairRecord> GetAllRepairRecords(long userId);
 
         void DeleteRepairRecord(long repairRecordId);
 
@@ -70,7 +71,7 @@ namespace CarCare.BusinessLogic
         #region Insurance
         CarCareDatabase.Insurance SaveInsuranceRecord(CarCare.CarCareDatabase.Insurance insuranceRecord);
 
-        List<Models.InsuranceViewModel> GetAllInsuranceRecords();
+        List<CarCareDatabase.Insurance> GetAllInsuranceRecords(long userId);
 
         void DeleteInsuranceRecord(long insuranceRecordId);
 
@@ -79,9 +80,18 @@ namespace CarCare.BusinessLogic
         #region WarrantyRecord
         CarCareDatabase.Warranty SaveWarrantyRecord(CarCare.CarCareDatabase.Warranty warrantyRecord);
 
-        List<Models.WarrantyViewModel> GetAllWarrantyRecords();
+        List<CarCareDatabase.Warranty> GetAllWarrantyRecords(long userId);
 
         void DeleteWarrantyRecord(long warrantyRecordId);
+
+        #endregion
+
+        #region LeaseRecord
+        CarCareDatabase.LeaseRecord SaveLeaseRecord(CarCare.CarCareDatabase.LeaseRecord leaseRecord);
+
+        List<CarCareDatabase.LeaseRecord> GetAllLeaseRecords(long userId);
+
+        void DeleteLeaseRecord(long leaseRecordId);
 
         #endregion
 

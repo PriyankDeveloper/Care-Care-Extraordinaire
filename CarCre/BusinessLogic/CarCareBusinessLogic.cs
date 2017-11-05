@@ -219,12 +219,23 @@ namespace CarCare.BusinessLogic
 
         #region ServiceStations
 
-        public List<CarCareDatabase.ServiceStation> GetAllServiceStations()
+        public List<Models.ServiceStationViewModel> GetAllServiceStations()
         {
-            return carCareEntities.ServiceStations.ToList();
+            //return carCareEntities.ServiceStations.ToList();
+            var ServiceStation = carCareEntities.ServiceStations.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.ServiceStation, Models.ServiceStationViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.ServiceStation>();
+            var dest = mapper.Map<List<CarCareDatabase.ServiceStation>, List<Models.ServiceStationViewModel>>(ServiceStation);
+
+            return dest;
         }
 
-       
+
         public CarCareDatabase.ServiceStation SaveServiceStation(CarCareDatabase.ServiceStation serviceStation)
         {
 
@@ -260,14 +271,23 @@ namespace CarCare.BusinessLogic
             }
         }
 
+
+
         #endregion
 
         #region RepairRecord
 
-        public List<Models.RepairRecordViewModel> GetAllRepairRecords()
+        public List<CarCareDatabase.RepairRecord> GetAllRepairRecords(long userId)
         {
-            // return carCareEntities.RepairRecords.ToList();
+            List<RepairRecord> listRecords = carCareEntities.RepairRecords.ToList();
+            List<VehicleViewModel> carList = GetAllVehicles(userId);
 
+            carList = carList.Where(i => i.OwnerId == userId).ToList();
+            List<long> carIdList = new List<long>();
+            carList.ForEach(car => carIdList.Add(car.VehicleId));
+            listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
+            return listRecords;
+            /*
             var repairs = carCareEntities.RepairRecords.ToList();
 
             var config = new MapperConfiguration(cfg => {
@@ -278,7 +298,7 @@ namespace CarCare.BusinessLogic
             var source = new List<CarCareDatabase.RepairRecord>();
             var dest = mapper.Map<List<CarCareDatabase.RepairRecord>, List<Models.RepairRecordViewModel>>(repairs);
 
-            return dest;
+            return dest;*/
         }
 
         public CarCareDatabase.RepairRecord SaveRepairRecord(CarCareDatabase.RepairRecord repairRecord)
@@ -320,11 +340,18 @@ namespace CarCare.BusinessLogic
         #endregion
 
         #region Insurance
-
-        public List<Models.InsuranceViewModel> GetAllInsuranceRecords()
+        
+        public List<CarCareDatabase.Insurance> GetAllInsuranceRecords(long userId)
         {
-            // return carCareEntities.Insurances.ToList();
+            List<Insurance> listRecords = carCareEntities.Insurances.ToList();
+            List<VehicleViewModel> carList = GetAllVehicles(userId);
 
+            carList = carList.Where(i => i.OwnerId == userId).ToList();
+            List<long> carIdList = new List<long>();
+            carList.ForEach(car => carIdList.Add(car.VehicleId));
+            listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
+            return listRecords;
+            /*
             var insurances = carCareEntities.Insurances.ToList();
 
             var config = new MapperConfiguration(cfg => {
@@ -335,7 +362,7 @@ namespace CarCare.BusinessLogic
             var source = new List<CarCareDatabase.Insurance>();
             var dest = mapper.Map<List<CarCareDatabase.Insurance>, List<Models.InsuranceViewModel>>(insurances);
 
-            return dest;
+            return dest;*/
         }
 
         public CarCareDatabase.Insurance SaveInsuranceRecord(CarCareDatabase.Insurance insuranceRecord)
@@ -378,11 +405,17 @@ namespace CarCare.BusinessLogic
 
         #region Warranty
 
-        public List<Models.WarrantyViewModel> GetAllWarrantyRecords()
+        public List<CarCareDatabase.Warranty> GetAllWarrantyRecords(long userId)
         {
-            // return carCareEntities.Warranties.ToList();
+            List<Warranty> listRecords = carCareEntities.Warranties.ToList();
+            List<VehicleViewModel> carList = GetAllVehicles(userId);
 
-            var warranties = carCareEntities.Warranties.ToList();
+            carList = carList.Where(i => i.OwnerId == userId).ToList();
+            List<long> carIdList = new List<long>();
+            carList.ForEach(car => carIdList.Add(car.VehicleId));
+            listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
+            return listRecords;
+            /*var warranties = carCareEntities.Warranties.ToList();
 
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<CarCareDatabase.Warranty, Models.WarrantyViewModel>();
@@ -392,10 +425,11 @@ namespace CarCare.BusinessLogic
             var source = new List<CarCareDatabase.Warranty>();
             var dest = mapper.Map<List<CarCareDatabase.Warranty>, List<Models.WarrantyViewModel>>(warranties);
 
-            return dest;
+            return dest;*/
         }
 
         public CarCareDatabase.Warranty SaveWarrantyRecord(CarCareDatabase.Warranty warrantyRecord)
+        //public void SaveWarrantyRecord(CarCareDatabase.Warranty warrantyRecord)
         {
 
             Bootstrapper.Initialise();
@@ -414,6 +448,7 @@ namespace CarCare.BusinessLogic
                 carCareEntities.SaveChanges();
             }
 
+            //warrantyRecord = null;
             return warrantyRecord;
         }
 
@@ -426,6 +461,59 @@ namespace CarCare.BusinessLogic
             if (existingWarrantyRecord != null)
             {
                 carCareEntities.Entry(existingWarrantyRecord).State = EntityState.Deleted;
+                carCareEntities.SaveChanges();
+            }
+
+        }
+
+        #endregion
+
+        #region LeaseRecord
+        
+        public List<CarCareDatabase.LeaseRecord> GetAllLeaseRecords(long userId)
+        {
+            List<LeaseRecord> listRecords = carCareEntities.LeaseRecords.ToList();
+            List<VehicleViewModel> carList = GetAllVehicles(userId);
+
+            carList = carList.Where(i => i.OwnerId == userId).ToList();
+            List<long> carIdList = new List<long>();
+            carList.ForEach(car => carIdList.Add(car.VehicleId));
+            listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
+            return listRecords;
+            
+        }
+
+        public CarCareDatabase.LeaseRecord SaveLeaseRecord(CarCareDatabase.LeaseRecord leaseRecord)
+        {
+
+            Bootstrapper.Initialise();
+
+            var existingLeaseRecord = carCareEntities.LeaseRecords.FirstOrDefault(i => i.LeaseId == leaseRecord.LeaseId);
+
+            if (existingLeaseRecord != null)
+            {
+                carCareEntities.Entry(existingLeaseRecord).CurrentValues.SetValues(leaseRecord);
+                carCareEntities.SaveChanges();
+            }
+            else
+            {
+                carCareEntities.LeaseRecords.Attach(leaseRecord);
+                carCareEntities.Entry(leaseRecord).State = EntityState.Added;
+                carCareEntities.SaveChanges();
+            }
+
+            return leaseRecord;
+        }
+
+        public void DeleteLeaseRecord(long leaseId)
+        {
+            Bootstrapper.Initialise();
+
+            var existingLeaseRecord = carCareEntities.LeaseRecords.FirstOrDefault(i => i.LeaseId == leaseId);
+
+            if (existingLeaseRecord != null)
+            {
+                carCareEntities.Entry(existingLeaseRecord).State = EntityState.Deleted;
                 carCareEntities.SaveChanges();
             }
 

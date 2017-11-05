@@ -22,6 +22,7 @@ namespace CarCare.CarCareDatabase
         public Nullable<System.DateTime> CompletedDate { get; set; }
         public Nullable<System.DateTime> LastModifiedDate { get; set; }
         public Nullable<decimal> ServiceCost { get; set; }
+        public string ServiceNote { get; set; }
     
         public virtual ServiceType ServiceType { get; set; }
         public virtual ServiceStation ServiceStation { get; set; }

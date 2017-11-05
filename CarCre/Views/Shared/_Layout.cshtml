@@ -63,7 +63,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>                  
+                    <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>  
+                    <li>@Html.ActionLink("Service Stations", "Index", "ServiceStations")</li> 
                     <li>@Html.ActionLink("Vehicles", "Index", "Vehicle")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Maintainenance<span class="caret"></span></a>
@@ -89,13 +90,14 @@
                             <li>@Html.ActionLink("Warranty", "Index", "Warranty")</li>
                         </ul>
                     </li>
-                    @*<li class="dropdown">
+                    <li>@Html.ActionLink("Lease", "Index", "Lease")</li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
-                    </li>*@
+                    </li>
                     <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>                    
                 </ul>     
                 <div style="float:right">

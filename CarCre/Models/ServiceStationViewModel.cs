@@ -13,5 +13,8 @@ namespace CarCare.Models
         public string State { get; set; }
         public Nullable<int> ZipCode { get; set; }
         public string StreetAddress { get; set; }
+        public string Phone { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Latitude { get; set; }
     }
 }

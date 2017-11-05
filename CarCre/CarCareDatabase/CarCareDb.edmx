@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="InsuranceId" />
           </Key>
-          <Property Name="InsuranceId" Type="bigint" Nullable="false" />
+          <Property Name="InsuranceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VehicleId" Type="bigint" Nullable="false" />
           <Property Name="OwnerId" Type="bigint" />
           <Property Name="InsuranceStartDate" Type="datetime" />
@@ -17,6 +17,22 @@
           <Property Name="InsuranceProvider" Type="nvarchar" MaxLength="50" />
           <Property Name="InsuranceCost" Type="decimal" Precision="36" Scale="2" />
           <Property Name="InsuranceCoverage" Type="nchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="LeaseRecord">
+          <Key>
+            <PropertyRef Name="LeaseId" />
+          </Key>
+          <Property Name="LeaseId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" Nullable="false" />
+          <Property Name="LeaseStartDate" Type="datetime" Nullable="false" />
+          <Property Name="LeaseTerm" Type="int" Nullable="false" />
+          <Property Name="MonthlyPayment" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Company" Type="nchar" MaxLength="500" Nullable="false" />
+          <Property Name="MoneyFactor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MilesDrivenPerYear" Type="int" />
+          <Property Name="AcquistionFee" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SecurityDeposit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseNotes" Type="nchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="RepairRecord">
           <Key>
@@ -44,6 +60,7 @@
           <Property Name="CompletedDate" Type="datetime" />
           <Property Name="LastModifiedDate" Type="datetime" />
           <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ServiceNote" Type="nchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="ServiceStation">
           <Key>
@@ -66,18 +83,6 @@
           <Property Name="ServiceTypeId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceDescription" Type="varchar" MaxLength="1000" />
           <Property Name="ServiceName" Type="varchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="TuneUp">
-          <Key>
-            <PropertyRef Name="TuneUpId" />
-          </Key>
-          <Property Name="TuneUpId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VehicleId" Type="bigint" Nullable="false" />
-          <Property Name="OwnerId" Type="bigint" Nullable="false" />
-          <Property Name="ServiceProvider" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="TuneupDate" Type="date" Nullable="false" />
-          <Property Name="NextTuneup" Type="date" Nullable="false" />
-          <Property Name="Cost" Type="decimal" Precision="38" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -106,7 +111,7 @@
           <Key>
             <PropertyRef Name="WarrantyId" />
           </Key>
-          <Property Name="WarrantyId" Type="bigint" Nullable="false" />
+          <Property Name="WarrantyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VehicleId" Type="bigint" Nullable="false" />
           <Property Name="OwnerId" Type="bigint" />
           <Property Name="WarrantyStartDate" Type="datetime" />
@@ -163,6 +168,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaseRecord_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="LeaseRecord" Type="Self.LeaseRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="LeaseRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RepairRecord_ServiceStation">
           <End Role="ServiceStation" Type="Self.ServiceStation" Multiplicity="0..1" />
           <End Role="RepairRecord" Type="Self.RepairRecord" Multiplicity="*" />
@@ -213,11 +230,11 @@
         </Association>
         <EntityContainer Name="CarCareModelStoreContainer">
           <EntitySet Name="Insurance" EntityType="Self.Insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaseRecord" EntityType="Self.LeaseRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepairRecord" EntityType="Self.RepairRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceRecord" EntityType="Self.ServiceRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceStation" EntityType="Self.ServiceStation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TuneUp" EntityType="Self.TuneUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Warranty" EntityType="Self.Warranty" Schema="dbo" store:Type="Tables" />
@@ -236,6 +253,10 @@
           <AssociationSet Name="FK_Insurance_Vehicle" Association="Self.FK_Insurance_Vehicle">
             <End Role="Vehicle" EntitySet="Vehicle" />
             <End Role="Insurance" EntitySet="Insurance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseRecord_Vehicle" Association="Self.FK_LeaseRecord_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="LeaseRecord" EntitySet="LeaseRecord" />
           </AssociationSet>
           <AssociationSet Name="FK_RepairRecord_ServiceStation" Association="Self.FK_RepairRecord_ServiceStation">
             <End Role="ServiceStation" EntitySet="ServiceStation" />
@@ -258,18 +279,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CarCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="TuneUp">
-          <Key>
-            <PropertyRef Name="TuneUpId" />
-          </Key>
-          <Property Name="TuneUpId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VehicleId" Type="Int64" Nullable="false" />
-          <Property Name="OwnerId" Type="Int64" Nullable="false" />
-          <Property Name="ServiceProvider" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TuneupDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="NextTuneup" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Cost" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -298,9 +307,9 @@
           <NavigationProperty Name="User" Relationship="CarCareModel.FK_vehicle_user" FromRole="Vehicle" ToRole="User" />
           <NavigationProperty Name="Insurances" Relationship="CarCareModel.FK_Insurance_Vehicle" FromRole="Vehicle" ToRole="Insurance" />
           <NavigationProperty Name="Warranties" Relationship="CarCareModel.FK_Warranty_Vehicle" FromRole="Vehicle" ToRole="Warranty" />
+          <NavigationProperty Name="LeaseRecords" Relationship="CarCareModel.FK_LeaseRecord_Vehicle" FromRole="Vehicle" ToRole="LeaseRecord" />
         </EntityType>
         <EntityContainer Name="CarCareEntity" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TuneUps" EntityType="Self.TuneUp" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
           <EntitySet Name="ServiceRecords" EntityType="CarCareModel.ServiceRecord" />
@@ -341,6 +350,11 @@
             <End Role="Vehicle" EntitySet="Vehicles" />
             <End Role="Warranty" EntitySet="Warranties" />
           </AssociationSet>
+          <EntitySet Name="LeaseRecords" EntityType="CarCareModel.LeaseRecord" />
+          <AssociationSet Name="FK_LeaseRecord_Vehicle" Association="CarCareModel.FK_LeaseRecord_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="LeaseRecord" EntitySet="LeaseRecords" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ServiceRecord">
           <Key>
@@ -357,6 +371,7 @@
           <NavigationProperty Name="ServiceType" Relationship="CarCareModel.FK__ServiceRe__Servi__31EC6D26" FromRole="ServiceRecord" ToRole="ServiceType" />
           <NavigationProperty Name="ServiceStation" Relationship="CarCareModel.FK__ServiceRe__Servi__32E0915F" FromRole="ServiceRecord" ToRole="ServiceStation" />
           <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK__ServiceRe__Vehic__30F848ED" FromRole="ServiceRecord" ToRole="Vehicle" />
+          <Property Name="ServiceNote" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="ServiceStation">
           <Key>
@@ -523,25 +538,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LeaseRecord">
+          <Key>
+            <PropertyRef Name="LeaseId" />
+          </Key>
+          <Property Name="LeaseId" Type="Int64" Nullable="false" />
+          <Property Name="VehicleId" Type="Int64" Nullable="false" />
+          <Property Name="LeaseStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LeaseTerm" Type="Int32" Nullable="false" />
+          <Property Name="MonthlyPayment" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="MoneyFactor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MilesDrivenPerYear" Type="Int32" />
+          <Property Name="AcquistionFee" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SecurityDeposit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseNotes" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_LeaseRecord_Vehicle" FromRole="LeaseRecord" ToRole="Vehicle" />
+        </EntityType>
+        <Association Name="FK_LeaseRecord_Vehicle">
+          <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="1" />
+          <End Type="CarCareModel.LeaseRecord" Role="LeaseRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleId" />
+            </Principal>
+            <Dependent Role="LeaseRecord">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CarCareModelStoreContainer" CdmEntityContainer="CarCareEntity">
-          <EntitySetMapping Name="TuneUps">
-            <EntityTypeMapping TypeName="CarCareModel.TuneUp">
-              <MappingFragment StoreEntitySet="TuneUp">
-                <ScalarProperty Name="TuneUpId" ColumnName="TuneUpId" />
-                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
-                <ScalarProperty Name="ServiceProvider" ColumnName="ServiceProvider" />
-                <ScalarProperty Name="TuneupDate" ColumnName="TuneupDate" />
-                <ScalarProperty Name="NextTuneup" ColumnName="NextTuneup" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="CarCareModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -570,6 +601,7 @@
           <EntitySetMapping Name="ServiceRecords">
             <EntityTypeMapping TypeName="CarCareModel.ServiceRecord">
               <MappingFragment StoreEntitySet="ServiceRecord">
+                <ScalarProperty Name="ServiceNote" ColumnName="ServiceNote" />
                 <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
                 <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
                 <ScalarProperty Name="CompletedDate" ColumnName="CompletedDate" />
@@ -645,6 +677,23 @@
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
                 <ScalarProperty Name="WarrantyId" ColumnName="WarrantyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaseRecords">
+            <EntityTypeMapping TypeName="CarCareModel.LeaseRecord">
+              <MappingFragment StoreEntitySet="LeaseRecord">
+                <ScalarProperty Name="LeaseNotes" ColumnName="LeaseNotes" />
+                <ScalarProperty Name="SecurityDeposit" ColumnName="SecurityDeposit" />
+                <ScalarProperty Name="AcquistionFee" ColumnName="AcquistionFee" />
+                <ScalarProperty Name="MilesDrivenPerYear" ColumnName="MilesDrivenPerYear" />
+                <ScalarProperty Name="MoneyFactor" ColumnName="MoneyFactor" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="MonthlyPayment" ColumnName="MonthlyPayment" />
+                <ScalarProperty Name="LeaseTerm" ColumnName="LeaseTerm" />
+                <ScalarProperty Name="LeaseStartDate" ColumnName="LeaseStartDate" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="LeaseId" ColumnName="LeaseId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

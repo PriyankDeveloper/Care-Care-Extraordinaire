@@ -1,0 +1,99 @@
+﻿@model CarCare.Models.LeaseRecordViewModel
+
+@{
+    ViewBag.Title = "Edit Lease";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Lease Record</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveLease", "Lease", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table table-inverse">
+                <thead>
+                    <tr>
+                        <th>
+                            Action
+                        </th>
+                        <th>
+                            Vehicle
+                        </th>
+                        <th>
+                            Lease Start Date
+                        </th>
+                        <th>
+                            Lease Term
+                        </th>
+                        <th>
+                            Monthly Payment
+                        </th>
+                        <th>
+                            Company
+                        </th>
+                        <th>
+                            Miles Driven per Year
+                        </th>
+                        <th>
+                            Security Deposit
+                        </th>
+                        <th>
+                            Acquisition Fee
+                        </th>
+                        <th>
+                            Money Factor
+                        </th>
+                        <th>
+                            Notes
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button type="submit">Save</button>
+                            @Html.HiddenFor(m => m.VehicleId)
+                            @Html.HiddenFor(m => m.LeaseId)
+                        </td>
+                        <td>
+                            @Html.DropDownList("Vehhicles", ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.LeaseStartDate)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.LeaseTerm)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.MonthlyPayment)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Company)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.MilesDrivenPerYear)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.SecurityDeposit)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.AcquistionFee)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.MoneyFactor)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.LeaseNotes)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+}

@@ -7,9 +7,10 @@ using System.Web.Mvc;
 namespace CarCare.Models
 {
     public class WarrantyViewModel
-    {
+    {        
         public long WarrantyId { get; set; }
         public long VehicleId { get; set; }
+        public List<SelectListItem> Vehicles { get; set; }
         public string WarrantyProvider { get; set; }
         public Nullable<System.DateTime> WarrantyStartDate { get; set; }
         public Nullable<System.DateTime> WarrantyExpirationDate { get; set; }

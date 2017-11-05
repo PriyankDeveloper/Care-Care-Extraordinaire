@@ -1,0 +1,107 @@
+﻿@model CarCare.Models.LeaseRecordViewModel
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveLease", "Lease", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        Vehicle
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.LeaseStartDate)
+                    </td>
+                    <td>
+                        <input type="date" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.LeaseTerm)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.LeaseTerm)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.MonthlyPayment)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MonthlyPayment)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Company)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Company)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.MilesDrivenPerYear)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MilesDrivenPerYear)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.SecurityDeposit)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.SecurityDeposit)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.AcquistionFee)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.AcquistionFee)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.MoneyFactor)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MoneyFactor)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.LeaseNotes)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.LeaseNotes)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        @Html.HiddenFor(m => m.VehicleId)
+                        @Html.HiddenFor(m => m.LeaseId)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+
+}

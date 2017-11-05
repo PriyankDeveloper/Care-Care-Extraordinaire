@@ -10,6 +10,7 @@ namespace CarCare.Models
     {
         public long RepairId { get; set; }
         public long VehicleId { get; set; }
+        public List<SelectListItem> Vehicles { get; set; }
         public string RepairShortDesc { get; set; }
         public System.DateTime RepairDate { get; set; }
         public string RepairStatus { get; set; }

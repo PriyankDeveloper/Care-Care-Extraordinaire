@@ -177,6 +177,7 @@ namespace CarCare.Controllers
                 vm.ServiceId = item.ServiceId;
                 vm.ServiceStationId = item.ServiceStationId;
                 vm.ServiceTypeId = item.ServiceTypeId;
+		vm.ServiceNote = item.ServiceNote;
                 if (item.Vehicle != null)
                 {
                     vm.VechicleDealer = item.Vehicle.VechicleDealer;
