@@ -53,16 +53,10 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 @Html.ActionLink("CarCare", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <ul class="nav navbar-nav">               
                     <li>@Html.ActionLink("Google Maps", "SearchPlace", "GoogleMaps")</li>  
                     <li>@Html.ActionLink("Service Stations", "Index", "ServiceStations")</li> 
                     <li>@Html.ActionLink("Vehicles", "Index", "Vehicle")</li>
@@ -91,28 +85,26 @@
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Lease", "Index", "Lease")</li>
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
-                    </li>
+                    </li>*@
                     <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>                    
                 </ul>     
-                <div style="float:right">
-                    <label style="color:whitesmoke;margin-top:15px;float:right" id="UserName"></label>
-                </div>
+                <ul style="float:right">
+                    <li>
+                        <label style="color:whitesmoke;margin-top:15px;float:right" id="UserName"></label>
+                    </li>                
+                </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <!--<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>-->
-            <p>&copy; @DateTime.Now.Year - Presented by Group 4</p>
-        </footer>
     </div>
    @*@RenderSection("scripts", required: false)*@
 </body>
