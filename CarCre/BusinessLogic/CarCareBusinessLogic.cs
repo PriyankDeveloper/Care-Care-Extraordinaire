@@ -219,12 +219,23 @@ namespace CarCare.BusinessLogic
 
         #region ServiceStations
 
-        public List<CarCareDatabase.ServiceStation> GetAllServiceStations()
+        public List<Models.ServiceStationViewModel> GetAllServiceStations()
         {
-            return carCareEntities.ServiceStations.ToList();
+            //return carCareEntities.ServiceStations.ToList();
+            var ServiceStation = carCareEntities.ServiceStations.ToList();
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CarCareDatabase.ServiceStation, Models.ServiceStationViewModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = new List<CarCareDatabase.ServiceStation>();
+            var dest = mapper.Map<List<CarCareDatabase.ServiceStation>, List<Models.ServiceStationViewModel>>(ServiceStation);
+
+            return dest;
         }
 
-       
+
         public CarCareDatabase.ServiceStation SaveServiceStation(CarCareDatabase.ServiceStation serviceStation)
         {
 
@@ -260,10 +271,12 @@ namespace CarCare.BusinessLogic
             }
         }
 
+
+
         #endregion
 
         #region RepairRecord
-        
+
         public List<CarCareDatabase.RepairRecord> GetAllRepairRecords(long userId)
         {
             List<RepairRecord> listRecords = carCareEntities.RepairRecords.ToList();

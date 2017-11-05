@@ -1,0 +1,128 @@
+﻿@model CarCare.Models.ServiceStationViewModel
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="~/Content/Site.css" rel="stylesheet" />
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+@using (@Html.BeginForm("SaveServiceStation", "ServiceStations", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.OwnedBy)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.OwnedBy)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.City)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.City)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.State)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.State)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ZipCode)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ZipCode)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.StreetAddress)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.StreetAddress)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Phone)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Phone)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Longitude)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Longitude)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Latitude)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Latitude)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+
+
+<div class="alert alert-success alert-dismissable" style="visibility:hidden">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Success!</strong> This alert box could indicate a successful or positive action.
+</div>
+<div class="alert alert-danger alert-dismissable" style="visibility:hidden">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+</div>
+<script type="text/javascript">
+
+ $(document).ready(function () {
+
+     $('#SaveServiceStation').submit(function (e) {
+        debugger;
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '@Url.Action("SaveServiceStation", "ServiceStations")',
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+               
+             // here in result you will get your data
+            },
+            error: function (result) {
+
+            }
+        });
+        e.preventDefault();
+    });
+});
+</script>

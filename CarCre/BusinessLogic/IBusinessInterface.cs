@@ -46,9 +46,10 @@ namespace CarCare.BusinessLogic
 
         CarCareDatabase.ServiceStation SaveServiceStation(CarCare.CarCareDatabase.ServiceStation serviceStation);
 
-        List<CarCareDatabase.ServiceStation> GetAllServiceStations();
+        List<Models.ServiceStationViewModel> GetAllServiceStations();
 
         void DeleteServiceStation(int serviceStationId);
+
 
         #endregion
 
