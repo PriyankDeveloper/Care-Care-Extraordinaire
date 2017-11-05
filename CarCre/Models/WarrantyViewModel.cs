@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace CarCare.Models
 {
     public class WarrantyViewModel
-    {
+    {        
         public long WarrantyId { get; set; }
         public long VehicleId { get; set; }
         public string WarrantyProvider { get; set; }

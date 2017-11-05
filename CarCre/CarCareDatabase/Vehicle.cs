@@ -21,6 +21,7 @@ namespace CarCare.CarCareDatabase
             this.RepairRecords = new HashSet<RepairRecord>();
             this.Insurances = new HashSet<Insurance>();
             this.Warranties = new HashSet<Warranty>();
+            this.LeaseRecords = new HashSet<LeaseRecord>();
         }
     
         public long VehicleId { get; set; }
@@ -42,5 +43,7 @@ namespace CarCare.CarCareDatabase
         public virtual ICollection<Insurance> Insurances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Warranty> Warranties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaseRecord> LeaseRecords { get; set; }
     }
 }

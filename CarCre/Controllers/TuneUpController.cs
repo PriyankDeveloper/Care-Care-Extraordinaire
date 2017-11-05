@@ -207,7 +207,8 @@ namespace CarCare.Controllers
                     StationOwnedBy = item.ServiceStation.OwnedBy,
                     StationState = item.ServiceStation.State,
                     StationStreetAddress = item.ServiceStation.StreetAddress,
-                    StationZipCode = item.ServiceStation.ZipCode
+                    StationZipCode = item.ServiceStation.ZipCode,
+                    ServiceNote = item.ServiceNote
                 });
             }
 

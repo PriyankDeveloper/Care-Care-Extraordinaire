@@ -1,11 +1,11 @@
-﻿@model IEnumerable<CarCare.Models.ServiceRecordViewModel>
+﻿@model IEnumerable < CarCare.Models.LeaseRecordViewModel>
 
 @{
-    ViewBag.Title = "Oil Change";
+    ViewBag.Title = "Lease Records";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Oil Change</h2>
+<h2>Lease Information</h2>
 
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -14,7 +14,7 @@
 
 <div class="container">
     <div class="row">
-        <button type="button" id="AddOilChange" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
+        <button type="button" id="AddLease" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
         <table class="table table-inverse">
             <thead>
                 <tr>
@@ -23,30 +23,36 @@
                     </th>
                     <th>
                         Action
-                    </th>                  
+                    </th>
                     <th>
                         Vehicle
                     </th>
                     <th>
-                        Service Station
+                        Lease Start Date
                     </th>
                     <th>
-                        Service Cost
+                        Lease Term
                     </th>
                     <th>
-                        Service Date
+                        Monthly Payment
                     </th>
                     <th>
-                        Last Modified Date
+                        Company
                     </th>
                     <th>
-                        Completed Date
+                        Miles Driven per Year
                     </th>
                     <th>
-                        Station ZipCode
+                        Security Deposit
                     </th>
                     <th>
-                        Service Notes
+                        Acquisition Fee
+                    </th>
+                    <th>
+                        Money Factor
+                    </th>
+                    <th>
+                        Notes
                     </th>
                 </tr>
             </thead>
@@ -56,34 +62,41 @@
                 {
                     <tr>
                         <td>
-                            <input type="button"  id="EditBtn" value="Edit" data-id="@record.ServiceId"/>
+                            <input type="button" id="EditBtn" value="Edit" data-id="@record.LeaseId" onclick="location.href='@Url.Action("EditLease", "Lease", new { leaseId = record.LeaseId})'" />
                         </td>
                         <td>
-                            <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@Url.Action("DeleteOilChange", "OilChange", new { serviceId = record.ServiceId})'" />
-                        </td>       
-                        <td>                    
-                            @Html.DropDownList("VehhicleDropdown", new SelectList(record.Vehicles, "Value", "Text", record.VehicleId))                           
+                            <input type="button" value="Delete" data-id="@record.LeaseId" onclick="location.href='@Url.Action("DeleteLease", "Lease", new { leaseId = record.LeaseId})'" />
+                        </td>
+
+                        <td>
+                            @record.VehicleId
                         </td>
                         <td>
-                            @Html.DropDownList("ServiceStationDropdown", new SelectList(record.ServiceStations, "Value", "Text", record.ServiceStationId))
+                            @record.LeaseStartDate
                         </td>
                         <td>
-                            @record.ServiceCost
+                            @record.LeaseTerm
                         </td>
                         <td>
-                            @record.ServiceDate
+                            @record.MonthlyPayment
                         </td>
                         <td>
-                            @record.LastModifiedDate
+                            @record.Company
                         </td>
                         <td>
-                            @record.CompletedDate
+                            @record.MilesDrivenPerYear
                         </td>
                         <td>
-                            @record.StationZipCode
+                            @record.SecurityDeposit
                         </td>
                         <td>
-                            @record.ServiceNote
+                            @record.AcquistionFee
+                        </td>
+                        <td>
+                            @record.MoneyFactor
+                        </td>
+                        <td>
+                            @record.LeaseNotes
                         </td>
                     </tr>
                 }
@@ -96,31 +109,31 @@
 
 <!-- Trigger the modal with a button -->
 <!-- Add New Recod Modal -->
-<div id="myModal" class="modal fade" role="dialog" data-url='@Url.Action("AddNewRecord","OilChange")'>
+<div id="myModal" class="modal fade" role="dialog" data-url='@Url.Action("AddNewRecord","Lease")'>
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add OilChange Record</h4>
+                <h4 class="modal-title">Add Lease Record</h4>
             </div>
-            <div class="modal-body" id="AddOilChangeRecord">
-             
-             </div>
+            <div class="modal-body" id="AddLeaseRecord">
+
             </div>
         </div>
+    </div>
 
- </div>
+</div>
 
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#AddOilChange').click(function () {
+        $('#AddLease').click(function () {
             var url = $('#myModal').data('url');
             debugger;
             $.get(url, function (data) {
-                $('#AddOilChangeRecord').html(data);
+                $('#AddLeaseRecord').html(data);
                 debugger;
                 $('#myModal').modal('show');
             });

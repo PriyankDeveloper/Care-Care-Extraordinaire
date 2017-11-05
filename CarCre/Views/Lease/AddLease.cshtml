@@ -1,9 +1,9 @@
-﻿@model CarCare.Models.RepairRecordViewModel
+﻿@model CarCare.Models.LeaseRecordViewModel
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-@using (@Html.BeginForm("SaveRepair", "Repair", FormMethod.Post))
+@using (@Html.BeginForm("SaveLease", "Lease", FormMethod.Post))
 {
     <div class="container">
         <div class="row">
@@ -18,39 +18,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Repair Station
-                    </td>
-                    <td>
-                        @Html.DropDownListFor(m => m.RepairStationId, ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.RepairCost)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.RepairCost)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.RepairShortDesc)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.RepairShortDesc)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.RepairStatus)
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.RepairStatus)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.RepairDate)
+                        @Html.LabelFor(m => m.LeaseStartDate)
                     </td>
                     <td>
                         <input type="date" />
@@ -58,26 +26,73 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.RepairCompleteDate)
+                        @Html.LabelFor(m => m.LeaseTerm)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(m => m.LeaseTerm)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.RepairDetails)
+                        @Html.LabelFor(m => m.MonthlyPayment)
                     </td>
                     <td>
-                        @Html.TextBoxFor(m => m.RepairDetails)
+                        @Html.TextBoxFor(m => m.MonthlyPayment)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.Company)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Company)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.MilesDrivenPerYear)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MilesDrivenPerYear)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.SecurityDeposit)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.SecurityDeposit)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.AcquistionFee)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.AcquistionFee)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.MoneyFactor)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MoneyFactor)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.LeaseNotes)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.LeaseNotes)
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <button class="btn btn-primary" type="submit">Save</button>
                         @Html.HiddenFor(m => m.VehicleId)
-                        @Html.HiddenFor(m => m.RepairId)
-                        @Html.HiddenFor(m => m.RepairStationId)
+                        @Html.HiddenFor(m => m.LeaseId)
                     </td>
                     <td>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -88,4 +103,5 @@
         </div>
 
     </div>
+
 }

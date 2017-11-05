@@ -213,6 +213,9 @@
     <Compile Include="CarCareDatabase\Insurance.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CarCareDatabase\LeaseRecord.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarCareDatabase\RepairRecord.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
@@ -223,9 +226,6 @@
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CarCareDatabase\ServiceType.cs">
-      <DependentUpon>CarCareDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CarCareDatabase\TuneUp.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CarCareDatabase\User.cs">
@@ -242,6 +242,7 @@
     <Compile Include="Controllers\GoogleMapsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InsuranceController.cs" />
+    <Compile Include="Controllers\LeaseController.cs" />
     <Compile Include="Controllers\OilChangeController.cs" />
     <Compile Include="Controllers\RepairController.cs" />
     <Compile Include="Controllers\StateInspectionController.cs" />
@@ -255,6 +256,7 @@
     </Compile>
     <Compile Include="Models\Charts.cs" />
     <Compile Include="Models\InsuranceViewModel.cs" />
+    <Compile Include="Models\LeaseRecordViewModel.cs" />
     <Compile Include="Models\RepairRecordViewModel.cs" />
     <Compile Include="Models\ServiceRecordViewModel.cs" />
     <Compile Include="Models\ServiceStationViewModel.cs" />
@@ -420,6 +422,9 @@
     <Content Include="Views\Warranty\AddWarranty.cshtml" />
     <Content Include="Views\Insurance\EditInsurance.cshtml" />
     <Content Include="Views\Warranty\EditWarranty.cshtml" />
+    <Content Include="Views\Lease\Index.cshtml" />
+    <Content Include="Views\Lease\AddLease.cshtml" />
+    <Content Include="Views\Lease\EditLease.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

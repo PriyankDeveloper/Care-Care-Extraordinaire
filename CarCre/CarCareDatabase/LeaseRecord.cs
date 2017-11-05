@@ -12,20 +12,20 @@ namespace CarCare.CarCareDatabase
     using System;
     using System.Collections.Generic;
     
-    public partial class ServiceRecord
+    public partial class LeaseRecord
     {
-        public long ServiceId { get; set; }
+        public long LeaseId { get; set; }
         public long VehicleId { get; set; }
-        public long ServiceTypeId { get; set; }
-        public Nullable<System.DateTime> ServiceDate { get; set; }
-        public Nullable<long> ServiceStationId { get; set; }
-        public Nullable<System.DateTime> CompletedDate { get; set; }
-        public Nullable<System.DateTime> LastModifiedDate { get; set; }
-        public Nullable<decimal> ServiceCost { get; set; }
-        public string ServiceNote { get; set; }
+        public System.DateTime LeaseStartDate { get; set; }
+        public int LeaseTerm { get; set; }
+        public decimal MonthlyPayment { get; set; }
+        public string Company { get; set; }
+        public Nullable<decimal> MoneyFactor { get; set; }
+        public Nullable<int> MilesDrivenPerYear { get; set; }
+        public Nullable<decimal> AcquistionFee { get; set; }
+        public Nullable<decimal> SecurityDeposit { get; set; }
+        public string LeaseNotes { get; set; }
     
-        public virtual ServiceType ServiceType { get; set; }
-        public virtual ServiceStation ServiceStation { get; set; }
         public virtual Vehicle Vehicle { get; set; }
     }
 }

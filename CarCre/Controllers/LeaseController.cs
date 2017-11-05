@@ -9,29 +9,28 @@ using CarCare.Models;
 
 namespace CarCare.Controllers
 {
-    public class WarrantyController : Controller
+    public class LeaseController : Controller
     {
         private IBusinessInterface BusinessInterface;
 
-        public WarrantyController(IBusinessInterface businessInterface)
+        public LeaseController(IBusinessInterface businessInterface)
         {
             BusinessInterface = businessInterface;
         }
 
 
-        // GET: Warranty
+        // GET: Lease
         public ActionResult Index()
         {
-            var warrantyList = BusinessInterface.GetAllWarrantyRecords();
+            var leaseList = BusinessInterface.GetAllLeaseRecords();
 
-            return View(warrantyList);
+            return View(leaseList);
         }
 
-        //Add new Warranty Record
+        //Add new Lease Record
         public ActionResult AddNewRecord()
         {
-            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
-            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
             //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -56,19 +55,19 @@ namespace CarCare.Controllers
                     Value = station.ServiceStationId.ToString()
                 });
             }
+
             ViewBag.ServiceStations = sList;
             */
 
-            return PartialView("AddWarranty", new WarrantyViewModel());
+            //return PartialView("AddNewVehicle", new VehicleViewModel());
+            return PartialView("AddLease", new LeaseRecordViewModel());
         }
 
-        //Edit Warranty Record
-        public ActionResult EditWarranty(long warrantyId)
+        //Edit Lease Record
+        public ActionResult EditLease(long leaseId)
         {
-            WarrantyViewModel warrantyRecord = BusinessInterface.GetAllWarrantyRecords().FirstOrDefault(i => i.WarrantyId == warrantyId);
-            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
-            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
-
+            LeaseRecordViewModel leaseRecord = BusinessInterface.GetAllLeaseRecords().FirstOrDefault(i => i.LeaseId == leaseId);
+            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
             //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -93,58 +92,63 @@ namespace CarCare.Controllers
                     Value = station.ServiceStationId.ToString()
                 });
             }
+
             ViewBag.ServiceStations = sList;
             */
 
-            return PartialView("EditWarranty", warrantyRecord);
+            return PartialView("EditLease", leaseRecord);
 
         }
 
-        //Save Warranty Record
+        //Save Lease Record
         [HttpPost]
-        public ActionResult SaveWarranty(WarrantyViewModel model)
+        public ActionResult SaveLease(LeaseRecordViewModel model)
         {
             var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<WarrantyViewModel, CarCareDatabase.Warranty>();
+                cfg.CreateMap<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>();
             });
 
             IMapper mapper = config.CreateMapper();
-            var source = new WarrantyViewModel();
-            var dest = mapper.Map<WarrantyViewModel, CarCareDatabase.Warranty>(model);
+            var source = new LeaseRecordViewModel();
+            var dest = mapper.Map<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>(model);
 
-            if ( dest.WarrantyStartDate == null )
-                dest.WarrantyStartDate = DateTime.Now;
-            var modelData = BusinessInterface.SaveWarrantyRecord(dest);
-            BusinessInterface.SaveWarrantyRecord(dest);
+            dest.LeaseStartDate = DateTime.Now;
+            var modelData = BusinessInterface.SaveLeaseRecord(dest);
             return Redirect("Index");
         }
 
-        //Delete Warranty Record
-        public ActionResult DeleteWarranty(long warrantyId)
+        //Delete Lease Record
+        public ActionResult DeleteLease(long leaseId)
         {
-            BusinessInterface.DeleteWarrantyRecord(warrantyId);
+            BusinessInterface.DeleteLeaseRecord(leaseId);
             return Redirect("Index");
         }
 
 
-        private List<WarrantyViewModel> MapViewModel(List<CarCareDatabase.Warranty> dbModel)
+        private List<LeaseRecordViewModel> MapViewModel(List<CarCareDatabase.LeaseRecord> dbModel)
         {
-            List<WarrantyViewModel> ListofViewModel = new List<WarrantyViewModel>();
+            List<LeaseRecordViewModel> ListofViewModel = new List<LeaseRecordViewModel>();
 
             foreach (var item in dbModel)
             {
-                ListofViewModel.Add(new WarrantyViewModel()
+                ListofViewModel.Add(new LeaseRecordViewModel()
                 {
-                    WarrantyId = item.WarrantyId,
-                    WarrantyStartDate = item.WarrantyStartDate,
-                    WarrantyExpirationDate = item.WarrantyExpirationDate,
-                    WarrantyCost = item.WarrantyCost,
-                    WarrantyCoverage = item.WarrantyCoverage,
-                    //OwnerId = item.Vehicle.OwnerId
+                    LeaseId = item.LeaseId,
+                    VehicleId = item.VehicleId,
+                    LeaseStartDate = item.LeaseStartDate,
+                    LeaseTerm = item.LeaseTerm,
+                    MonthlyPayment = item.MonthlyPayment,
+                    Company = item.Company,
+                    MoneyFactor = item.MoneyFactor,
+                    MilesDrivenPerYear = item.MilesDrivenPerYear,
+                    AcquistionFee = item.AcquistionFee,
+                    SecurityDeposit = item.SecurityDeposit,
+                    LeaseNotes = item.LeaseNotes
                 });
             }
 
             return ListofViewModel;
         }
+
     }
 }

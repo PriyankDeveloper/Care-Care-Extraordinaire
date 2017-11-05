@@ -1,16 +1,16 @@
-﻿@model CarCare.Models.ServiceRecordViewModel
+﻿@model CarCare.Models.LeaseRecordViewModel
 
 @{
-    ViewBag.Title = "Save State Inspection";
+    ViewBag.Title = "Edit Lease";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit State Inspection Record</h2>
+<h2>Edit Lease Record</h2>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-@using (@Html.BeginForm("SaveStateInspection", "StateInspection", FormMethod.Post))
+@using (@Html.BeginForm("SaveLease", "Lease", FormMethod.Post))
 {
     <div class="container">
         <div class="row">
@@ -24,22 +24,31 @@
                             Vehicle
                         </th>
                         <th>
-                            Service Station
+                            Lease Start Date
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.ServiceCost)
+                            Lease Term
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.ServiceDate)
+                            Monthly Payment
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.LastModifiedDate)
+                            Company
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.StationZipCode)
+                            Miles Driven per Year
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.ServiceNote)
+                            Security Deposit
+                        </th>
+                        <th>
+                            Acquisition Fee
+                        </th>
+                        <th>
+                            Money Factor
+                        </th>
+                        <th>
+                            Notes
                         </th>
                     </tr>
                 </thead>
@@ -48,29 +57,37 @@
                         <td>
                             <button type="submit">Save</button>
                             @Html.HiddenFor(m => m.VehicleId)
-                            @Html.HiddenFor(m => m.ServiceId)
-                            @Html.HiddenFor(m => m.ServiceStationId)
+                            @Html.HiddenFor(m => m.LeaseId)
                         </td>
                         <td>
                             @Html.DropDownList("Vehhicles", ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
                         </td>
                         <td>
-                            @Html.DropDownList("ServiceStation", ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                            @Html.TextBoxFor(m => m.LeaseStartDate)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.ServiceCost)
+                            @Html.TextBoxFor(m => m.LeaseTerm)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.ServiceDate)
+                            @Html.TextBoxFor(m => m.MonthlyPayment)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.LastModifiedDate)
+                            @Html.TextBoxFor(m => m.Company)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.StationZipCode)
+                            @Html.TextBoxFor(m => m.MilesDrivenPerYear)
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.ServiceNote)
+                            @Html.TextBoxFor(m => m.SecurityDeposit)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.AcquistionFee)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.MoneyFactor)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.LeaseNotes)
                         </td>
                     </tr>
                 </tbody>

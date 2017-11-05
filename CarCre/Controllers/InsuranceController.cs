@@ -137,18 +137,7 @@ namespace CarCare.Controllers
                     InsuranceExpirationDate = item.InsuranceExpirationDate,
                     InsuranceCost = item.InsuranceCost,
                     InsuranceCoverage = item.InsuranceCoverage,
-                    OwnerId = item.Vehicle.OwnerId,
-                    //VechicleDealer = item.Vehicle.VechicleDealer,
-                    //VechicleYear = item.Vehicle.VechicleYear,
-                    //VehicleId = item.VehicleId,
-                    //VehicleMark = item.Vehicle.VehicleMark,
-                    //VehicleModel = item.Vehicle.VehicleModel,
-                    //VINNumber = item.Vehicle.VINNumber,
-                    //StationCity = item.ServiceStation.City,
-                    //StationOwnedBy = item.ServiceStation.OwnedBy,
-                    //StationState = item.ServiceStation.State,
-                    //StationStreetAddress = item.ServiceStation.StreetAddress,
-                    //StationZipCode = item.ServiceStation.ZipCode
+                    OwnerId = item.Vehicle.OwnerId
                 });
             }
 

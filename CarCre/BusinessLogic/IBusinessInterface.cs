@@ -78,10 +78,20 @@ namespace CarCare.BusinessLogic
 
         #region WarrantyRecord
         CarCareDatabase.Warranty SaveWarrantyRecord(CarCare.CarCareDatabase.Warranty warrantyRecord);
+        //void SaveWarrantyRecord(CarCare.CarCareDatabase.Warranty warrantyRecord);
 
         List<Models.WarrantyViewModel> GetAllWarrantyRecords();
 
         void DeleteWarrantyRecord(long warrantyRecordId);
+
+        #endregion
+
+        #region LeaseRecord
+        CarCareDatabase.LeaseRecord SaveLeaseRecord(CarCare.CarCareDatabase.LeaseRecord leaseRecord);
+
+        List<Models.LeaseRecordViewModel> GetAllLeaseRecords();
+
+        void DeleteLeaseRecord(long leaseRecordId);
 
         #endregion
 

@@ -25,7 +25,6 @@ namespace CarCare.CarCareDatabase
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<TuneUp> TuneUps { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<ServiceRecord> ServiceRecords { get; set; }
@@ -34,5 +33,6 @@ namespace CarCare.CarCareDatabase
         public virtual DbSet<RepairRecord> RepairRecords { get; set; }
         public virtual DbSet<Insurance> Insurances { get; set; }
         public virtual DbSet<Warranty> Warranties { get; set; }
+        public virtual DbSet<LeaseRecord> LeaseRecords { get; set; }
     }
 }
