@@ -22,9 +22,12 @@ namespace CarCare.Controllers
         // GET: Insurance
         public ActionResult Index()
         {
-            var insuranceList = BusinessInterface.GetAllInsuranceRecords();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var insuranceRecords = BusinessInterface.GetAllInsuranceRecords(userId);
+            var insurance = insuranceRecords.ToList();
+            var viewModel = MapViewModel(insurance);
 
-            return View(insuranceList);
+            return View(viewModel);
         }
 
         //Add new Insurance Record
@@ -32,10 +35,8 @@ namespace CarCare.Controllers
         {
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -46,18 +47,7 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-            ViewBag.ServiceStations = sList;
-            */
+            
 
             return PartialView("AddInsurance", new InsuranceViewModel());
         }
@@ -65,13 +55,14 @@ namespace CarCare.Controllers
         //Edit Insurance Record
         public ActionResult EditInsurance(long insuranceId)
         {
-            InsuranceViewModel insuranceRecord = BusinessInterface.GetAllInsuranceRecords().FirstOrDefault(i => i.InsuranceId == insuranceId);
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
-            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+            var insuranceRecords = BusinessInterface.GetAllInsuranceRecords(userId);
+            var insuranceRecord = insuranceRecords.FirstOrDefault(i => i.InsuranceId == insuranceId);
 
+            var viewModel = MapViewModel(new List<CarCareDatabase.Insurance> { insuranceRecord });
+
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -82,20 +73,8 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-            ViewBag.ServiceStations = sList;
-            */
-
-            return PartialView("EditInsurance", insuranceRecord);
+            
+            return PartialView("EditInsurance", viewModel.FirstOrDefault());
 
         }
 
@@ -128,19 +107,37 @@ namespace CarCare.Controllers
         {
             List<InsuranceViewModel> ListofViewModel = new List<InsuranceViewModel>();
 
-            foreach (var item in dbModel)
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
+
+            List<SelectListItem> vList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
             {
-                ListofViewModel.Add(new InsuranceViewModel()
+                vList.Add(new SelectListItem
                 {
-                    InsuranceId = item.InsuranceId,
-                    InsuranceStartDate = item.InsuranceStartDate,
-                    InsuranceExpirationDate = item.InsuranceExpirationDate,
-                    InsuranceCost = item.InsuranceCost,
-                    InsuranceCoverage = item.InsuranceCoverage,
-                    OwnerId = item.Vehicle.OwnerId
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
                 });
             }
 
+
+            foreach (var item in dbModel)
+            {
+                InsuranceViewModel vm = new InsuranceViewModel();
+
+                vm.InsuranceId = item.InsuranceId;
+                vm.InsuranceStartDate = item.InsuranceStartDate;
+                vm.InsuranceExpirationDate = item.InsuranceExpirationDate;
+                vm.InsuranceCost = item.InsuranceCost;
+                vm.InsuranceCoverage = item.InsuranceCoverage;
+                vm.OwnerId = item.Vehicle.OwnerId;
+                vm.VehicleId = item.VehicleId;
+                vm.Vehicles = vList;
+                vm.InsuranceProvider = item.InsuranceProvider;
+
+                ListofViewModel.Add(vm);
+            }
             return ListofViewModel;
         }
     }

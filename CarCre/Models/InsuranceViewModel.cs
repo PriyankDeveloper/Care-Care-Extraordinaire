@@ -10,6 +10,7 @@ namespace CarCare.Models
     {
         public long InsuranceId { get; set; }
         public long VehicleId { get; set; }
+        public List<SelectListItem> Vehicles { get; set; }
         public string InsuranceProvider { get; set; }
         public Nullable<System.DateTime> InsuranceStartDate { get; set; }
         public Nullable<System.DateTime> InsuranceExpirationDate { get; set; }

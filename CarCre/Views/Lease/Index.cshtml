@@ -69,7 +69,7 @@
                         </td>
 
                         <td>
-                            @record.VehicleId
+                            @Html.DropDownList("VehhicleDropdown", new SelectList(record.Vehicles, "Value", "Text", record.VehicleId))
                         </td>
                         <td>
                             @record.LeaseStartDate

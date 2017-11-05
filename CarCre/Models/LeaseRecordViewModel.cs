@@ -10,7 +10,7 @@ namespace CarCare.Models
     {
         public long LeaseId { get; set; }
         public long VehicleId { get; set; }
-        //public List<SelectListItem> Vehicles { get; set; }
+        public List<SelectListItem> Vehicles { get; set; }
         public System.DateTime LeaseStartDate { get; set; }
         public int LeaseTerm { get; set; }
         public decimal MonthlyPayment { get; set; }

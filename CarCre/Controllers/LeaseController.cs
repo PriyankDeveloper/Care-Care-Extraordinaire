@@ -22,19 +22,22 @@ namespace CarCare.Controllers
         // GET: Lease
         public ActionResult Index()
         {
-            var leaseList = BusinessInterface.GetAllLeaseRecords();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var leaseRecords = BusinessInterface.GetAllLeaseRecords(userId);
+            var lease = leaseRecords.ToList();
+            var viewModel = MapViewModel(lease);
 
-            return View(leaseList);
+            return View(viewModel);
+            
         }
 
         //Add new Lease Record
         public ActionResult AddNewRecord()
         {
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -45,33 +48,23 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-
-            ViewBag.ServiceStations = sList;
-            */
-
-            //return PartialView("AddNewVehicle", new VehicleViewModel());
+            
             return PartialView("AddLease", new LeaseRecordViewModel());
         }
 
         //Edit Lease Record
         public ActionResult EditLease(long leaseId)
         {
-            LeaseRecordViewModel leaseRecord = BusinessInterface.GetAllLeaseRecords().FirstOrDefault(i => i.LeaseId == leaseId);
-            var allVehicle = BusinessInterface.GetAllVehicles().ToList();
-            //var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var leaseRecords = BusinessInterface.GetAllLeaseRecords(userId);
+            var leaseRecord = leaseRecords.FirstOrDefault(i => i.LeaseId == leaseId);
+
+            var viewModel = MapViewModel(new List<CarCareDatabase.LeaseRecord> { leaseRecord });
+
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
+            
 
             List<SelectListItem> vList = new List<SelectListItem>();
-            //List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -82,21 +75,8 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-
-            /*
-            foreach (var station in allServiceStation)
-            {
-                sList.Add(new SelectListItem
-                {
-                    Text = station.StreetAddress,
-                    Value = station.ServiceStationId.ToString()
-                });
-            }
-
-            ViewBag.ServiceStations = sList;
-            */
-
-            return PartialView("EditLease", leaseRecord);
+            
+            return PartialView("EditLease", viewModel.FirstOrDefault());
 
         }
 
@@ -128,26 +108,41 @@ namespace CarCare.Controllers
         private List<LeaseRecordViewModel> MapViewModel(List<CarCareDatabase.LeaseRecord> dbModel)
         {
             List<LeaseRecordViewModel> ListofViewModel = new List<LeaseRecordViewModel>();
-
-            foreach (var item in dbModel)
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
+            
+            List<SelectListItem> vList = new List<SelectListItem>();
+            
+            foreach (var vehicle in allVehicle)
             {
-                ListofViewModel.Add(new LeaseRecordViewModel()
+                vList.Add(new SelectListItem
                 {
-                    LeaseId = item.LeaseId,
-                    VehicleId = item.VehicleId,
-                    LeaseStartDate = item.LeaseStartDate,
-                    LeaseTerm = item.LeaseTerm,
-                    MonthlyPayment = item.MonthlyPayment,
-                    Company = item.Company,
-                    MoneyFactor = item.MoneyFactor,
-                    MilesDrivenPerYear = item.MilesDrivenPerYear,
-                    AcquistionFee = item.AcquistionFee,
-                    SecurityDeposit = item.SecurityDeposit,
-                    LeaseNotes = item.LeaseNotes
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
                 });
             }
 
+            
+            foreach (var item in dbModel)
+            {
+                LeaseRecordViewModel vm = new LeaseRecordViewModel();
+                vm.LeaseId = item.LeaseId;
+                vm.VehicleId = item.VehicleId;
+                vm.Vehicles = vList;
+                vm.LeaseStartDate = item.LeaseStartDate;
+                vm.LeaseTerm = item.LeaseTerm;
+                vm.MonthlyPayment = item.MonthlyPayment;
+                vm.Company = item.Company;
+                vm.MoneyFactor = item.MoneyFactor;
+                vm.MilesDrivenPerYear = item.MilesDrivenPerYear;
+                vm.AcquistionFee = item.AcquistionFee;
+                vm.SecurityDeposit = item.SecurityDeposit;
+                vm.LeaseNotes = item.LeaseNotes;
+                
+                ListofViewModel.Add(vm);
+            }
             return ListofViewModel;
+            
         }
 
     }

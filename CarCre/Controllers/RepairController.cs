@@ -22,9 +22,12 @@ namespace CarCare.Controllers
         // GET: Repair
         public ActionResult Index()
         {
-            var repairList = BusinessInterface.GetAllRepairRecords();
-            
-            return View(repairList);
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var repairRecords = BusinessInterface.GetAllRepairRecords(userId);
+            var repair = repairRecords.ToList();
+            var viewModel = MapViewModel(repair);
+
+            return View(viewModel);
         }
 
         //Add new Repair Record
@@ -63,8 +66,12 @@ namespace CarCare.Controllers
         //Edit Repair Record
         public ActionResult EditRepair(long repairId)
         {
-            RepairRecordViewModel repairRecord = BusinessInterface.GetAllRepairRecords().FirstOrDefault(i => i.RepairId == repairId);
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var repairRecords = BusinessInterface.GetAllRepairRecords(userId);
+            var repairRecord = repairRecords.FirstOrDefault(i => i.RepairId == repairId);
+
+            var viewModel = MapViewModel(new List<CarCareDatabase.RepairRecord> { repairRecord });
+
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
@@ -91,9 +98,9 @@ namespace CarCare.Controllers
             }
 
             ViewBag.ServiceStations = sList;
-
-            return PartialView("EditRepair", repairRecord);
             
+            return PartialView("EditRepair", viewModel.FirstOrDefault());
+
         }
 
         //Save Repair Record
@@ -124,35 +131,49 @@ namespace CarCare.Controllers
         private List<RepairRecordViewModel> MapViewModel(List<CarCareDatabase.RepairRecord> dbModel)
         {
             List<RepairRecordViewModel> ListofViewModel = new List<RepairRecordViewModel>();
+            
+            long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
+            var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
 
-            foreach (var item in dbModel)
+            List<SelectListItem> vList = new List<SelectListItem>();
+
+            foreach (var vehicle in allVehicle)
             {
-                ListofViewModel.Add(new RepairRecordViewModel()
+                vList.Add(new SelectListItem
                 {
-                    RepairId = item.RepairId,
-                    RepairShortDesc = item.RepairShortDesc,
-                    RepairDate = item.RepairDate,
-                    RepairStatus = item.RepairStatus,
-                    RepairStationId = item.RepairStationId,
-                    RepairCompleteDate = item.RepairCompleteDate,
-                    RepairCost = item.RepairCost,
-                    RepairDetails = item.RepairDetails,
-
-                    OwnerId = item.Vehicle.OwnerId,
-                    VechicleDealer = item.Vehicle.VechicleDealer,
-                    VechicleYear = item.Vehicle.VechicleYear,
-                    VehicleId = item.VehicleId,
-                    VehicleMark = item.Vehicle.VehicleMark,
-                    VehicleModel = item.Vehicle.VehicleModel,
-                    VINNumber = item.Vehicle.VINNumber,
-                    StationCity = item.ServiceStation.City,
-                    StationOwnedBy = item.ServiceStation.OwnedBy,
-                    StationState = item.ServiceStation.State,
-                    StationStreetAddress = item.ServiceStation.StreetAddress,
-                    StationZipCode = item.ServiceStation.ZipCode
+                    Text = vehicle.VINNumber,
+                    Value = vehicle.VehicleId.ToString()
                 });
             }
 
+
+            foreach (var item in dbModel)
+            {
+                RepairRecordViewModel vm = new RepairRecordViewModel();
+                vm.RepairId = item.RepairId;
+                vm.RepairShortDesc = item.RepairShortDesc;
+                vm.RepairDate = item.RepairDate;
+                vm.RepairStatus = item.RepairStatus;
+                vm.RepairStationId = item.RepairStationId;
+                vm.RepairCompleteDate = item.RepairCompleteDate;
+                vm.RepairCost = item.RepairCost;
+                vm.RepairDetails = item.RepairDetails;
+                vm.Vehicles = vList;
+                vm.OwnerId = item.Vehicle.OwnerId;
+                vm.VechicleDealer = item.Vehicle.VechicleDealer;
+                vm.VechicleYear = item.Vehicle.VechicleYear;
+                vm.VehicleId = item.VehicleId;
+                vm.VehicleMark = item.Vehicle.VehicleMark;
+                vm.VehicleModel = item.Vehicle.VehicleModel;
+                vm.VINNumber = item.Vehicle.VINNumber;
+                vm.StationCity = item.ServiceStation.City;
+                vm.StationOwnedBy = item.ServiceStation.OwnedBy;
+                vm.StationState = item.ServiceStation.State;
+                vm.StationStreetAddress = item.ServiceStation.StreetAddress;
+                vm.StationZipCode = item.ServiceStation.ZipCode;
+
+                ListofViewModel.Add(vm);
+            }
             return ListofViewModel;
         }
     }
