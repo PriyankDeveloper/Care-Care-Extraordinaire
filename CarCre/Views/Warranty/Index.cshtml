@@ -107,10 +107,8 @@
     $(document).ready(function () {
         $('#AddInsurance').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddWarrantRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

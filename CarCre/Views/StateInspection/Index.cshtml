@@ -112,10 +112,8 @@
     $(document).ready(function () {
         $('#AddStateInspection').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddStateInspectionRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

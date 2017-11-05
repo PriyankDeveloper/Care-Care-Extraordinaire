@@ -112,10 +112,8 @@
     $(document).ready(function () {
         $('#AddTuneUp').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddTuneUpRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

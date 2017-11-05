@@ -119,10 +119,8 @@
     $(document).ready(function () {
         $('#AddRepair').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddRepairRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

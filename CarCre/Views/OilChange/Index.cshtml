@@ -53,7 +53,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="button"  id="EditBtn" value="Edit" data-id="@record.ServiceId"/>
+                            <input type="button" id="EditBtn" value="Edit"  data-id="@record.ServiceId" onclick="location.href='@Url.Action("EditOilChange", "OilChange", new { serviceId = record.ServiceId})'" />
                         </td>
                         <td>
                             <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@Url.Action("DeleteOilChange", "OilChange", new { serviceId = record.ServiceId})'" />
@@ -112,10 +112,8 @@
     $(document).ready(function () {
         $('#AddOilChange').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddOilChangeRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

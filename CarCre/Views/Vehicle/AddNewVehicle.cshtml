@@ -79,7 +79,6 @@
  $(document).ready(function () {
 
      $('#SaveVehicle').submit(function (e) {
-        debugger;
         var formData = new FormData(this);
 
         $.ajax({
@@ -91,7 +90,6 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                debugger
              // here in result you will get your data
             },
             error: function (result) {
