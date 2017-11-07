@@ -131,10 +131,8 @@
     $(document).ready(function () {
         $('#AddLease').click(function () {
             var url = $('#myModal').data('url');
-            debugger;
             $.get(url, function (data) {
                 $('#AddLeaseRecord').html(data);
-                debugger;
                 $('#myModal').modal('show');
             });
         });

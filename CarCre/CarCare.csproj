@@ -400,11 +400,7 @@
       <DependentUpon>CarCareDB.edmx</DependentUpon>
     </Content>
     <Content Include="Views\OilChange\Index.cshtml" />
-    <Content Include="Views\OilChange\EditOilChange.cshtml" />
-    <Content Include="Views\OilChange\AddOilChange.cshtml" />
     <Content Include="Views\Vehicle\AddNewVehicle.cshtml" />
-    <Content Include="Views\TuneUp\AddTuneUp.cshtml" />
-    <Content Include="Views\TuneUp\EditTuneUp.cshtml" />
     <Content Include="Views\TuneUp\Index.cshtml" />
     <Content Include="Views\Shared\AddServiceRecord.cshtml" />
     <Content Include="App_Code\MyHelpers.cshtml" />

@@ -14,6 +14,7 @@
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                        @Html.ValidationMessageFor(model => model.VehicleId)
                     </td>
                 </tr>
                 <tr>
@@ -22,6 +23,7 @@
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.ServiceStationId, ((List<SelectListItem>)ViewBag.ServiceStations).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
+                        @Html.ValidationMessageFor(model => model.ServiceStationId)
                     </td>
                 </tr>
                 <tr>
@@ -30,6 +32,7 @@
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.ServiceCost)
+                        @Html.ValidationMessageFor(model => model.ServiceCost)
                     </td>
                 </tr>
                 <tr>
@@ -37,7 +40,9 @@
                         @Html.LabelFor(m => m.ServiceDate)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.ServiceDate,
+                            new { @type = "date", @Value = Model.ServiceDate.ToString("yyyy-MM-dd") })
+                        @Html.ValidationMessageFor(model => model.ServiceDate)
                     </td>
                 </tr>
                 <tr>
@@ -46,6 +51,7 @@
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.StationZipCode)
+                        @Html.ValidationMessageFor(model => model.StationZipCode)
                     </td>
                 </tr>
                 <tr>
@@ -65,4 +71,3 @@
 
     </div>
 }
-

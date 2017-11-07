@@ -80,13 +80,12 @@
 
      $('#SaveVehicle').submit(function (e) {
         var formData = new FormData(this);
-
         $.ajax({
-            url: '@Url.Action("SaveVehicle", "Vehicle")',
+            url: '@Url.Action("DeleteOilChange", "OilChange")',
             type: "POST",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: formData,
+            data: {'serviceId' : 54},
             contentType: false,
             processData: false,
             success: function (result) {

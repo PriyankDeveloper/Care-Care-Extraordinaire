@@ -25,7 +25,7 @@ namespace CarCare.Controllers
         public ActionResult BaseIndex()
         {
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
-            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
+            var serviceRecords = BusinessInterface.GetAllServiceRecords(userId).Where(i=>i.ServiceStationId != null).ToList();
             if (serviceTypeId != -1) {
                 serviceRecords = serviceRecords.Where(i => i.ServiceTypeId == serviceTypeId).ToList();
             } else { 
@@ -102,12 +102,16 @@ namespace CarCare.Controllers
             var serviceRecords = BusinessInterface.GetAllServiceRecords(userId);
             var serviceRecord = serviceRecords.FirstOrDefault(i => i.ServiceId == serviceId);
 
+          
             var viewModel = new ServiceRecordViewModel();
             if (serviceRecord != null)
             {
                 viewModel = MapViewModel(new List<CarCareDatabase.ServiceRecord> { serviceRecord }).FirstOrDefault();
             }
 
+            ViewBag.ServiceDate = viewModel.ServiceDate != null 
+                                 ? viewModel.ServiceDate.ToString("yyyy-MM-dd")
+                                 : DateTime.Now.ToString("yyyy-MM-dd");
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
@@ -141,18 +145,22 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult Save(ServiceRecordViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>();
-            });
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>();
+                });
 
-            IMapper mapper = config.CreateMapper();
-            var source = new ServiceRecordViewModel();
-            var dest = mapper.Map<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>(model);
+                IMapper mapper = config.CreateMapper();
+                var source = new ServiceRecordViewModel();
+                var dest = mapper.Map<ServiceRecordViewModel, CarCareDatabase.ServiceRecord>(model);
 
-            dest.LastModifiedDate = DateTime.Now;
-            dest.ServiceTypeId = serviceTypeId;
-            dest.ServiceDate = dest.ServiceDate.HasValue ? dest.ServiceDate : DateTime.Now;
-            var modelData = BusinessInterface.SaveServiceRecord(dest);
+                dest.LastModifiedDate = DateTime.Now;
+                dest.ServiceTypeId = serviceTypeId;
+                dest.ServiceDate = dest.ServiceDate.HasValue ? dest.ServiceDate : DateTime.Now;
+                var modelData = BusinessInterface.SaveServiceRecord(dest);
+            }
             return Redirect("Index");
         }
 
@@ -173,11 +181,11 @@ namespace CarCare.Controllers
                 vm.LastModifiedDate = item.LastModifiedDate;
                 vm.OwnerId = item.Vehicle.OwnerId;
                 vm.ServiceCost = item.ServiceCost;
-                vm.ServiceDate = item.ServiceDate;
+                vm.ServiceDate = Convert.ToDateTime(item.ServiceDate);
                 vm.ServiceId = item.ServiceId;
-                vm.ServiceStationId = item.ServiceStationId;
+                vm.ServiceStationId = Convert.ToInt64(item.ServiceStationId);
                 vm.ServiceTypeId = item.ServiceTypeId;
-		vm.ServiceNote = item.ServiceNote;
+		        vm.ServiceNote = item.ServiceNote;
                 if (item.Vehicle != null)
                 {
                     vm.VechicleDealer = item.Vehicle.VechicleDealer;

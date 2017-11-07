@@ -82,18 +82,22 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult SaveWarranty(WarrantyViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<WarrantyViewModel, CarCareDatabase.Warranty>();
-            });
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<WarrantyViewModel, CarCareDatabase.Warranty>();
+                });
 
-            IMapper mapper = config.CreateMapper();
-            var source = new WarrantyViewModel();
-            var dest = mapper.Map<WarrantyViewModel, CarCareDatabase.Warranty>(model);
+                IMapper mapper = config.CreateMapper();
+                var source = new WarrantyViewModel();
+                var dest = mapper.Map<WarrantyViewModel, CarCareDatabase.Warranty>(model);
 
-            if ( dest.WarrantyStartDate == null )
-                dest.WarrantyStartDate = DateTime.Now;
-            var modelData = BusinessInterface.SaveWarrantyRecord(dest);
-            BusinessInterface.SaveWarrantyRecord(dest);
+                if (dest.WarrantyStartDate == null)
+                    dest.WarrantyStartDate = DateTime.Now;
+                var modelData = BusinessInterface.SaveWarrantyRecord(dest);
+                BusinessInterface.SaveWarrantyRecord(dest);
+            }
             return Redirect("Index");
         }
 
