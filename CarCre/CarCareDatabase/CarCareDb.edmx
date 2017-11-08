@@ -10,13 +10,14 @@
             <PropertyRef Name="InsuranceId" />
           </Key>
           <Property Name="InsuranceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PolicyNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="VehicleId" Type="bigint" Nullable="false" />
           <Property Name="OwnerId" Type="bigint" />
-          <Property Name="InsuranceStartDate" Type="datetime" />
-          <Property Name="InsuranceExpirationDate" Type="datetime" />
+          <Property Name="InsuranceStartDate" Type="datetime" Nullable="false" />
+          <Property Name="InsuranceExpirationDate" Type="datetime2" Precision="7" />
           <Property Name="InsuranceProvider" Type="nvarchar" MaxLength="50" />
           <Property Name="InsuranceCost" Type="decimal" Precision="36" Scale="2" />
-          <Property Name="InsuranceCoverage" Type="nchar" MaxLength="500" />
+          <Property Name="InsuranceCoverage" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="LeaseRecord">
           <Key>
@@ -27,12 +28,12 @@
           <Property Name="LeaseStartDate" Type="datetime" Nullable="false" />
           <Property Name="LeaseTerm" Type="int" Nullable="false" />
           <Property Name="MonthlyPayment" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Company" Type="nchar" MaxLength="500" Nullable="false" />
+          <Property Name="Company" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MoneyFactor" Type="decimal" Precision="18" Scale="2" />
           <Property Name="MilesDrivenPerYear" Type="int" />
           <Property Name="AcquistionFee" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SecurityDeposit" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="LeaseNotes" Type="nchar" MaxLength="500" />
+          <Property Name="LeaseNotes" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="RepairRecord">
           <Key>
@@ -44,7 +45,7 @@
           <Property Name="RepairDate" Type="datetime" Nullable="false" />
           <Property Name="RepairStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="RepairStationId" Type="bigint" />
-          <Property Name="RepairCompleteDate" Type="datetime" />
+          <Property Name="RepairCompleteDate" Type="datetime2" Precision="7" />
           <Property Name="RepairCost" Type="decimal" Precision="18" Scale="0" />
           <Property Name="RepairDetails" Type="nvarchar(max)" />
         </EntityType>
@@ -107,18 +108,28 @@
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="LastModifiedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="VehicleSummary">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="VehicleId" Type="bigint" Nullable="false" />
+          <Property Name="ServiceId" Type="bigint" Nullable="false" />
+          <Property Name="RepairId" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Warranty">
           <Key>
             <PropertyRef Name="WarrantyId" />
           </Key>
           <Property Name="WarrantyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PolicyNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="VehicleId" Type="bigint" Nullable="false" />
           <Property Name="OwnerId" Type="bigint" />
-          <Property Name="WarrantyStartDate" Type="datetime" />
-          <Property Name="WarrantyExpirationDate" Type="datetime" />
+          <Property Name="WarrantyStartDate" Type="datetime" Nullable="false" />
+          <Property Name="WarrantyExpirationDate" Type="datetime2" Precision="7" />
           <Property Name="WarrantyProvider" Type="nvarchar" MaxLength="50" />
           <Property Name="WarrantyCost" Type="decimal" Precision="36" Scale="2" />
-          <Property Name="WarrantyCoverage" Type="nchar" MaxLength="500" />
+          <Property Name="WarrantyCoverage" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <Association Name="FK__ServiceRe__Servi__31EC6D26">
           <End Role="ServiceType" Type="Self.ServiceType" Multiplicity="1" />
@@ -237,6 +248,7 @@
           <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleSummary" EntityType="Self.VehicleSummary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Warranty" EntityType="Self.Warranty" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__ServiceRe__Servi__31EC6D26" Association="Self.FK__ServiceRe__Servi__31EC6D26">
             <End Role="ServiceType" EntitySet="ServiceType" />
@@ -355,6 +367,7 @@
             <End Role="Vehicle" EntitySet="Vehicles" />
             <End Role="LeaseRecord" EntitySet="LeaseRecords" />
           </AssociationSet>
+          <EntitySet Name="VehicleSummaries" EntityType="CarCareModel.VehicleSummary" />
         </EntityContainer>
         <EntityType Name="ServiceRecord">
           <Key>
@@ -444,7 +457,7 @@
           <Property Name="RepairDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RepairStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RepairStationId" Type="Int64" />
-          <Property Name="RepairCompleteDate" Type="DateTime" Precision="3" />
+          <Property Name="RepairCompleteDate" Type="DateTime" Precision="7" />
           <Property Name="RepairCost" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="RepairDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ServiceStation" Relationship="CarCareModel.FK_RepairRecord_ServiceStation" FromRole="RepairRecord" ToRole="ServiceStation" />
@@ -493,12 +506,13 @@
           <Property Name="InsuranceId" Type="Int64" Nullable="false" />
           <Property Name="VehicleId" Type="Int64" Nullable="false" />
           <Property Name="OwnerId" Type="Int64" />
-          <Property Name="InsuranceStartDate" Type="DateTime" Precision="3" />
-          <Property Name="InsuranceExpirationDate" Type="DateTime" Precision="3" />
+          <Property Name="InsuranceStartDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="InsuranceExpirationDate" Type="DateTime" Precision="7" />
           <Property Name="InsuranceProvider" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InsuranceCost" Type="Decimal" Precision="36" Scale="2" />
-          <Property Name="InsuranceCoverage" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="InsuranceCoverage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_Insurance_Vehicle" FromRole="Insurance" ToRole="Vehicle" />
+          <Property Name="PolicyNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Warranty">
           <Key>
@@ -507,12 +521,13 @@
           <Property Name="WarrantyId" Type="Int64" Nullable="false" />
           <Property Name="VehicleId" Type="Int64" Nullable="false" />
           <Property Name="OwnerId" Type="Int64" />
-          <Property Name="WarrantyStartDate" Type="DateTime" Precision="3" />
-          <Property Name="WarrantyExpirationDate" Type="DateTime" Precision="3" />
+          <Property Name="WarrantyStartDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="WarrantyExpirationDate" Type="DateTime" Precision="7" />
           <Property Name="WarrantyProvider" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WarrantyCost" Type="Decimal" Precision="36" Scale="2" />
-          <Property Name="WarrantyCoverage" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="WarrantyCoverage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_Warranty_Vehicle" FromRole="Warranty" ToRole="Vehicle" />
+          <Property Name="PolicyNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Insurance_Vehicle">
           <End Type="CarCareModel.Vehicle" Role="Vehicle" Multiplicity="1" />
@@ -547,12 +562,12 @@
           <Property Name="LeaseStartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LeaseTerm" Type="Int32" Nullable="false" />
           <Property Name="MonthlyPayment" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Company" Type="String" Nullable="false" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MoneyFactor" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="MilesDrivenPerYear" Type="Int32" />
           <Property Name="AcquistionFee" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SecurityDeposit" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LeaseNotes" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="LeaseNotes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Vehicle" Relationship="CarCareModel.FK_LeaseRecord_Vehicle" FromRole="LeaseRecord" ToRole="Vehicle" />
         </EntityType>
         <Association Name="FK_LeaseRecord_Vehicle">
@@ -567,6 +582,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="VehicleSummary">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="VehicleId" Type="Int64" Nullable="false" />
+          <Property Name="ServiceId" Type="Int64" Nullable="false" />
+          <Property Name="RepairId" Type="Int64" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -655,6 +679,7 @@
           <EntitySetMapping Name="Insurances">
             <EntityTypeMapping TypeName="CarCareModel.Insurance">
               <MappingFragment StoreEntitySet="Insurance">
+                <ScalarProperty Name="PolicyNumber" ColumnName="PolicyNumber" />
                 <ScalarProperty Name="InsuranceCoverage" ColumnName="InsuranceCoverage" />
                 <ScalarProperty Name="InsuranceCost" ColumnName="InsuranceCost" />
                 <ScalarProperty Name="InsuranceProvider" ColumnName="InsuranceProvider" />
@@ -669,6 +694,7 @@
           <EntitySetMapping Name="Warranties">
             <EntityTypeMapping TypeName="CarCareModel.Warranty">
               <MappingFragment StoreEntitySet="Warranty">
+                <ScalarProperty Name="PolicyNumber" ColumnName="PolicyNumber" />
                 <ScalarProperty Name="WarrantyCoverage" ColumnName="WarrantyCoverage" />
                 <ScalarProperty Name="WarrantyCost" ColumnName="WarrantyCost" />
                 <ScalarProperty Name="WarrantyProvider" ColumnName="WarrantyProvider" />
@@ -694,6 +720,16 @@
                 <ScalarProperty Name="LeaseStartDate" ColumnName="LeaseStartDate" />
                 <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
                 <ScalarProperty Name="LeaseId" ColumnName="LeaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleSummaries">
+            <EntityTypeMapping TypeName="CarCareModel.VehicleSummary">
+              <MappingFragment StoreEntitySet="VehicleSummary">
+                <ScalarProperty Name="RepairId" ColumnName="RepairId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

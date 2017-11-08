@@ -10,7 +10,13 @@
             <table class="table">
                 <tr>
                     <td>
-                        Vehicle
+                        @Html.LabelFor(m => m.PolicyNumber)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.PolicyNumber)
+                    </td>
+                    <td>
+                        Vehicle (VIN)
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
@@ -59,11 +65,10 @@
                 <tr>
                     <td>
                         <button class="btn btn-primary" type="submit">Save</button>
-                        @Html.HiddenFor(m => m.VehicleId)
                         @Html.HiddenFor(m => m.WarrantyId)
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </td>
                 </tr>
             </table>

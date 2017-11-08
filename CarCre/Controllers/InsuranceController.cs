@@ -54,13 +54,21 @@ namespace CarCare.Controllers
 
         //Edit Insurance Record
         public ActionResult EditInsurance(long insuranceId)
-        {
+        {            
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var insuranceRecords = BusinessInterface.GetAllInsuranceRecords(userId);
             var insuranceRecord = insuranceRecords.FirstOrDefault(i => i.InsuranceId == insuranceId);
 
-            var viewModel = MapViewModel(new List<CarCareDatabase.Insurance> { insuranceRecord });
-
+            var viewModel = new InsuranceViewModel();
+            if (insuranceRecord != null)
+            {
+                viewModel = MapViewModel(new List<CarCareDatabase.Insurance> { insuranceRecord }).FirstOrDefault();
+            }
+            
+            ViewBag.InsuranceDate = viewModel.InsuranceStartDate != null
+                                    ? viewModel.InsuranceStartDate.ToString("yyyy-MM-dd")
+                                    : DateTime.Now.ToString("yyyy-MM-dd");
+            
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             List<SelectListItem> vList = new List<SelectListItem>();
 
@@ -74,7 +82,7 @@ namespace CarCare.Controllers
             }
             ViewBag.Vehicles = vList;
             
-            return PartialView("EditInsurance", viewModel.FirstOrDefault());
+            return PartialView("AddInsurance", viewModel);
 
         }
 
@@ -82,16 +90,21 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult SaveInsurance(InsuranceViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<InsuranceViewModel, CarCareDatabase.Insurance>();
-            });
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<InsuranceViewModel, CarCareDatabase.Insurance>();
+                });
 
-            IMapper mapper = config.CreateMapper();
-            var source = new InsuranceViewModel();
-            var dest = mapper.Map<InsuranceViewModel, CarCareDatabase.Insurance>(model);
+                IMapper mapper = config.CreateMapper();
+                var source = new InsuranceViewModel();
+                var dest = mapper.Map<InsuranceViewModel, CarCareDatabase.Insurance>(model);
 
-            dest.InsuranceStartDate = DateTime.Now;
-            var modelData = BusinessInterface.SaveInsuranceRecord(dest);
+                dest.InsuranceStartDate = DateTime.Now;
+                var modelData = BusinessInterface.SaveInsuranceRecord(dest);
+            }
+
             return Redirect("Index");
         }
 
@@ -127,6 +140,7 @@ namespace CarCare.Controllers
                 InsuranceViewModel vm = new InsuranceViewModel();
 
                 vm.InsuranceId = item.InsuranceId;
+                vm.PolicyNumber = item.PolicyNumber;
                 vm.InsuranceStartDate = item.InsuranceStartDate;
                 vm.InsuranceExpirationDate = item.InsuranceExpirationDate;
                 vm.InsuranceCost = item.InsuranceCost;

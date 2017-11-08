@@ -34,5 +34,6 @@ namespace CarCare.CarCareDatabase
         public virtual DbSet<Insurance> Insurances { get; set; }
         public virtual DbSet<Warranty> Warranties { get; set; }
         public virtual DbSet<LeaseRecord> LeaseRecords { get; set; }
+        public virtual DbSet<VehicleSummary> VehicleSummaries { get; set; }
     }
 }

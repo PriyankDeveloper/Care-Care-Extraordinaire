@@ -57,8 +57,16 @@ namespace CarCare.Controllers
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var warrantyRecords = BusinessInterface.GetAllWarrantyRecords(userId);
             var warrantyRecord = warrantyRecords.FirstOrDefault(i => i.WarrantyId == warrantyId);
+            
+            var viewModel = new WarrantyViewModel();
+            if (warrantyRecord != null)
+            {
+                viewModel = MapViewModel(new List<CarCareDatabase.Warranty> { warrantyRecord }).FirstOrDefault();
+            }
 
-            var viewModel = MapViewModel(new List<CarCareDatabase.Warranty> { warrantyRecord });
+            ViewBag.InsuranceDate = viewModel.WarrantyStartDate != null
+                                    ? viewModel.WarrantyStartDate.ToString("yyyy-MM-dd")
+                                    : DateTime.Now.ToString("yyyy-MM-dd");
 
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
 
@@ -73,8 +81,8 @@ namespace CarCare.Controllers
                 });
             }
             ViewBag.Vehicles = vList;
-            
-            return PartialView("EditWarranty", viewModel.FirstOrDefault());
+
+            return PartialView("AddWarranty", viewModel);
 
         }
 
@@ -98,6 +106,7 @@ namespace CarCare.Controllers
                 var modelData = BusinessInterface.SaveWarrantyRecord(dest);
                 BusinessInterface.SaveWarrantyRecord(dest);
             }
+
             return Redirect("Index");
         }
 
@@ -133,6 +142,7 @@ namespace CarCare.Controllers
                 WarrantyViewModel vm = new WarrantyViewModel();
 
                 vm.WarrantyId = item.WarrantyId;
+                vm.PolicyNumber = item.PolicyNumber;
                 vm.WarrantyStartDate = item.WarrantyStartDate;
                 vm.WarrantyExpirationDate = item.WarrantyExpirationDate;
                 vm.WarrantyCost = item.WarrantyCost;

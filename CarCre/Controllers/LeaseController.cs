@@ -58,8 +58,16 @@ namespace CarCare.Controllers
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var leaseRecords = BusinessInterface.GetAllLeaseRecords(userId);
             var leaseRecord = leaseRecords.FirstOrDefault(i => i.LeaseId == leaseId);
+            
+            var viewModel = new LeaseRecordViewModel();
+            if (leaseRecord != null)
+            {
+                viewModel = MapViewModel(new List<CarCareDatabase.LeaseRecord> { leaseRecord }).FirstOrDefault();
+            }
 
-            var viewModel = MapViewModel(new List<CarCareDatabase.LeaseRecord> { leaseRecord });
+            ViewBag.InsuranceDate = viewModel.LeaseStartDate != null
+                                    ? viewModel.LeaseStartDate.ToString("yyyy-MM-dd")
+                                    : DateTime.Now.ToString("yyyy-MM-dd");
 
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             
@@ -76,7 +84,7 @@ namespace CarCare.Controllers
             }
             ViewBag.Vehicles = vList;
             
-            return PartialView("EditLease", viewModel.FirstOrDefault());
+            return PartialView("AddLease", viewModel);
 
         }
 
@@ -84,16 +92,21 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult SaveLease(LeaseRecordViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>();
-            });
+            if (ModelState.IsValid)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>();
+                });
 
-            IMapper mapper = config.CreateMapper();
-            var source = new LeaseRecordViewModel();
-            var dest = mapper.Map<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>(model);
+                IMapper mapper = config.CreateMapper();
+                var source = new LeaseRecordViewModel();
+                var dest = mapper.Map<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>(model);
 
-            dest.LeaseStartDate = DateTime.Now;
-            var modelData = BusinessInterface.SaveLeaseRecord(dest);
+                dest.LeaseStartDate = DateTime.Now;
+                var modelData = BusinessInterface.SaveLeaseRecord(dest);
+            }
+
             return Redirect("Index");
         }
 
