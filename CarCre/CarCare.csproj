@@ -234,6 +234,9 @@
     <Compile Include="CarCareDatabase\Vehicle.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CarCareDatabase\VehicleSummary.cs">
+      <DependentUpon>CarCareDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarCareDatabase\Warranty.cs">
       <DependentUpon>CarCareDB.tt</DependentUpon>
     </Compile>

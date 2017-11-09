@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarCare.Models
 {
     public class RepairRecordViewModel
     {
         public long RepairId { get; set; }
+        [Required(ErrorMessage = "Vehicle is required")]
         public long VehicleId { get; set; }
         public List<SelectListItem> Vehicles { get; set; }
+        [Required(ErrorMessage = "Short description is required")]
         public string RepairShortDesc { get; set; }
+        [Required(ErrorMessage = "Repair Date is required")]
         public System.DateTime RepairDate { get; set; }
         public string RepairStatus { get; set; }
         public Nullable<long> RepairStationId { get; set; }

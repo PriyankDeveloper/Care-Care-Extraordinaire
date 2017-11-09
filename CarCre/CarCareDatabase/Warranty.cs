@@ -17,11 +17,12 @@ namespace CarCare.CarCareDatabase
         public long WarrantyId { get; set; }
         public long VehicleId { get; set; }
         public Nullable<long> OwnerId { get; set; }
-        public Nullable<System.DateTime> WarrantyStartDate { get; set; }
+        public System.DateTime WarrantyStartDate { get; set; }
         public Nullable<System.DateTime> WarrantyExpirationDate { get; set; }
         public string WarrantyProvider { get; set; }
         public Nullable<decimal> WarrantyCost { get; set; }
         public string WarrantyCoverage { get; set; }
+        public string PolicyNumber { get; set; }
     
         public virtual Vehicle Vehicle { get; set; }
     }

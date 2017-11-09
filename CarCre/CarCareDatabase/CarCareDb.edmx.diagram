@@ -23,6 +23,7 @@
         <AssociationConnector Association="CarCareModel.FK_Warranty_Vehicle" />
         <EntityTypeShape EntityType="CarCareModel.LeaseRecord" Width="1.5" PointX="0.5" PointY="0.5" />
         <AssociationConnector Association="CarCareModel.FK_LeaseRecord_Vehicle" />
+        <EntityTypeShape EntityType="CarCareModel.VehicleSummary" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

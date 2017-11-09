@@ -53,7 +53,8 @@
                         @Html.LabelFor(m => m.RepairDate)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.RepairDate,
+                            new { @type = "date", @Value = Model.RepairDate.ToString("yyyy-MM-dd") })
                     </td>
                 </tr>
                 <tr>
@@ -61,7 +62,8 @@
                         @Html.LabelFor(m => m.RepairCompleteDate)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.RepairCompleteDate,
+                            new { @type = "date" })
                     </td>
                 </tr>
                 <tr>
@@ -75,9 +77,7 @@
                 <tr>
                     <td>
                         <button class="btn btn-primary" type="submit">Save</button>
-                        @Html.HiddenFor(m => m.VehicleId)
                         @Html.HiddenFor(m => m.RepairId)
-                        @Html.HiddenFor(m => m.RepairStationId)
                     </td>
                     <td>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>

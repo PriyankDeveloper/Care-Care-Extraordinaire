@@ -69,9 +69,17 @@ namespace CarCare.Controllers
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var repairRecords = BusinessInterface.GetAllRepairRecords(userId);
             var repairRecord = repairRecords.FirstOrDefault(i => i.RepairId == repairId);
+            
+            var viewModel = new RepairRecordViewModel();
+            if ( repairRecord != null)
+            {
+                viewModel = MapViewModel(new List<CarCareDatabase.RepairRecord> { repairRecord }).FirstOrDefault();
+            }
+            
 
-            var viewModel = MapViewModel(new List<CarCareDatabase.RepairRecord> { repairRecord });
-
+            ViewBag.RepairDate = viewModel.RepairDate != null
+                                    ? viewModel.RepairDate.ToString("yyyy-MM-dd")
+                                    : DateTime.Now.ToString("yyyy-MM-dd");
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
@@ -99,7 +107,7 @@ namespace CarCare.Controllers
 
             ViewBag.ServiceStations = sList;
             
-            return PartialView("EditRepair", viewModel.FirstOrDefault());
+            return PartialView("AddRepair", viewModel);
 
         }
 
@@ -107,16 +115,21 @@ namespace CarCare.Controllers
         [HttpPost]
         public ActionResult SaveRepair(RepairRecordViewModel model)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<RepairRecordViewModel, CarCareDatabase.RepairRecord>();
-            });
+            if (ModelState.IsValid)
+            {
 
-            IMapper mapper = config.CreateMapper();
-            var source = new RepairRecordViewModel();
-            var dest = mapper.Map<RepairRecordViewModel, CarCareDatabase.RepairRecord>(model);
+                var config = new MapperConfiguration(cfg => {
+                    cfg.CreateMap<RepairRecordViewModel, CarCareDatabase.RepairRecord>();
+                });
+
+                IMapper mapper = config.CreateMapper();
+                var source = new RepairRecordViewModel();
+                var dest = mapper.Map<RepairRecordViewModel, CarCareDatabase.RepairRecord>(model);
+
+                dest.RepairDate = dest.RepairDate == null ? DateTime.Now : dest.RepairDate;
+                var modelData = BusinessInterface.SaveRepairRecord(dest);
+            }
             
-            dest.RepairDate = DateTime.Now;
-            var modelData = BusinessInterface.SaveRepairRecord(dest);
             return Redirect("Index");
         }
 
@@ -126,8 +139,7 @@ namespace CarCare.Controllers
             BusinessInterface.DeleteRepairRecord(repairId);
             return Redirect("Index");
         }
-
-
+        
         private List<RepairRecordViewModel> MapViewModel(List<CarCareDatabase.RepairRecord> dbModel)
         {
             List<RepairRecordViewModel> ListofViewModel = new List<RepairRecordViewModel>();

@@ -14,7 +14,7 @@
 
 <div class="container">
     <div class="row">
-        <button type="button" id="AddRepair" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
+        <button type="button" id="AddBtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myAddModal">Add</button>
         <table class="table table-inverse">
             <thead>
                 <tr>
@@ -25,7 +25,7 @@
                         Action
                     </th>
                     <th>
-                        Vehicle
+                        Vehicle(VIN) 
                     </th>
                     <th>
                         Repair Station
@@ -56,14 +56,14 @@
                 {
                     <tr>
                         <td>
-                            <input type="button" id="EditBtn" value="Edit" data-id="@record.RepairId" onclick="location.href='@Url.Action("EditRepair", "Repair", new { repairId = record.RepairId})'" />
+                            <input type="button" id="EditBtn" class="EditRecord" data-toggle="modal" data-target="#myEditModal" value="Edit" data-id="@record.RepairId" />
                         </td>
                         <td>
                             <input type="button" value="Delete" data-id="@record.RepairId" onclick="location.href='@Url.Action("DeleteRepair", "Repair", new { repairId = record.RepairId})'" />
                         </td>
                         
                         <td>
-                            @Html.DropDownList("VehhicleDropdown", new SelectList(record.Vehicles, "Value", "Text", record.VehicleId))
+                            @record.VehicleId
                         </td>
                         <td>
                             @record.RepairStationId
@@ -97,7 +97,7 @@
 
 <!-- Trigger the modal with a button -->
 <!-- Add New Recod Modal -->
-<div id="myModal" class="modal fade" role="dialog" data-url='@Url.Action("AddNewRecord","Repair")'>
+<div id="myAddModal" class="modal fade" role="dialog" data-url='@Url.Action("AddNewRecord","Repair")'>
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -106,7 +106,26 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add Repair Record</h4>
             </div>
-            <div class="modal-body" id="AddRepairRecord">
+            <div class="modal-body" id="AddRecord">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Trigger the modal with a button -->
+<!-- Edit Record Modal -->
+<div id="myEditModal" class="modal fade" role="dialog" data-url='@Url.Action("EditRepair","Repair")'>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Repair Record</h4>
+            </div>
+            <div class="modal-body" id="EditRecord">
 
             </div>
         </div>
@@ -117,11 +136,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#AddRepair').click(function () {
-            var url = $('#myModal').data('url');
+        $('#AddBtn').click(function () {
+            var url = $('#myAddModal').data('url');
             $.get(url, function (data) {
-                $('#AddRepairRecord').html(data);
-                $('#myModal').modal('show');
+                $('#AddRecord').html(data);
+                $('#myAddModal').modal('show');
+            });
+        });
+        $('.EditRecord').click(function () {
+            var url = $('#myEditModal').data('url');
+            url += "?repairId=" + $(this).data('id');
+            $.get(url, function (data) {
+                $('#EditRecord').html(data);
+                $('#myEditModal').modal('show');
             });
         });
     });

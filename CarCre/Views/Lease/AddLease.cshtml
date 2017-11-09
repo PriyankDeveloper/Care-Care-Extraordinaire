@@ -10,7 +10,7 @@
             <table class="table">
                 <tr>
                     <td>
-                        Vehicle
+                        Vehicle (VIN)
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
@@ -91,7 +91,6 @@
                 <tr>
                     <td>
                         <button class="btn btn-primary" type="submit">Save</button>
-                        @Html.HiddenFor(m => m.VehicleId)
                         @Html.HiddenFor(m => m.LeaseId)
                     </td>
                     <td>
