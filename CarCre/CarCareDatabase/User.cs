@@ -27,5 +27,6 @@ namespace CarCare.CarCareDatabase
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual VehicleSummary VehicleSummary { get; set; }
     }
 }

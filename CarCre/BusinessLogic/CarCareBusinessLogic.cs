@@ -367,7 +367,6 @@ namespace CarCare.BusinessLogic
 
         public CarCareDatabase.Insurance SaveInsuranceRecord(CarCareDatabase.Insurance insuranceRecord)
         {
-
             Bootstrapper.Initialise();
 
             var existingInsuranceRecord = carCareEntities.Insurances.FirstOrDefault(i => i.InsuranceId == insuranceRecord.InsuranceId);

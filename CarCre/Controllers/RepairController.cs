@@ -80,6 +80,7 @@ namespace CarCare.Controllers
             ViewBag.RepairDate = viewModel.RepairDate != null
                                     ? viewModel.RepairDate.ToString("yyyy-MM-dd")
                                     : DateTime.Now.ToString("yyyy-MM-dd");
+
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
@@ -126,7 +127,7 @@ namespace CarCare.Controllers
                 var source = new RepairRecordViewModel();
                 var dest = mapper.Map<RepairRecordViewModel, CarCareDatabase.RepairRecord>(model);
 
-                dest.RepairDate = dest.RepairDate == null ? DateTime.Now : dest.RepairDate;
+                dest.RepairDate = dest.RepairDate.HasValue ? dest.RepairDate : DateTime.Now;
                 var modelData = BusinessInterface.SaveRepairRecord(dest);
             }
             
@@ -164,7 +165,7 @@ namespace CarCare.Controllers
                 RepairRecordViewModel vm = new RepairRecordViewModel();
                 vm.RepairId = item.RepairId;
                 vm.RepairShortDesc = item.RepairShortDesc;
-                vm.RepairDate = item.RepairDate;
+                vm.RepairDate = Convert.ToDateTime(item.RepairDate);
                 vm.RepairStatus = item.RepairStatus;
                 vm.RepairStationId = item.RepairStationId;
                 vm.RepairCompleteDate = item.RepairCompleteDate;

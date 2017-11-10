@@ -7,7 +7,7 @@
       <Diagram DiagramId="5202d5d15a4a4b2da55714b970a62dca" Name="Diagram1">
         <EntityTypeShape EntityType="CarCareModel.User" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CarCareModel.Vehicle" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CarCareModel.ServiceRecord" Width="1.5" PointX="5" PointY="6.75" />
+        <EntityTypeShape EntityType="CarCareModel.ServiceRecord" Width="1.5" PointX="5" PointY="7.25" />
         <EntityTypeShape EntityType="CarCareModel.ServiceStation" Width="1.5" PointX="2.75" PointY="7.875" />
         <EntityTypeShape EntityType="CarCareModel.ServiceType" Width="1.5" PointX="7.375" PointY="6.875" />
         <AssociationConnector Association="CarCareModel.FK__ServiceRe__Servi__31EC6D26" />
@@ -23,7 +23,11 @@
         <AssociationConnector Association="CarCareModel.FK_Warranty_Vehicle" />
         <EntityTypeShape EntityType="CarCareModel.LeaseRecord" Width="1.5" PointX="0.5" PointY="0.5" />
         <AssociationConnector Association="CarCareModel.FK_LeaseRecord_Vehicle" />
-        <EntityTypeShape EntityType="CarCareModel.VehicleSummary" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CarCareModel.VehicleSummary" Width="1.5" PointX="6.875" PointY="1.25" />
+        <AssociationConnector Association="CarCareModel.FK_VehicleSummary_RepairRecord" />
+        <AssociationConnector Association="CarCareModel.FK_VehicleSummary_ServiceRecord" />
+        <AssociationConnector Association="CarCareModel.FK_VehicleSummary_User" />
+        <AssociationConnector Association="CarCareModel.FK_VehicleSummary_Vehicle" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
