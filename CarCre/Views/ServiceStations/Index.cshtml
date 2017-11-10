@@ -83,6 +83,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => ServiceStation.Latitude)
                         </td>
+                        <td>
+                            <button onclick="GoogleService.displayPosition('serviceStationMap', @ServiceStation.Latitude, @ServiceStation.Longitude, '@ServiceStation.OwnedBy')">Display On Map</button>
+                        </td>
 
                     </tr>
                 }
@@ -123,4 +126,8 @@
         });
     });
 </script>
+
+<div class="container" style="height: 500px">
+    <div id="serviceStationMap" style="height:100%"></div>
+</div>
 

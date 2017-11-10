@@ -1,20 +1,53 @@
 ﻿
 function initGoogleService() {
     var self = {};
+    var geocoder = new google.maps.Geocoder();
 
     var usersCurrentLatLon = null;
 
-    self.askForLocation = function () {
+    self.askForLocation = function (callback) {
         var geoSuccess = function (position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var latLon = new google.maps.LatLng(lat, lon);
             usersCurrentLatLon = latLon;
+            callback();
         };
         var geoError = function (error) {
             console.log(error);
         };
         navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+    };
+
+    self.processZipCode = function (zip, callback) {
+        geocoder.geocode( {'address': zip }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                lat = results[0].geometry.location.lat();
+                lon = results[0].geometry.location.lng(); console.log(results);
+
+                var latLon = new google.maps.LatLng(lat, lon);
+                usersCurrentLatLon = latLon;
+                callback();
+            } else {
+                alert("Zip Code was not successful for the following reason: " + status);
+            }
+        });
+    };
+
+    self.displayPosition = function (mapId, lat, lon, title) {
+        if (title === undefined) {
+            title = "Pin";
+        }
+        var location = new google.maps.LatLng(lat, lon);
+        var map = new google.maps.Map(document.getElementById(mapId), {
+            center: location,
+            zoom: 15
+        });
+        new google.maps.Marker({
+            map: map,
+            title: title,
+            position: location
+        });
     };
 
     self.searchAndDisplay = function (mapId, request) {
@@ -28,11 +61,12 @@ function initGoogleService() {
             if (self.exists(usersCurrentLatLon)) {
                 request.location = usersCurrentLatLon;
             } else {
-                throw "Error searchAndDisplay - no location passed in request or set in the GoogleService";
+                alert("No location specified. Please allow location to be used or enter a zip code manually.");
+                return;
             }
         }
         if (!self.exists(request.radius)) {
-            request.radius = 500;
+            request.radius = 5000;
         }
         if (!self.exists(request.type)) {
             request.type = ['car_repair'];
