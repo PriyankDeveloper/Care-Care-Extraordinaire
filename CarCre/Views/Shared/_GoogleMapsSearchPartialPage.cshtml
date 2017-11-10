@@ -4,20 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Search Places</h2>
+<h2>Search for Service Stations</h2>
+
+<div class="container">
+    <label for="zipCode">Zip Code</label>
+    <input type="number" name="zipCode"  onblur="GoogleService.processZipCode(this.value, searchForPlace)" value="" />
+    <button onclick="GoogleService.askForLocation(searchForPlace);">Use Current Location</button>
+</div>
 
 <div class="container" style="height: 500px">
     <div id="google-maps-results" style="height:100%"></div>
-</div>
-
-<h3> Search Info </h3>
-<div class="container">
-    <label for="nearbySearchTerm">Search For</label>
-    <input type="text" name="nearbySearchTerm" value="mechanic" />
-    <label for="zipCode">Zip Code</label>
-    <input type="number" name="zipCode" value="" />
-    <button onclick="GoogleService.askForLocation();">Use Current Location</button>
-    <button onclick="searchForPlace();">Search</button>
 </div>
 
 <script>
@@ -26,7 +22,7 @@
     //    zoom: 8
     //});
 
-    var searchForPlace = function (evt, b) {
+    var searchForPlace = function () {
         GoogleService.searchAndDisplay('google-maps-results');
     };
     

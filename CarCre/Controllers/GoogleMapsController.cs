@@ -16,5 +16,10 @@ namespace CarCare.Controllers
             return View("_GoogleMapsSearchPartialPage");
         }
 
+        public ActionResult SavedPlaces()
+        {
+            return View("");
+        }
+
     }
 }
