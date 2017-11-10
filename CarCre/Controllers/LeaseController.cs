@@ -65,7 +65,7 @@ namespace CarCare.Controllers
                 viewModel = MapViewModel(new List<CarCareDatabase.LeaseRecord> { leaseRecord }).FirstOrDefault();
             }
 
-            ViewBag.InsuranceDate = viewModel.LeaseStartDate != null
+            ViewBag.LeaseStartDate = viewModel.LeaseStartDate != null
                                     ? viewModel.LeaseStartDate.ToString("yyyy-MM-dd")
                                     : DateTime.Now.ToString("yyyy-MM-dd");
 
@@ -103,7 +103,8 @@ namespace CarCare.Controllers
                 var source = new LeaseRecordViewModel();
                 var dest = mapper.Map<LeaseRecordViewModel, CarCareDatabase.LeaseRecord>(model);
 
-                dest.LeaseStartDate = DateTime.Now;
+                dest.LeaseStartDate = dest.LeaseStartDate.HasValue ? dest.LeaseStartDate : DateTime.Now;
+                
                 var modelData = BusinessInterface.SaveLeaseRecord(dest);
             }
 
@@ -142,7 +143,7 @@ namespace CarCare.Controllers
                 vm.LeaseId = item.LeaseId;
                 vm.VehicleId = item.VehicleId;
                 vm.Vehicles = vList;
-                vm.LeaseStartDate = item.LeaseStartDate;
+                vm.LeaseStartDate = Convert.ToDateTime(item.LeaseStartDate);
                 vm.LeaseTerm = item.LeaseTerm;
                 vm.MonthlyPayment = item.MonthlyPayment;
                 vm.Company = item.Company;

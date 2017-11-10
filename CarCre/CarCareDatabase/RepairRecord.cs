@@ -14,10 +14,16 @@ namespace CarCare.CarCareDatabase
     
     public partial class RepairRecord
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RepairRecord()
+        {
+            this.VehicleSummaries = new HashSet<VehicleSummary>();
+        }
+    
         public long RepairId { get; set; }
         public long VehicleId { get; set; }
         public string RepairShortDesc { get; set; }
-        public System.DateTime RepairDate { get; set; }
+        public Nullable<System.DateTime> RepairDate { get; set; }
         public string RepairStatus { get; set; }
         public Nullable<long> RepairStationId { get; set; }
         public Nullable<System.DateTime> RepairCompleteDate { get; set; }
@@ -26,5 +32,7 @@ namespace CarCare.CarCareDatabase
     
         public virtual ServiceStation ServiceStation { get; set; }
         public virtual Vehicle Vehicle { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VehicleSummary> VehicleSummaries { get; set; }
     }
 }

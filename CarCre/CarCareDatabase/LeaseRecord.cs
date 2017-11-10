@@ -16,7 +16,7 @@ namespace CarCare.CarCareDatabase
     {
         public long LeaseId { get; set; }
         public long VehicleId { get; set; }
-        public System.DateTime LeaseStartDate { get; set; }
+        public Nullable<System.DateTime> LeaseStartDate { get; set; }
         public int LeaseTerm { get; set; }
         public decimal MonthlyPayment { get; set; }
         public string Company { get; set; }

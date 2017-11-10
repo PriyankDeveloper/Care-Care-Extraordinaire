@@ -14,6 +14,12 @@ namespace CarCare.CarCareDatabase
     
     public partial class ServiceRecord
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ServiceRecord()
+        {
+            this.VehicleSummaries = new HashSet<VehicleSummary>();
+        }
+    
         public long ServiceId { get; set; }
         public long VehicleId { get; set; }
         public long ServiceTypeId { get; set; }
@@ -27,5 +33,7 @@ namespace CarCare.CarCareDatabase
         public virtual ServiceType ServiceType { get; set; }
         public virtual ServiceStation ServiceStation { get; set; }
         public virtual Vehicle Vehicle { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VehicleSummary> VehicleSummaries { get; set; }
     }
 }

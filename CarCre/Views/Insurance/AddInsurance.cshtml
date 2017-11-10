@@ -15,6 +15,8 @@
                     <td>
                         @Html.TextBoxFor(m => m.PolicyNumber)
                     </td>
+                </tr>
+                <tr>
                     <td>
                         Vehicle (VIN)
                     </td>
@@ -43,7 +45,8 @@
                         @Html.LabelFor(m => m.InsuranceStartDate)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.InsuranceStartDate,
+                            new { @type = "date", @Value = Model.InsuranceStartDate.ToString("yyyy-MM-dd") })
                     </td>
                 </tr>
                 <tr>
@@ -51,7 +54,8 @@
                         @Html.LabelFor(m => m.InsuranceExpirationDate)
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.InsuranceExpirationDate,
+                            new { @type = "date", @Value = Model.InsuranceExpirationDate.ToString() })
                     </td>
                 </tr>
                 <tr>

@@ -10,11 +10,13 @@
             <table class="table">
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.PolicyNumber)
+                        Policy Number
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.PolicyNumber)
                     </td>
+                </tr>
+                <tr>
                     <td>
                         Vehicle (VIN)
                     </td>
@@ -24,7 +26,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.WarrantyProvider)
+                        Warranty Provider
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.WarrantyProvider)
@@ -32,7 +34,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.WarrantyCost)
+                        Cost
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.WarrantyCost)
@@ -40,23 +42,25 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.WarrantyStartDate)
+                        Start Date
                     </td>
                     <td>
-                        <input type="date" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.LabelFor(m => m.WarrantyExpirationDate)
-                    </td>
-                    <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.WarrantyStartDate,
+                            new { @type = "date", @Value = Model.WarrantyStartDate.ToString("yyyy-MM-dd") })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.WarrantyCoverage)
+                        Expiration Date
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.WarrantyExpirationDate,
+                            new { @type = "date", @Value = Model.WarrantyExpirationDate.ToString() })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Coverage
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.WarrantyCoverage)

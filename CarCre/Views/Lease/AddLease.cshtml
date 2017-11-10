@@ -18,15 +18,16 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.LeaseStartDate)
+                        Lease Start Date
                     </td>
                     <td>
-                        <input type="date" />
+                        @Html.TextBoxFor(model => model.LeaseStartDate,
+                            new { @type = "date", @Value = Model.LeaseStartDate.ToString("yyyy-MM-dd") })
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.LeaseTerm)
+                        Lease Term (months)
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.LeaseTerm)
@@ -34,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.MonthlyPayment)
+                        Monthly Payment
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.MonthlyPayment)
@@ -42,7 +43,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.Company)
+                        Company
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.Company)
@@ -50,7 +51,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.MilesDrivenPerYear)
+                        Miles Driven Per Year
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.MilesDrivenPerYear)
@@ -58,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.SecurityDeposit)
+                        Security Deposit
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.SecurityDeposit)
@@ -66,7 +67,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.AcquistionFee)
+                        Acquistion Fee
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.AcquistionFee)
@@ -74,7 +75,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.MoneyFactor)
+                        Money Factor
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.MoneyFactor)
@@ -82,7 +83,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.LeaseNotes)
+                        Notes
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.LeaseNotes)

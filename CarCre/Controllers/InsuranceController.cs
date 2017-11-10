@@ -65,10 +65,11 @@ namespace CarCare.Controllers
                 viewModel = MapViewModel(new List<CarCareDatabase.Insurance> { insuranceRecord }).FirstOrDefault();
             }
             
-            ViewBag.InsuranceDate = viewModel.InsuranceStartDate != null
+            ViewBag.InsuranceStartDate = viewModel.InsuranceStartDate != null
                                     ? viewModel.InsuranceStartDate.ToString("yyyy-MM-dd")
                                     : DateTime.Now.ToString("yyyy-MM-dd");
             
+
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
             List<SelectListItem> vList = new List<SelectListItem>();
 
@@ -101,7 +102,8 @@ namespace CarCare.Controllers
                 var source = new InsuranceViewModel();
                 var dest = mapper.Map<InsuranceViewModel, CarCareDatabase.Insurance>(model);
 
-                dest.InsuranceStartDate = DateTime.Now;
+                dest.InsuranceStartDate = dest.InsuranceStartDate.HasValue ? dest.InsuranceStartDate : DateTime.Now;
+
                 var modelData = BusinessInterface.SaveInsuranceRecord(dest);
             }
 
@@ -141,7 +143,7 @@ namespace CarCare.Controllers
 
                 vm.InsuranceId = item.InsuranceId;
                 vm.PolicyNumber = item.PolicyNumber;
-                vm.InsuranceStartDate = item.InsuranceStartDate;
+                vm.InsuranceStartDate = Convert.ToDateTime(item.InsuranceStartDate);
                 vm.InsuranceExpirationDate = item.InsuranceExpirationDate;
                 vm.InsuranceCost = item.InsuranceCost;
                 vm.InsuranceCoverage = item.InsuranceCoverage;

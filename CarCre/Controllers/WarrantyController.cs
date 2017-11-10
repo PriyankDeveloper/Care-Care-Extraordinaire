@@ -64,8 +64,11 @@ namespace CarCare.Controllers
                 viewModel = MapViewModel(new List<CarCareDatabase.Warranty> { warrantyRecord }).FirstOrDefault();
             }
 
-            ViewBag.InsuranceDate = viewModel.WarrantyStartDate != null
+            ViewBag.WarrantyStartDate = viewModel.WarrantyStartDate != null
                                     ? viewModel.WarrantyStartDate.ToString("yyyy-MM-dd")
+                                    : DateTime.Now.ToString("yyyy-MM-dd");
+            ViewBag.WarrantyExpirationDate = viewModel.WarrantyExpirationDate != null
+                                    ? viewModel.WarrantyExpirationDate.ToString()
                                     : DateTime.Now.ToString("yyyy-MM-dd");
 
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
@@ -101,10 +104,10 @@ namespace CarCare.Controllers
                 var source = new WarrantyViewModel();
                 var dest = mapper.Map<WarrantyViewModel, CarCareDatabase.Warranty>(model);
 
-                if (dest.WarrantyStartDate == null)
-                    dest.WarrantyStartDate = DateTime.Now;
+                dest.WarrantyStartDate = dest.WarrantyStartDate.HasValue ? dest.WarrantyStartDate : DateTime.Now;
+                    //dest.WarrantyStartDate = DateTime.Now;
                 var modelData = BusinessInterface.SaveWarrantyRecord(dest);
-                BusinessInterface.SaveWarrantyRecord(dest);
+                //BusinessInterface.SaveWarrantyRecord(dest);
             }
 
             return Redirect("Index");
@@ -143,7 +146,7 @@ namespace CarCare.Controllers
 
                 vm.WarrantyId = item.WarrantyId;
                 vm.PolicyNumber = item.PolicyNumber;
-                vm.WarrantyStartDate = item.WarrantyStartDate;
+                vm.WarrantyStartDate = Convert.ToDateTime(item.WarrantyStartDate);
                 vm.WarrantyExpirationDate = item.WarrantyExpirationDate;
                 vm.WarrantyCost = item.WarrantyCost;
                 vm.WarrantyCoverage = item.WarrantyCoverage;
