@@ -56,6 +56,14 @@
                 </tr>
                 <tr>
                     <td>
+                        @Html.LabelFor(m => m.ServiceNote)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.ServiceNote)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <button class="btn btn-primary" type="submit">Save</button>
                         @Html.HiddenFor(m => m.VehicleId)
                         @Html.HiddenFor(m => m.ServiceId)
