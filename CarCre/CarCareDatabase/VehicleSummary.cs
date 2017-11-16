@@ -18,10 +18,14 @@ namespace CarCare.CarCareDatabase
         public long VehicleId { get; set; }
         public long ServiceId { get; set; }
         public long RepairId { get; set; }
+        
     
         public virtual RepairRecord RepairRecord { get; set; }
         public virtual ServiceRecord ServiceRecord { get; set; }
         public virtual User User { get; set; }
         public virtual Vehicle Vehicle { get; set; }
+
+        public virtual ServiceStation ServiceStation { get; set; }
+        public virtual ServiceType ServiceType { get; set; }
     }
 }
