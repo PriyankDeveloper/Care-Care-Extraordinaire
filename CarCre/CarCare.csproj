@@ -415,7 +415,6 @@
     <Content Include="Views\StateInspection\Index.cshtml" />
     <Content Include="Views\Repair\Index.cshtml" />
     <Content Include="Views\Repair\AddRepair.cshtml" />
-    <Content Include="Views\Repair\EditRepair.cshtml" />
     <Content Include="Views\Insurance\Index.cshtml" />
     <Content Include="Views\Warranty\Index.cshtml" />
     <Content Include="Views\Insurance\AddInsurance.cshtml" />
