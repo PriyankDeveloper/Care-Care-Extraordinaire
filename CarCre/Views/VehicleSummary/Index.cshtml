@@ -1,0 +1,140 @@
+﻿@model IEnumerable<CarCare.Models.VehicleSummaryViewModel>
+
+
+@{
+    ViewBag.Title = "Vehicle Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle Summary</h2>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row">
+        @*@using (Html.BeginForm("UpdatePageInfo", "VehicleSummary", FormMethod.Post))*@
+        @using (Html.BeginForm())
+        {
+        <table>
+            <tr>
+                <td>
+                    @Html.DropDownList("Vehicle Dropdown", ((List<System.Web.Mvc.SelectListItem>)ViewBag.Vehicles).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
+                    @*@Html.DropDownListFor(m=>m.SelectedVehicle, ((List<System.Web.Mvc.SelectListItem>)ViewBag.Vehicles).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))*@
+                    @Html.Hidden("returnUrl", this.Request.RawUrl)
+                </td>
+                <td>
+                    <input type="submit" value="Summary for a Vehicle" />
+                </td>
+                
+            </tr>
+        </table>
+        }
+
+        <table class="table table-inverse">
+            <thead>
+                <tr>
+                    <th>
+                        Service Type
+                    </th>
+                    <th>
+                        Vehicle
+                    </th>
+                    <th>
+                        Service Station
+                    </th>
+                    <th>
+                        Service Cost
+                    </th>
+                    <th>
+                        Service Date
+                    </th>
+                    <th>
+                        Service Notes
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    if (record.RepairId != null)
+                    {
+                        <tr>
+                            <td>
+                                Repair
+                            </td>
+                            <td>
+                                @record.VINNumber
+                            </td>
+                            <td>
+                                
+                                   @record.StationStreetAddress
+
+                            </td>
+                            <td>
+                                @record.RepairCost
+                            </td>
+                            <td>
+                                @record.RepairDate
+                            </td>
+                            <td>
+                                @record.RepairDetails
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+
+                @foreach (var record in Model)
+                {
+                    if (record.ServiceId != null)
+                    {
+                        <tr>
+                            <td>
+                                @record.ServiceName
+                            </td>
+                            <td>
+                                @record.VINNumber
+                            </td>
+                            <td>
+
+                                    @record.StationStreetAddress
+
+                            </td>
+                            <td>
+                                @record.ServiceCost
+                            </td>
+                            <td>
+                                @record.ServiceDate
+                            </td>
+                            <td>
+                                @record.ServiceNote
+                            </td>
+                        
+                        </tr>
+                    }
+                }
+
+                
+            </tbody>
+        </table>
+    </div>
+
+    @*<script type="text/javascript">
+        $(function () {
+            $('').change(function () {
+                
+            });
+        });
+    </script>*@
+
+
+
+</div>
+
+
+

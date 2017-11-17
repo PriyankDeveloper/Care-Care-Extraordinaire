@@ -10,7 +10,7 @@
             <table class="table">
                 <tr>
                     <td>
-                        Vehicle
+                        Vehicle (VIN)
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
