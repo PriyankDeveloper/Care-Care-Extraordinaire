@@ -419,11 +419,8 @@
     <Content Include="Views\Warranty\Index.cshtml" />
     <Content Include="Views\Insurance\AddInsurance.cshtml" />
     <Content Include="Views\Warranty\AddWarranty.cshtml" />
-    <Content Include="Views\Insurance\EditInsurance.cshtml" />
-    <Content Include="Views\Warranty\EditWarranty.cshtml" />
     <Content Include="Views\Lease\Index.cshtml" />
     <Content Include="Views\Lease\AddLease.cshtml" />
-    <Content Include="Views\Lease\EditLease.cshtml" />
     <Content Include="Views\ServiceStations\AddNewServiceStation.cshtml" />
     <Content Include="Views\ServiceStations\EditServiceStation.cshtml" />
     <Content Include="Views\ServiceStations\Index.cshtml" />
