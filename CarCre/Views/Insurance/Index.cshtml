@@ -54,7 +54,7 @@
                             <input type="button" id="EditBtn" class="EditRecord" data-toggle="modal" data-target="#myEditModal" value="Edit" data-id="@record.InsuranceId" />
                         </td>
                         <td>
-                            <input type="button" value="Delete" data-id="@record.InsuranceId" onclick="location.href='@Url.Action("DeleteInsurance", "Insurance", new { insuranceId = record.InsuranceId})'" />
+                            <input type="button" value="Delete" data-id="@record.InsuranceId" class="delete" data-confirm="Are you sure to delete this item?" />
                         </td>
                         <td>
                             @record.PolicyNumber
@@ -143,4 +143,28 @@
             });
         });
     });
+
+
+    var deleteLinks = document.querySelectorAll('.delete');
+
+    for (var i = 0; i < deleteLinks.length; i++) {
+        deleteLinks[i].addEventListener('click', function (event) {
+            event.preventDefault();
+
+            var choice = confirm(this.getAttribute('data-confirm'));
+            if (choice) {
+                var ds = $(this).data("id");
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Insurance/DeleteInsurance',
+                    data: { 'insuranceId': ds },
+                    success: function (result) {
+                        if (result == "Success") {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
 </script>

@@ -64,10 +64,10 @@ namespace CarCare.Controllers
         }
 
         //Delete Vehicle
-        public ActionResult DeleteServiceStation(int ServiceStationId)
+        public JsonResult DeleteServiceStation(Int64 ServiceStationsId)
         {
-            BusinessInterface.DeleteVehicle(ServiceStationId);
-            return Redirect("Index");
+            BusinessInterface.DeleteServiceStation(Convert.ToInt32(ServiceStationsId));
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
     }
 }

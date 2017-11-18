@@ -167,7 +167,7 @@ namespace CarCare.Controllers
         public ActionResult Delete(long serviceId)
         {
             BusinessInterface.DeleteServiceRecord(serviceId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
         private List<ServiceRecordViewModel> MapViewModel(List<CarCareDatabase.ServiceRecord> dbModel)

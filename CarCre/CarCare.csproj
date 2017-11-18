@@ -425,7 +425,6 @@
     <Content Include="Views\ServiceStations\EditServiceStation.cshtml" />
     <Content Include="Views\ServiceStations\Index.cshtml" />
     <Content Include="Views\SavedPlaces.cshtml" />
-    <Content Include="Views\Index.cshtml" />
     <Content Include="Views\VehicleSummary\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

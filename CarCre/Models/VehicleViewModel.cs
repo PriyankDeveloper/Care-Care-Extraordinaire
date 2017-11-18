@@ -18,6 +18,8 @@ namespace CarCare.Models
         public string VechicleYear { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string VechicleDealer { get; set; }
+        [StringLength(17)]
+        [RegularExpression("^[a-zA-Z0-9]{17}$", ErrorMessage = "VIN Number must me contain exactly 17 char.")]
         [Required(ErrorMessage = "Title is required")]
         public string VINNumber { get; set; }
     }

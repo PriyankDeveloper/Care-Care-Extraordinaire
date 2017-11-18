@@ -69,7 +69,7 @@ namespace CarCare.Controllers
         public ActionResult DeleteVehicle(int vehicleId)
         {
             BusinessInterface.DeleteVehicle(vehicleId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
     }
 }

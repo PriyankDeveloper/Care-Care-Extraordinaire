@@ -7,22 +7,23 @@
 
 <h2>Service Station</h2>
 
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
 
 
 
 <div class="container">
     <div class="row">
-        <br>
-        <br>
-        <br>
         <button type="button" id="AddNewServiceStation" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add</button>
         <table class="table table-inverse">
             <thead>
                 <tr>
 
+                    <th>
+
+                    </th>
                     <th>
 
                     </th>
@@ -58,6 +59,9 @@
                     <tr>
                         <td>
                             <input type="button" value="Edit" data-id="@ServiceStation.ServiceStationId" onclick="location.href='@Url.Action("EditServiceStation", "ServiceStations",  new { ServiceStationsId = ServiceStation.ServiceStationId})'" />
+                        </td>
+                        <td>
+                            <input type="button" value="Delete" data-id="@ServiceStation.ServiceStationId" class="delete" data-confirm="Are you sure to delete this item?" />
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => ServiceStation.OwnedBy)
@@ -125,6 +129,31 @@
             });
         });
     });
+
+    var deleteLinks = document.querySelectorAll('.delete');
+
+    for (var i = 0; i < deleteLinks.length; i++) {
+        deleteLinks[i].addEventListener('click', function (event) {
+            event.preventDefault();
+
+            var choice = confirm(this.getAttribute('data-confirm'));
+            if (choice) {
+                var ds = $(this).data("id");
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/ServiceStations/DeleteServiceStation',
+                    data: {'ServiceStationsId': ds},
+                    success: function (result) {
+                        if (result == "Success")
+                        {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    }
 </script>
 
 <div class="container" style="height: 500px">

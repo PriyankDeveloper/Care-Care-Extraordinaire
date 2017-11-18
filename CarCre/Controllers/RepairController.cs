@@ -138,7 +138,7 @@ namespace CarCare.Controllers
         public ActionResult DeleteRepair(long repairId)
         {
             BusinessInterface.DeleteRepairRecord(repairId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
         
         private List<RepairRecordViewModel> MapViewModel(List<CarCareDatabase.RepairRecord> dbModel)

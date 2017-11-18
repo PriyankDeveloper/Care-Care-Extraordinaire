@@ -117,7 +117,7 @@ namespace CarCare.Controllers
         public ActionResult DeleteWarranty(long warrantyId)
         {
             BusinessInterface.DeleteWarrantyRecord(warrantyId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
 

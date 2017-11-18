@@ -114,7 +114,7 @@ namespace CarCare.Controllers
         public ActionResult DeleteInsurance(long insuranceId)
         {
             BusinessInterface.DeleteInsuranceRecord(insuranceId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
 

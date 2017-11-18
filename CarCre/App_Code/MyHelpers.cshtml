@@ -70,7 +70,7 @@
                                     <input type="button" id="Edit" class="EditRecord"  data-toggle="modal" data-target="#myEditModal" value="Edit" data-id="@record.ServiceId" />               
                                 </td>
                                 <td>
-                                    <input type="button" value="Delete" data-id="@record.ServiceId" onclick="location.href='@url.Action("Delete", typeOfService, new { serviceId = record.ServiceId})'" />
+                                    <input type="button" value="Delete" data-id="@record.ServiceId" data-control="@typeOfService" class="delete" data-confirm="Are you sure to delete this item?" />
                                 </td>
                                 <td>
                                     @html.DropDownList(record.VehicleId.ToString(), ((List<System.Web.Mvc.SelectListItem>)viewBag.Vehicles).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
@@ -158,6 +158,33 @@
                     });
                 });
             });
+
+            var deleteLinks = document.querySelectorAll('.delete');
+
+            for (var i = 0; i < deleteLinks.length; i++) {
+                deleteLinks[i].addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    var choice = confirm(this.getAttribute('data-confirm'));
+                    if (choice) {
+                        var ds = $(this).data("id");
+                        var controllerName = $(this).data("control");
+                        var url = "/" + controllerName + "/Delete";
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: url,
+                            data: { 'serviceId': ds },
+                            success: function (result) {
+                                if (result == "Success") {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
         </script>
     </div >
 }
