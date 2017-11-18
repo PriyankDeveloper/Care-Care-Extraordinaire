@@ -287,18 +287,6 @@ namespace CarCare.BusinessLogic
             carList.ForEach(car => carIdList.Add(car.VehicleId));
             listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
             return listRecords;
-            /*
-            var repairs = carCareEntities.RepairRecords.ToList();
-
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CarCareDatabase.RepairRecord, Models.RepairRecordViewModel>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            var source = new List<CarCareDatabase.RepairRecord>();
-            var dest = mapper.Map<List<CarCareDatabase.RepairRecord>, List<Models.RepairRecordViewModel>>(repairs);
-
-            return dest;*/
         }
 
         public CarCareDatabase.RepairRecord SaveRepairRecord(CarCareDatabase.RepairRecord repairRecord)
@@ -351,18 +339,6 @@ namespace CarCare.BusinessLogic
             carList.ForEach(car => carIdList.Add(car.VehicleId));
             listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
             return listRecords;
-            /*
-            var insurances = carCareEntities.Insurances.ToList();
-
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CarCareDatabase.Insurance, Models.InsuranceViewModel>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            var source = new List<CarCareDatabase.Insurance>();
-            var dest = mapper.Map<List<CarCareDatabase.Insurance>, List<Models.InsuranceViewModel>>(insurances);
-
-            return dest;*/
         }
 
         public CarCareDatabase.Insurance SaveInsuranceRecord(CarCareDatabase.Insurance insuranceRecord)
@@ -414,21 +390,9 @@ namespace CarCare.BusinessLogic
             carList.ForEach(car => carIdList.Add(car.VehicleId));
             listRecords = listRecords.Where(i => carIdList.Contains(i.VehicleId)).ToList();
             return listRecords;
-            /*var warranties = carCareEntities.Warranties.ToList();
-
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CarCareDatabase.Warranty, Models.WarrantyViewModel>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            var source = new List<CarCareDatabase.Warranty>();
-            var dest = mapper.Map<List<CarCareDatabase.Warranty>, List<Models.WarrantyViewModel>>(warranties);
-
-            return dest;*/
         }
 
         public CarCareDatabase.Warranty SaveWarrantyRecord(CarCareDatabase.Warranty warrantyRecord)
-        //public void SaveWarrantyRecord(CarCareDatabase.Warranty warrantyRecord)
         {
 
             Bootstrapper.Initialise();
@@ -446,8 +410,7 @@ namespace CarCare.BusinessLogic
                 carCareEntities.Entry(warrantyRecord).State = EntityState.Added;
                 carCareEntities.SaveChanges();
             }
-
-            //warrantyRecord = null;
+            
             return warrantyRecord;
         }
 

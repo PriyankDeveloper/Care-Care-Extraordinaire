@@ -110,6 +110,9 @@
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Controllers\RepairControllerTests.cs" />
     <Compile Include="Controllers\ServiceRecordsControllerTest.cs" />
+    <Compile Include="Controllers\InsuranceControllerTests.cs" />
+    <Compile Include="Controllers\LeaseControllerTests.cs" />
+    <Compile Include="Controllers\WarrantyControllerTests.cs" />
     <Compile Include="Controllers\VehicleControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
