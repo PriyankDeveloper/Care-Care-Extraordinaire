@@ -151,6 +151,7 @@ namespace CarCare.Controllers
                 vm.WarrantyCost = item.WarrantyCost;
                 vm.WarrantyCoverage = item.WarrantyCoverage;
                 vm.VehicleId = item.VehicleId;
+                vm.VINNumber = item.Vehicle.VINNumber;
                 vm.Vehicles = vList;
                 vm.OwnerId = item.Vehicle.OwnerId;
                 vm.WarrantyProvider = item.WarrantyProvider;

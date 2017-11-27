@@ -147,8 +147,10 @@ namespace CarCare.Controllers
             
             long userId = BusinessInterface.getUserIdFromCookie(HttpContext.Request.Cookies);
             var allVehicle = BusinessInterface.GetAllVehicles(userId).ToList();
+            var allServiceStation = BusinessInterface.GetAllServiceStations().ToList();
 
             List<SelectListItem> vList = new List<SelectListItem>();
+            List<SelectListItem> sList = new List<SelectListItem>();
 
             foreach (var vehicle in allVehicle)
             {
@@ -159,6 +161,14 @@ namespace CarCare.Controllers
                 });
             }
 
+            foreach (var station in allServiceStation)
+            {
+                sList.Add(new SelectListItem
+                {
+                    Text = station.StreetAddress,
+                    Value = station.ServiceStationId.ToString()
+                });
+            }
 
             foreach (var item in dbModel)
             {
@@ -172,6 +182,7 @@ namespace CarCare.Controllers
                 vm.RepairCost = item.RepairCost;
                 vm.RepairDetails = item.RepairDetails;
                 vm.Vehicles = vList;
+                vm.RepairStations = sList;
                 vm.OwnerId = item.Vehicle.OwnerId;
                 vm.VechicleDealer = item.Vehicle.VechicleDealer;
                 vm.VechicleYear = item.Vehicle.VechicleYear;

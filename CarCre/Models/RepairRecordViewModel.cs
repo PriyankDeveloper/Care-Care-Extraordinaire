@@ -13,6 +13,7 @@ namespace CarCare.Models
         [Required(ErrorMessage = "Vehicle is required")]
         public long VehicleId { get; set; }
         public List<SelectListItem> Vehicles { get; set; }
+        public List<SelectListItem> RepairStations { get; set; }
         [Required(ErrorMessage = "Short description is required")]
         public string RepairShortDesc { get; set; }
         [Required(ErrorMessage = "Repair Date is required")]

@@ -73,10 +73,10 @@
                                     <input type="button" value="Delete" data-id="@record.ServiceId" data-control="@typeOfService" class="delete" data-confirm="Are you sure to delete this item?" />
                                 </td>
                                 <td>
-                                    @html.DropDownList(record.VehicleId.ToString(), ((List<System.Web.Mvc.SelectListItem>)viewBag.Vehicles).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
+                                    @record.VINNumber
                                 </td>
                                 <td>
-                                    @html.DropDownList(record.ServiceStationId.ToString(), ((List<System.Web.Mvc.SelectListItem>)viewBag.ServiceStations).Select(m => new System.Web.Mvc.SelectListItem { Text = m.Text, Value = m.Value }))
+                                    @record.StationStreetAddress
                                 </td>
                                 <td>
                                     @record.ServiceCost

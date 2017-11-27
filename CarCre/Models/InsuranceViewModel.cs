@@ -14,6 +14,7 @@ namespace CarCare.Models
         public string PolicyNumber { get; set; }
         [Required(ErrorMessage = "Vehicle is required")]
         public long VehicleId { get; set; }
+        public string VINNumber { get; set; }
         public List<SelectListItem> Vehicles { get; set; }
         public string InsuranceProvider { get; set; }
         [Required(ErrorMessage = "Start Date is required")]

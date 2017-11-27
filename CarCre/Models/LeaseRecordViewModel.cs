@@ -12,6 +12,7 @@ namespace CarCare.Models
         public long LeaseId { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public long VehicleId { get; set; }
+        public string VINNumber { get; set; }
         public List<SelectListItem> Vehicles { get; set; }
         public System.DateTime LeaseStartDate { get; set; }
         [Required(ErrorMessage = "Title is required")]
