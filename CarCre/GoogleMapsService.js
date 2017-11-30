@@ -20,6 +20,9 @@ function initGoogleService() {
     };
 
     self.processZipCode = function (zip, callback) {
+        if (zip === undefined || zip === null || zip === "") {
+            return;
+        }
         geocoder.geocode( {'address': zip }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 lat = results[0].geometry.location.lat();
