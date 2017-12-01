@@ -115,7 +115,7 @@ namespace CarCare.Controllers
         public ActionResult DeleteLease(long leaseId)
         {
             BusinessInterface.DeleteLeaseRecord(leaseId);
-            return Redirect("Index");
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
 
@@ -143,6 +143,7 @@ namespace CarCare.Controllers
                 vm.LeaseId = item.LeaseId;
                 vm.VehicleId = item.VehicleId;
                 vm.Vehicles = vList;
+                vm.VINNumber = item.Vehicle.VINNumber;
                 vm.LeaseStartDate = Convert.ToDateTime(item.LeaseStartDate);
                 vm.LeaseTerm = item.LeaseTerm;
                 vm.MonthlyPayment = item.MonthlyPayment;

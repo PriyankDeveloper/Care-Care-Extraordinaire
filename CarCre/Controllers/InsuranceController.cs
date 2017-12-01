@@ -149,6 +149,7 @@ namespace CarCare.Controllers
                 vm.InsuranceCoverage = item.InsuranceCoverage;
                 vm.OwnerId = item.Vehicle.OwnerId;
                 vm.VehicleId = item.VehicleId;
+                vm.VINNumber = item.Vehicle.VINNumber;
                 vm.Vehicles = vList;
                 vm.InsuranceProvider = item.InsuranceProvider;
 

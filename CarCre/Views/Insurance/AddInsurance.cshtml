@@ -10,7 +10,7 @@
             <table class="table">
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.PolicyNumber)
+                        Policy Number
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.PolicyNumber)
@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Vehicle (VIN)
+                        Vehicle(VIN)
                     </td>
                     <td>
                         @Html.DropDownListFor(m => m.VehicleId, ((List<SelectListItem>)ViewBag.Vehicles).Select(m => new SelectListItem { Text = m.Text, Value = m.Value }))
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.InsuranceProvider)
+                        Insurance Provider
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.InsuranceProvider)
@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.InsuranceCost)
+                        Insurance Cost
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.InsuranceCost)
@@ -42,7 +42,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.InsuranceStartDate)
+                        Start Date
                     </td>
                     <td>
                         @Html.TextBoxFor(model => model.InsuranceStartDate,
@@ -51,7 +51,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.InsuranceExpirationDate)
+                        Expiration Date
                     </td>
                     <td>
                         @Html.TextBoxFor(model => model.InsuranceExpirationDate,
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.LabelFor(m => m.InsuranceCoverage)
+                        Insurance Coverage
                     </td>
                     <td>
                         @Html.TextBoxFor(m => m.InsuranceCoverage)
